@@ -9,6 +9,7 @@
 <form action="/social/home" method="post">
   Name : <input type="text" name="uname" /> <br>
   Password : <input type="password" name="password" /> <br>
+  <input type = "hidden" name ="currentUser" value = ${it.name}>
   <input type="submit" value="Login">
   
   </form>

@@ -39,6 +39,7 @@ import com.FCI.SWE.Models.UserEntity;
 @Path("/")
 @Produces("text/html")
 public class UserController {
+	
 	/**
 	 * Action function to render Signup page, this function will be executed
 	 * using url like this /rest/signup
@@ -212,6 +213,68 @@ public class UserController {
 		 * user.saveUser(); return uname;
 		 */
 		return null;
+
+	}
+	
+	@GET
+	@Path("/sendFriend")
+	public Response addFriendPage()
+	{
+		return Response.ok(new Viewable("/jsp/sendfriend")).build();
+		
+	}
+	
+	
+	@POST
+	@Path("/sendFriendRequest")
+	@Produces("text/html")
+	public String addFriend(@FormParam("uname") String uname) {
+		String serviceUrl = "http://localhost:8888/rest/sendFriendRequestService";
+		try {
+			URL url = new URL(serviceUrl);
+			String urlParameters = "uname=" + uname + "&currentUser=" ;
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			connection.setInstanceFollowRedirects(false);
+			connection.setRequestMethod("POST");
+			connection.setConnectTimeout(60000);  //60 Seconds
+			connection.setReadTimeout(60000);  //60 Seconds
+			
+			connection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded;charset=UTF-8");
+			OutputStreamWriter writer = new OutputStreamWriter(
+					connection.getOutputStream());
+			writer.write(urlParameters);
+			writer.flush();
+			String line, retJson = "";
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
+
+			while ((line = reader.readLine()) != null) {
+				retJson += line;
+			}
+			writer.close();
+			reader.close();
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(retJson);
+			JSONObject object = (JSONObject) obj;
+			if (object.get("Status").equals("Failed"))
+				return "Failed";
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "Friend request succesfully sent";
 
 	}
 

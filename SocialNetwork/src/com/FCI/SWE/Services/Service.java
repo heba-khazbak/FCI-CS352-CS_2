@@ -97,5 +97,24 @@ public class Service {
 		return object.toString();
 
 	}
+	
+	@POST
+	@Path("/sendFriendRequestService")
+	public String addFriendService(@FormParam("uname") String uname,
+			@FormParam("currentUser") String currentUser) {
+		JSONObject object = new JSONObject();
+		boolean sucess = UserEntity.sendFriendRequest(uname , currentUser);
+		if (sucess == false) {
+			object.put("Status", "Failed");
+
+		} else {
+			object.put("Status", "OK");
+			
+		}
+
+		return object.toString();
+
+	}
+	
 
 }

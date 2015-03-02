@@ -137,4 +137,36 @@ public class UserEntity {
 		return true;
 
 	}
+	
+	public static boolean sendFriendRequest (String toUser, String currentUser) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		
+		boolean ok = false;
+		Query gaeQuery = new Query("users");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for (Entity entity : pq.asIterable()) {
+			
+			if (entity.getProperty("name").toString().equals(toUser)) {
+				ok = true;
+				break;
+				}
+		}
+		
+		if (!ok)
+			return false;
+		
+		gaeQuery = new Query("notifications");
+		pq = datastore.prepare(gaeQuery);
+		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
+
+		Entity friend = new Entity("notifications", list.size() + 1);
+
+		friend.setProperty("currentUser", currentUser);
+		friend.setProperty("toUser", toUser);
+		friend.setProperty("pending ", 1);
+		datastore.put(friend);
+		
+		return true;
+	}
 }
