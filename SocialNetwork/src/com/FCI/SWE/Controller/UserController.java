@@ -12,11 +12,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -158,7 +161,7 @@ public class UserController {
 	@POST
 	@Path("/home")
 	@Produces("text/html")
-	public Response home(@FormParam("uname") String uname,
+	public Response home( @Context HttpServletRequest request ,@FormParam("uname") String uname,
 			@FormParam("password") String pass) {
 		String serviceUrl = "http://localhost:8888/rest/LoginService";
 		try {
@@ -197,6 +200,13 @@ public class UserController {
 			UserEntity user = UserEntity.getUser(object.toJSONString());
 			map.put("name", user.getName());
 			map.put("email", user.getEmail());
+			
+			HttpSession session = request.getSession(true);
+			
+			session.setAttribute("email", user.getEmail());
+			session.setAttribute("name", user.getName());
+			
+			
 			return Response.ok(new Viewable("/jsp/home", map)).build();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -228,11 +238,13 @@ public class UserController {
 	@POST
 	@Path("/sendFriendRequest")
 	@Produces("text/html")
-	public String addFriend(@FormParam("uname") String uname) {
+	public String addFriend(@Context HttpServletRequest request ,@FormParam("uname") String uname) {
 		String serviceUrl = "http://localhost:8888/rest/sendFriendRequestService";
 		try {
 			URL url = new URL(serviceUrl);
-			String urlParameters = "uname=" + uname + "&currentUser=" ;
+			HttpSession session = request.getSession(true);
+			
+			String urlParameters = "uname=" + uname + "&currentUser=" + session.getAttribute("name");
 			HttpURLConnection connection = (HttpURLConnection) url
 					.openConnection();
 			connection.setDoOutput(true);
