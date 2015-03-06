@@ -7,9 +7,12 @@
 </head>
 <body>
 <p> Welcome b2a ya ${it.name} </p>
+<p> aywaa b2aa <%=session.getAttribute("name") %> </p>
 <p> This is should be user home page </p>
 <p> Current implemented services "http://fci-swe-apps.appspot.com/rest/RegistrationService --- {requires: uname, email, password}" </p>
 <p> and "http://fci-swe-apps.appspot.com/rest/LoginService --- {requires: uname,  password}" </p>
-<p> you should implement sendFriendRequest service and addFriend service
+<p> you should implement sendFriendRequest service and addFriend service <br>
+
+<a href="/social/sendFriend">Send Friend Request</a> <br>
 </body>
 </html>

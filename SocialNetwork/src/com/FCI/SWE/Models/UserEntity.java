@@ -165,11 +165,16 @@ public class UserEntity {
 
 		friend.setProperty("currentUser", currentUser);
 		friend.setProperty("toUser", toUser);
+<<<<<<< HEAD
 		friend.setProperty("pending", 1);
+=======
+		friend.setProperty("pending ", 1);
+>>>>>>> 229878a6fd53061b9face9a30338c6ddeb3c4841
 		datastore.put(friend);
 		
 		return true;
 	}
+<<<<<<< HEAD
 	
 	public static boolean acceptFriendRequest (String toUser, String currentUser) {
 		DatastoreService datastore = DatastoreServiceFactory
@@ -186,4 +191,6 @@ public class UserEntity {
 		}
 		return false;
 	}
+=======
+>>>>>>> 229878a6fd53061b9face9a30338c6ddeb3c4841
 }

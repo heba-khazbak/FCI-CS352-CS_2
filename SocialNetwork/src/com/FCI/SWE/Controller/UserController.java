@@ -234,6 +234,7 @@ public class UserController {
 		
 	}
 	
+<<<<<<< HEAD
 	@GET
 	@Path("/notifications")
 	public Response notificationsPage()
@@ -242,6 +243,8 @@ public class UserController {
 		
 	}
 	
+=======
+>>>>>>> 229878a6fd53061b9face9a30338c6ddeb3c4841
 	
 	@POST
 	@Path("/sendFriendRequest")
@@ -297,6 +300,7 @@ public class UserController {
 		return "Friend request succesfully sent";
 
 	}
+<<<<<<< HEAD
 	
 	@POST
 	@Path("/acceptFriendRequest")
@@ -327,6 +331,8 @@ public class UserController {
 			String line, retJson = "";
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					connection.getInputStream()));
+=======
+>>>>>>> 229878a6fd53061b9face9a30338c6ddeb3c4841
 
 			while ((line = reader.readLine()) != null) {
 				retJson += line;

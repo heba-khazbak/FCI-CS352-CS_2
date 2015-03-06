@@ -116,6 +116,7 @@ public class Service {
 
 	}
 	
+<<<<<<< HEAD
 	@POST
 	@Path("/acceptFriendRequestService")
 	public String accpetFriendService(@FormParam("uname") String uname,
@@ -133,5 +134,7 @@ public class Service {
 		return object.toString();
 
 	}
+=======
+>>>>>>> 229878a6fd53061b9face9a30338c6ddeb3c4841
 
 }

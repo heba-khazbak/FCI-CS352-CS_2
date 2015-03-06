@@ -11,6 +11,10 @@
 <form action="/social/sendFriendRequest" method="post">
   Name : <input type="text" name="uname" /> <br>
   <input type="submit" value="send Friend Request">
+<<<<<<< HEAD
 </form>
+=======
+
+>>>>>>> 229878a6fd53061b9face9a30338c6ddeb3c4841
 </body>
 </html>
