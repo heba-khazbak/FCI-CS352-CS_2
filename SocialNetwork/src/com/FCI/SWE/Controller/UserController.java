@@ -234,7 +234,6 @@ public class UserController {
 		
 	}
 	
-<<<<<<< HEAD
 	@GET
 	@Path("/notifications")
 	public Response notificationsPage()
@@ -243,8 +242,6 @@ public class UserController {
 		
 	}
 	
-=======
->>>>>>> 229878a6fd53061b9face9a30338c6ddeb3c4841
 	
 	@POST
 	@Path("/sendFriendRequest")
@@ -285,6 +282,8 @@ public class UserController {
 			JSONObject object = (JSONObject) obj;
 			if (object.get("Status").equals("Failed"))
 				return "Failed";
+			if (object.get("Status").equals("Exists"))
+				return "You're already friends!";
 			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -300,7 +299,6 @@ public class UserController {
 		return "Friend request succesfully sent";
 
 	}
-<<<<<<< HEAD
 	
 	@POST
 	@Path("/acceptFriendRequest")
@@ -331,8 +329,6 @@ public class UserController {
 			String line, retJson = "";
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					connection.getInputStream()));
-=======
->>>>>>> 229878a6fd53061b9face9a30338c6ddeb3c4841
 
 			while ((line = reader.readLine()) != null) {
 				retJson += line;

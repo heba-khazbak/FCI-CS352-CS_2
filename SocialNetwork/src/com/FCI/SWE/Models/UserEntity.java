@@ -139,7 +139,7 @@ public class UserEntity {
 
 	}
 	
-	public static boolean sendFriendRequest (String toUser, String currentUser) {
+	public static int sendFriendRequest (String toUser, String currentUser) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
@@ -155,7 +155,19 @@ public class UserEntity {
 		}
 		
 		if (!ok)
-			return false;
+			return 0;
+		
+		gaeQuery = new Query("friends");
+		pq = datastore.prepare(gaeQuery);
+		for (Entity entity : pq.asIterable()) {
+			
+			if ((entity.getProperty("user1").toString().equals(toUser) && entity.getProperty("user2").toString().equals(currentUser)) || (entity.getProperty("user1").toString().equals(currentUser) && entity.getProperty("user2").toString().equals(toUser))) {
+				ok = false;
+				break;
+				}
+		}
+		
+		if(!ok)return 1;
 		
 		gaeQuery = new Query("notifications");
 		pq = datastore.prepare(gaeQuery);
@@ -165,16 +177,11 @@ public class UserEntity {
 
 		friend.setProperty("currentUser", currentUser);
 		friend.setProperty("toUser", toUser);
-<<<<<<< HEAD
 		friend.setProperty("pending", 1);
-=======
-		friend.setProperty("pending ", 1);
->>>>>>> 229878a6fd53061b9face9a30338c6ddeb3c4841
 		datastore.put(friend);
 		
-		return true;
+		return 2;
 	}
-<<<<<<< HEAD
 	
 	public static boolean acceptFriendRequest (String toUser, String currentUser) {
 		DatastoreService datastore = DatastoreServiceFactory
@@ -186,11 +193,20 @@ public class UserEntity {
 			if(entity.getProperty("currentUser").equals(toUser) && entity.getProperty("toUser").equals(currentUser)){
 				entity.setProperty("pending", 0);
 				datastore.put(entity);
+				
+				gaeQuery = new Query("friends");
+				pq = datastore.prepare(gaeQuery);
+				List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
+
+				Entity friend = new Entity("friends", list.size() + 1);
+
+				friend.setProperty("user1", currentUser);
+				friend.setProperty("user2", toUser);
+				datastore.put(friend);
+				
 				return true;
 			}
 		}
 		return false;
 	}
-=======
->>>>>>> 229878a6fd53061b9face9a30338c6ddeb3c4841
 }

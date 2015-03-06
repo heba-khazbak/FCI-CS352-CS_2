@@ -103,11 +103,15 @@ public class Service {
 	public String addFriendService(@FormParam("uname") String uname,
 			@FormParam("currentUser") String currentUser) {
 		JSONObject object = new JSONObject();
-		boolean sucess = UserEntity.sendFriendRequest(uname , currentUser);
-		if (sucess == false) {
+		int success = UserEntity.sendFriendRequest(uname , currentUser);
+		if (success == 0) {
 			object.put("Status", "Failed");
 
-		} else {
+		} 
+		else if(success==1){
+			object.put("Status", "Exists");
+		}
+		else {
 			object.put("Status", "OK");
 			
 		}
@@ -116,7 +120,6 @@ public class Service {
 
 	}
 	
-<<<<<<< HEAD
 	@POST
 	@Path("/acceptFriendRequestService")
 	public String accpetFriendService(@FormParam("uname") String uname,
@@ -134,7 +137,5 @@ public class Service {
 		return object.toString();
 
 	}
-=======
->>>>>>> 229878a6fd53061b9face9a30338c6ddeb3c4841
 
 }
