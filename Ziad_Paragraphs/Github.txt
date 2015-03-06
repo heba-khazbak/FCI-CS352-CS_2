@@ -1,2 +1,0 @@
-Git was very helpful to our team in SWE-1. It's an online server that provided us with the help needed to interact easily with each other. Each time someone modifies a line of code, he can commit that change and the rest of team becomes always updated with the smallest modifications added to the project. Github also keeps a revision history so we can be able to retrieve any previous versions of a certain file. 
-Github will also make our work available to the whole world to see.

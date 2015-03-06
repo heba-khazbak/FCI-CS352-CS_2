@@ -1,6 +1,0 @@
-The Java language is on the top of programming lannguages nowadays.
-It has its own structure, syntax rules, and programming paradigm. 
-The Java language is based on the concept of object-oriented programming (OOP).
-Some advantages of Java are:
-Easy to learn, designed to be easy to use and easy to write, compile, debug, and learn than other programming languages,
-it also allows you to create reusable code, and Java is platform-independent.
