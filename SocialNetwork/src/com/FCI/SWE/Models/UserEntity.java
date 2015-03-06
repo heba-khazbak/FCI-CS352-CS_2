@@ -12,6 +12,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
@@ -164,7 +165,7 @@ public class UserEntity {
 
 		friend.setProperty("currentUser", currentUser);
 		friend.setProperty("toUser", toUser);
-		friend.setProperty("pending ", 1);
+		friend.setProperty("pending", 1);
 		datastore.put(friend);
 		
 		return true;
@@ -179,6 +180,7 @@ public class UserEntity {
 		for (Entity entity : pq.asIterable()) {
 			if(entity.getProperty("currentUser").equals(toUser) && entity.getProperty("toUser").equals(currentUser)){
 				entity.setProperty("pending", 0);
+				datastore.put(entity);
 				return true;
 			}
 		}
