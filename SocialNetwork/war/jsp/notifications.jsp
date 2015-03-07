@@ -7,40 +7,30 @@
 <title>Notification Page</title>
 </head>
 <body>
-<%@ page import= "com.google.appengine.api.datastore.DatastoreService" %>
-<%@ page import="com.google.appengine.api.datastore.DatastoreServiceFactory" %>
 <%@ page import="com.google.appengine.api.datastore.Entity" %>
-<%@ page import="com.google.appengine.api.datastore.PreparedQuery" %>
-<%@ page import="com.google.appengine.api.datastore.Query" %>
 <%@ page import="com.FCI.SWE.Models.*" %>
 <%@ page import="java.util.*" %>
 
-<%
-DatastoreService datastore = DatastoreServiceFactory
-.getDatastoreService();
-
-Query gaeQuery = new Query("notifications");
-PreparedQuery pq = datastore.prepare(gaeQuery);
-%>
 
 <form action="/social/acceptFriendRequest" method="post">
 
 <select name="dropNotifications">
 <%
-List<String> list=new ArrayList<String>();
-for (Entity e : pq.asIterable()){
-	String s=e.getProperty("pending").toString();
-	if(s.equals("0")){
-		if(e.getProperty("currentUser").equals(session.getAttribute("name"))){
-			String t=e.getProperty("toUser").toString()+" accepted your friend request";
-			list.add(t);
+	List<String> list=new ArrayList<String>();
+	UserEntity u=new UserEntity();
+	for (Entity e : u.getNotifications()){
+		String s=e.getProperty("pending").toString();
+		if(s.equals("0")){
+			if(e.getProperty("currentUser").equals(session.getAttribute("name"))){
+				String t=e.getProperty("toUser").toString()+" accepted your friend request";
+				list.add(t);
+			}
+			continue;
 		}
-		continue;
-	}
-if(!e.getProperty("toUser").equals(session.getAttribute("name")))continue;
+	if(!e.getProperty("toUser").equals(session.getAttribute("name")))continue;
 %>
 
-<option value=<%=e.getProperty("currentUser").toString() %>><%=e.getProperty("currentUser")%> sent you a friend request</option>
+	<option value=<%=e.getProperty("currentUser").toString() %>><%=e.getProperty("currentUser")%> sent you a friend request</option>
 
 <%
 }
