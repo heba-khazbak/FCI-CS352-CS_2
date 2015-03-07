@@ -14,5 +14,6 @@
 <p> you should implement sendFriendRequest service and addFriend service <br>
 
 <a href="/social/sendFriend">Send Friend Request</a> <br>
+<a href="/social/notifications">Notifications</a> <br>
 </body>
 </html>
