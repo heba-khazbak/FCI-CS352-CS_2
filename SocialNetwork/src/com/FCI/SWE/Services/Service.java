@@ -41,12 +41,6 @@ import com.FCI.SWE.Models.UserEntity;
 public class Service {
 	
 	
-	/*@GET
-	@Path("/index")
-	public Response index() {
-		return Response.ok(new Viewable("/jsp/entryPoint")).build();
-	}*/
-
 
 		/**
 	 * Registration Rest service, this service will be called to make
@@ -98,6 +92,14 @@ public class Service {
 
 	}
 	
+	/**
+	 * send Friend Request Rest service, this service will be called to send
+	 * friend request. This function will store request in datastore
+	 * @param uname friend user name
+	 * @param currentUser current user in the system
+	 * @return status in json format
+	 */
+	
 	@POST
 	@Path("/sendFriendRequestService")
 	public String addFriendService(@FormParam("uname") String uname,
@@ -111,6 +113,10 @@ public class Service {
 		else if(success==1){
 			object.put("Status", "Exists");
 		}
+		else if(success==3)
+		{
+			object.put("Status", "yourself");
+		}
 		else {
 			object.put("Status", "OK");
 			
@@ -119,6 +125,16 @@ public class Service {
 		return object.toString();
 
 	}
+	
+	/**
+	 * accept Friend Request Rest service, this service will be called to accept
+	 * friend request. This function will store friends in datastore
+	 * @param uname friend user name
+	 * @param currentUser current user in the system
+	 * @return status in json format
+	 */
+	/**
+	 */
 	
 	@POST
 	@Path("/acceptFriendRequestService")

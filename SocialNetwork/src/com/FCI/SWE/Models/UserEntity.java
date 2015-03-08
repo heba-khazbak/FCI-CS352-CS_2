@@ -141,9 +141,19 @@ public class UserEntity {
 
 	}
 	
+	/**
+	 * This static method will save friend request in datastore and makes some checks 
+	 * @param toUser friend user name
+	 * @param currentUser current user
+	 * @return error number or success 
+	 */
+	
 	public static int sendFriendRequest (String toUser, String currentUser) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+		
+		if (toUser.equals(currentUser))
+			return 3;
 		
 		boolean ok = false;
 		Query gaeQuery = new Query("users");
@@ -185,6 +195,12 @@ public class UserEntity {
 		return 2;
 	}
 	
+	/**
+	 * This static method will accept friend request and add them as friends in datastore
+	 * @param toUser friend user name
+	 * @param currentUser current user
+	 * @return success or failed
+	 */
 	public static boolean acceptFriendRequest (String toUser, String currentUser) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -212,6 +228,10 @@ public class UserEntity {
 		return false;
 	}
 	
+	/**
+	 * This method gets all notifications from datastore
+	 * @return list of notifications
+	 */
 	public List<Entity> getNotifications(){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();

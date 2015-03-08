@@ -78,6 +78,9 @@ public class UserController {
 	public Response login() {
 		return Response.ok(new Viewable("/jsp/login")).build();
 	}
+	
+	
+	
 
 	/**
 	 * Action function to response to signup request, This function will act as
@@ -226,6 +229,13 @@ public class UserController {
 
 	}
 	
+	/**
+	 * Action function to render send friend request page, this function will be executed
+	 * using url like this /rest/sendFriend
+	 * 
+	 * @return send friend request page
+	 */
+	
 	@GET
 	@Path("/sendFriend")
 	public Response addFriendPage()
@@ -233,6 +243,13 @@ public class UserController {
 		return Response.ok(new Viewable("/jsp/sendfriend")).build();
 		
 	}
+	
+	/**
+	 * Action function to render notifications page which contains friend requests, this function will be executed
+	 * using url like this /rest/notifications
+	 * 
+	 * @return notifications page
+	 */
 	
 	@GET
 	@Path("/notifications")
@@ -242,7 +259,15 @@ public class UserController {
 		
 	}
 	
-	
+	/**
+	 * Action function to response to send Friend Request. This function will act as a
+	 * controller part, it will calls send Friend Request service to send friend request and check
+	 * that they are not already friends and the user exists in datastore
+	 * 
+	 * @param request the session 
+	 * @param uname user name of the friend that the request will be sent to
+	 * @return status string
+	 */
 	@POST
 	@Path("/sendFriendRequest")
 	@Produces("text/html")
@@ -284,6 +309,8 @@ public class UserController {
 				return "Failed";
 			if (object.get("Status").equals("Exists"))
 				return "You're already friends!";
+			if (object.get("Status").equals("yourself"))
+				return "can't send friend request to yourself!";
 			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -299,6 +326,16 @@ public class UserController {
 		return "Friend request succesfully sent";
 
 	}
+	
+	/**
+	 * Action function to response to accept Friend Request. This function will act as a
+	 * controller part, it will calls accept Friend Request service to accept friend request and add
+	 * them in datastore
+	 * 
+	 * @param request the session 
+	 * @param uname user name of the friend 
+	 * @return status string
+	 */
 	
 	@POST
 	@Path("/acceptFriendRequest")
@@ -355,5 +392,33 @@ public class UserController {
 		return "Success";
 
 	}
+	
+	/**
+	 *  Action function to response to logout request. This function will act as a
+	 * controller part, it will free the session from the current user then redirect him to 
+	 * login page
+	 * 
+	 * @param request session
+	 * @return login page
+	 */
 
+	@GET
+	@Path("/logout")
+	@Produces("text/html")
+	public Response logout(@Context HttpServletRequest request ) {
+		try {
+			HttpSession session = request.getSession(true);
+			session.setAttribute("email", "");
+			session.setAttribute("name", "");
+			
+			
+			return Response.ok(new Viewable("/jsp/login")).build();	
+		}catch(Exception e)
+		{
+			
+		}
+		return null;
+		
+		}
+	
 }
