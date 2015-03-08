@@ -47,6 +47,8 @@ public class UserEntity {
 		this.password = password;
 
 	}
+	
+	public UserEntity(){}
 
 	public String getName() {
 		return name;
@@ -208,5 +210,14 @@ public class UserEntity {
 			}
 		}
 		return false;
+	}
+	
+	public List<Entity> getNotifications(){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		Query gaeQuery = new Query("notifications");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		return pq.asList(FetchOptions.Builder.withDefaults());
 	}
 }
