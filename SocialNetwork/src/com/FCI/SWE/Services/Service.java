@@ -138,7 +138,7 @@ public class Service {
 	
 	@POST
 	@Path("/acceptFriendRequestService")
-	public String accpetFriendService(@FormParam("uname") String uname,
+	public String acceptFriendService(@FormParam("uname") String uname,
 			@FormParam("currentUser") String currentUser) {
 		JSONObject object = new JSONObject();
 		boolean sucess = UserEntity.acceptFriendRequest(uname , currentUser);
