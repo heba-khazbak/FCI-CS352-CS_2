@@ -1,1 +1,0 @@
-Trello make it very easy to assign tasks to the team members and keep track of what's required next in our project. You can have multiple boards. Each one can have a specific project with its team members assigned into it. Each board has a list of tasks like a to-do list. Each task is called a card that has a due date and some team members assigned to it.

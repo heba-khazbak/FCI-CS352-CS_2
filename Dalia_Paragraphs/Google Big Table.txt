@@ -1,6 +1,0 @@
-Google Big Table is a distributed storage system for managing large volume, structured data. It's built on Google File System, Chubby Lock Service, SSTable. The database was designed to be deployed on clustered systems using a simple data model and its implementation consists of three major components:
-1- Library linked into every client.
-2- Single master server.
-3- Many tablet servers for read/write.
-
-It satisfies goals of high-availability, high performance, self-managing, massively scalable data storage and serves as the database for real apps (such as Google App Engine Datastore and Google Earth) and has influenced the NoSQL database market place.

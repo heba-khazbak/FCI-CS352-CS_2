@@ -11,6 +11,8 @@
 <form action="/social/sendFriendRequest" method="post">
   Name : <input type="text" name="uname" /> <br>
   <input type="submit" value="send Friend Request">
+</form>
 
+<a href="/social/logout">Logout</a> <br>
 </body>
 </html>
