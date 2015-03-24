@@ -70,7 +70,7 @@ public class GroupMsgMember {
 		for (Entity entity : pq.asIterable()) {
 			if (entity.getProperty("groupName").toString().equals(GroupName))
 			{
-				String M1 = entity.getProperty("groupName").toString();
+				String M1 = entity.getProperty("username").toString();
 				members.add(M1);
 			}
 			
