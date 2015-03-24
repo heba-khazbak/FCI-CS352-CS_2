@@ -255,6 +255,7 @@ public class UserController {
 	@Path("/notifications")
 	public Response notificationsPage()
 	{
+		
 		return Response.ok(new Viewable("/jsp/notifications")).build();
 		
 	}
