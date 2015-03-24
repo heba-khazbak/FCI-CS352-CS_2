@@ -61,7 +61,7 @@ public class MessagesServices {
 		// if existing
 		// get all UserObervers for this group name
 		Set<String> currentmembers = GroupMsgMember.getAllMembers(GroupName);
-		for (String s : currentGroups)
+		for (String s : currentmembers)
 		{
 			new MessageUserObserver (Msg , s);
 		}
