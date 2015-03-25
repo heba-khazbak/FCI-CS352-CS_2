@@ -32,6 +32,26 @@ import com.FCI.SWE.Models.*;
 @Produces("text/html")
 public class MessagesServices {
 	
+	
+	@POST
+	@Path("/SendPersonalMessageService")
+	public String SendPersonalMessageService(@FormParam("sender") String sender,
+			@FormParam("receiver") String receiver , @FormParam("content") String content) {
+		JSONObject object = new JSONObject();
+		int ID = PersonalMessage.getNewID();
+		Message Msg = new GroupMessage(ID,sender,content,receiver);
+		
+		new MessageUserObserver (Msg , receiver);
+		
+		boolean ok = Msg.sendMessage();
+		if (ok)
+			object.put("Status", "OK");
+		else
+			object.put("Status", "Failed");
+			
+		return object.toString();
+	}
+	
 	@POST
 	@Path("/SendGroupMessageService")
 	public String sendGroupMessageService(@FormParam("sender") String sender,
