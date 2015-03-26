@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import com.google.appengine.api.datastore.Entity;
 
 import javax.ws.rs.FormParam;
@@ -27,7 +28,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.FCI.SWE.Models.*;
+import com.FCI.SWE.ModelServices.*;
 
 @Path("/")
 @Produces("text/html")
