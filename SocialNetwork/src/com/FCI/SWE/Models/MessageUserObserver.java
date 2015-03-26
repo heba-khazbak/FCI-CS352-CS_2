@@ -1,7 +1,7 @@
 package com.FCI.SWE.Models;
 
-public class MessageUserObserver extends MessageObserver {
-	
+public class MessageUserObserver implements NotificationObserver {
+	Message myMsg;
 	String userName;
 	public MessageUserObserver (Message myMsg , String name)
 	{

@@ -25,7 +25,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.FCI.SWE.Models.FriendRequest;
+import com.FCI.SWE.Models.MessageUserObserver;
 import com.FCI.SWE.Models.UserEntity;
+import com.FCI.SWE.Models.UserFriendObserver;
 
 /**
  * This class contains REST services, also contains action function for web
@@ -105,7 +108,9 @@ public class Service {
 	public String addFriendService(@FormParam("uname") String uname,
 			@FormParam("currentUser") String currentUser) {
 		JSONObject object = new JSONObject();
-		int success = UserEntity.sendFriendRequest(uname , currentUser);
+		FriendRequest request = new FriendRequest (currentUser , uname );
+		new UserFriendObserver (request);
+		int success = request.sendFriendRequest();
 		if (success == 0) {
 			object.put("Status", "Failed");
 
@@ -141,7 +146,9 @@ public class Service {
 	public String accpetFriendService(@FormParam("uname") String uname,
 			@FormParam("currentUser") String currentUser) {
 		JSONObject object = new JSONObject();
-		boolean sucess = UserEntity.acceptFriendRequest(uname , currentUser);
+		FriendRequest request = new FriendRequest (currentUser , uname );
+		new UserFriendObserver (request);
+		boolean sucess = request.acceptFriendRequest();
 		if (sucess == false) {
 			object.put("Status", "Failed");
 

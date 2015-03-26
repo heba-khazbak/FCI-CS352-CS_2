@@ -10,6 +10,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 public class Notification {
+	int ID;
 	String userName ;
 	int type;;
 	int NotificationID;
@@ -32,7 +33,9 @@ public class Notification {
 		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
 
 		Entity theMessage = new Entity("Notifications", list.size() + 1);
-
+		
+		this.ID = list.size() + 1;
+		theMessage.setProperty("ID", this.ID);
 		theMessage.setProperty("userName", this.userName);
 		theMessage.setProperty("type", this.type);
 		theMessage.setProperty("NotificationID", this.NotificationID);

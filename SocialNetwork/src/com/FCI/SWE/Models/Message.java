@@ -8,22 +8,22 @@ public abstract class Message {
 	String sender;
 	String content;
 	public int type;
-	List<MessageObserver> messageObservers;
+	List<NotificationObserver> messageObservers;
 	
 	Message(int id , String sender, String content)
 	{
 		this.ID = id;
 		this.sender = sender;
 		this.content = content;
-		messageObservers = new ArrayList<MessageObserver>();
+		messageObservers = new ArrayList<NotificationObserver>();
 	}
 	
-	public void attach(MessageObserver observer){
+	public void attach(NotificationObserver observer){
 		messageObservers.add(observer);  
 	  }
 	
 	public void notifyAllObservers(){
-	      for (MessageObserver msgObs : messageObservers) {
+	      for (NotificationObserver msgObs : messageObservers) {
 	    	  msgObs.update();
 	      }
 	   } 
