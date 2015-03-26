@@ -61,4 +61,17 @@ public class Notification {
 
 		return true;
 	}
+	
+	/**
+	 * This method gets all notifications from datastore
+	 * @return list of notifications
+	 */
+	public static List<Entity> getNotifications(){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		Query gaeQuery = new Query("Notifications");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		return pq.asList(FetchOptions.Builder.withDefaults());
+	}
 }

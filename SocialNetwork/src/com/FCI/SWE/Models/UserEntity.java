@@ -143,19 +143,6 @@ public class UserEntity {
 	
 	
 	
-	/**
-	 * This method gets all notifications from datastore
-	 * @return list of notifications
-	 */
-	public static List<Entity> getNotifications(){
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
-
-		Query gaeQuery = new Query("notifications");
-		PreparedQuery pq = datastore.prepare(gaeQuery);
-		return pq.asList(FetchOptions.Builder.withDefaults());
-	}
-	
 	
 	/**
 	 * This method gets all users from datastore

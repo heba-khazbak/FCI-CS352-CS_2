@@ -29,6 +29,7 @@ import org.json.simple.parser.ParseException;
 
 import com.FCI.SWE.Models.FriendRequest;
 import com.FCI.SWE.Models.MessageUserObserver;
+import com.FCI.SWE.Models.Notification;
 import com.FCI.SWE.Models.UserEntity;
 import com.FCI.SWE.Models.UserFriendObserver;
 import com.google.appengine.api.datastore.Entity;
@@ -168,7 +169,7 @@ public class Service {
 	@Path("/getAllNotificationsService")
 	public String getAllNotificationsService(@FormParam("uname") String uname) {
 		JSONObject object = new JSONObject();
-		List<Entity> notifications = UserEntity.getNotifications();
+		List<Entity> notifications = Notification.getNotifications();
 		JSONArray notificationsArray = new JSONArray();
 		
 		for (Iterator iterator = notifications.iterator(); iterator.hasNext();) {
