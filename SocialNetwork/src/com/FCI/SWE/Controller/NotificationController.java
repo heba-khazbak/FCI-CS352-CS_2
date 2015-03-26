@@ -1,5 +1,4 @@
 package com.FCI.SWE.Controller;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,146 +29,61 @@ import org.json.simple.parser.ParseException;
 
 import com.FCI.SWE.ModelServices.UserEntity;
 
-/**
- * This class contains REST services, also contains action function for web
- * application
- * 
- * @author Mohamed Samir
- * @version 1.0
- * @since 2014-02-12
- *
- */
 @Path("/")
 @Produces("text/html")
-public class UserController {
-	
-	/**
-	 * Action function to render Signup page, this function will be executed
-	 * using url like this /rest/signup
-	 * 
-	 * @return sign up page
-	 */
-	@GET
-	@Path("/signup")
-	public Response signUp() {
-		return Response.ok(new Viewable("/jsp/register")).build();
-	}
-
-	/**
-	 * Action function to render home page of application, home page contains
-	 * only signup and login buttons
-	 * 
-	 * @return enty point page (Home page of this application)
-	 */
-	@GET
-	@Path("/")
-	public Response index() {
-		return Response.ok(new Viewable("/jsp/entryPoint")).build();
-	}
-
-	/**
-	 * Action function to render login page this function will be executed using
-	 * url like this /rest/login
-	 * 
-	 * @return login page
-	 */
-	@GET
-	@Path("/login")
-	public Response login() {
-		return Response.ok(new Viewable("/jsp/login")).build();
-	}
-	
-	
+public class NotificationController {
 	
 
 	/**
-	 * Action function to response to signup request, This function will act as
-	 * a controller part and it will calls RegistrationService to make
-	 * registration
+	 * Action function to render send friend request page, this function will be executed
+	 * using url like this /rest/sendFriend
 	 * 
-	 * @param uname
-	 *            provided user name
-	 * @param email
-	 *            provided user email
-	 * @param pass
-	 *            provided user password
-	 * @return Status string
+	 * @return send friend request page
+	 */
+	
+	@GET
+	@Path("/sendFriend")
+	public Response addFriendPage()
+	{
+		return Response.ok(new Viewable("/jsp/sendfriend")).build();
+		
+	}
+	
+	/**
+	 * Action function to render notifications page which contains friend requests, this function will be executed
+	 * using url like this /rest/notifications
+	 * 
+	 * @return notifications page
+	 */
+	
+	@GET
+	@Path("/notifications")
+	public Response notificationsPage()
+	{
+		
+		return Response.ok(new Viewable("/jsp/notifications")).build();
+		
+	}
+	
+	/**
+	 * Action function to response to send Friend Request. This function will act as a
+	 * controller part, it will calls send Friend Request service to send friend request and check
+	 * that they are not already friends and the user exists in datastore
+	 * 
+	 * @param request the session 
+	 * @param uname user name of the friend that the request will be sent to
+	 * @return status string
 	 */
 	@POST
-	@Path("/response")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String response(@FormParam("uname") String uname,
-			@FormParam("email") String email, @FormParam("password") String pass) {
-		String serviceUrl = "http://localhost:8888/rest/RegistrationService";
-		try {
-			URL url = new URL(serviceUrl);
-			String urlParameters = "uname=" + uname + "&email=" + email
-					+ "&password=" + pass;
-			HttpURLConnection connection = (HttpURLConnection) url
-					.openConnection();
-			connection.setDoOutput(true);
-			connection.setDoInput(true);
-			connection.setInstanceFollowRedirects(false);
-			connection.setRequestMethod("POST");
-			connection.setConnectTimeout(60000);  //60 Seconds
-			connection.setReadTimeout(60000);  //60 Seconds
-			connection.setRequestProperty("Content-Type",
-					"application/x-www-form-urlencoded;charset=UTF-8");
-			OutputStreamWriter writer = new OutputStreamWriter(
-					connection.getOutputStream());
-			writer.write(urlParameters);
-			writer.flush();
-			String line, retJson = "";
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					connection.getInputStream()));
-
-			while ((line = reader.readLine()) != null) {
-				retJson += line;
-			}
-			writer.close();
-			reader.close();
-			JSONParser parser = new JSONParser();
-			Object obj = parser.parse(retJson);
-			JSONObject object = (JSONObject) obj;
-			if (object.get("Status").equals("OK"))
-				return "Registered Successfully";
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		/*
-		 * UserEntity user = new UserEntity(uname, email, pass);
-		 * user.saveUser(); return uname;
-		 */
-		return "Failed";
-	}
-
-	/**
-	 * Action function to response to login request. This function will act as a
-	 * controller part, it will calls login service to check user data and get
-	 * user from datastore
-	 * 
-	 * @param uname
-	 *            provided user name
-	 * @param pass
-	 *            provided user password
-	 * @return Home page view
-	 */
-	@POST
-	@Path("/home")
+	@Path("/sendFriendRequest")
 	@Produces("text/html")
-	public Response home( @Context HttpServletRequest request ,@FormParam("uname") String uname,
-			@FormParam("password") String pass) {
-		String serviceUrl = "http://localhost:8888/rest/LoginService";
+	public String addFriend(@Context HttpServletRequest request ,@FormParam("uname") String uname) {
+		String serviceUrl = "http://localhost:8888/rest/sendFriendRequestService";
 		try {
 			URL url = new URL(serviceUrl);
-			String urlParameters = "uname=" + uname + "&password=" + pass;
+			HttpSession session = request.getSession(true);
+			
+			String urlParameters = "uname=" + uname + "&currentUser=" + session.getAttribute("name");
 			HttpURLConnection connection = (HttpURLConnection) url
 					.openConnection();
 			connection.setDoOutput(true);
@@ -198,19 +112,12 @@ public class UserController {
 			Object obj = parser.parse(retJson);
 			JSONObject object = (JSONObject) obj;
 			if (object.get("Status").equals("Failed"))
-				return null;
-			Map<String, String> map = new HashMap<String, String>();
-			UserEntity user = UserEntity.getUser(object.toJSONString());
-			map.put("name", user.getName());
-			map.put("email", user.getEmail());
+				return "Failed";
+			if (object.get("Status").equals("Exists"))
+				return "You're already friends!";
+			if (object.get("Status").equals("yourself"))
+				return "can't send friend request to yourself!";
 			
-			HttpSession session = request.getSession(true);
-			
-			session.setAttribute("email", user.getEmail());
-			session.setAttribute("name", user.getName());
-			
-			
-			return Response.ok(new Viewable("/jsp/home", map)).build();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -221,41 +128,75 @@ public class UserController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*
-		 * UserEntity user = new UserEntity(uname, email, pass);
-		 * user.saveUser(); return uname;
-		 */
-		return null;
+		
+		return "Friend request succesfully sent";
 
 	}
 	
-	
 	/**
-	 *  Action function to response to logout request. This function will act as a
-	 * controller part, it will free the session from the current user then redirect him to 
-	 * login page
+	 * Action function to response to accept Friend Request. This function will act as a
+	 * controller part, it will calls accept Friend Request service to accept friend request and add
+	 * them in datastore
 	 * 
-	 * @param request session
-	 * @return login page
+	 * @param request the session 
+	 * @param uname user name of the friend 
+	 * @return status string
 	 */
-
-	@GET
-	@Path("/logout")
-	@Produces("text/html")
-	public Response logout(@Context HttpServletRequest request ) {
-		try {
-			HttpSession session = request.getSession(true);
-			session.setAttribute("email", "");
-			session.setAttribute("name", "");
-			
-			
-			return Response.ok(new Viewable("/jsp/login")).build();	
-		}catch(Exception e)
-		{
-			
-		}
-		return null;
-		
-		}
 	
+	@POST
+	@Path("/acceptFriendRequest")
+	@Produces("text/html")
+	public String acceptFriend(@Context HttpServletRequest request ,@FormParam("dropNotifications") String uname) {
+		String serviceUrl = "http://localhost:8888/rest/acceptFriendRequestService";
+		try {
+			URL url = new URL(serviceUrl);
+			HttpSession session = request.getSession(true);
+			
+			
+			String urlParameters = "uname=" + uname + "&currentUser=" + session.getAttribute("name");
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			connection.setInstanceFollowRedirects(false);
+			connection.setRequestMethod("POST");
+			connection.setConnectTimeout(60000);  //60 Seconds
+			connection.setReadTimeout(60000);  //60 Seconds
+			
+			connection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded;charset=UTF-8");
+			OutputStreamWriter writer = new OutputStreamWriter(
+					connection.getOutputStream());
+			writer.write(urlParameters);
+			writer.flush();
+			String line, retJson = "";
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
+
+			while ((line = reader.readLine()) != null) {
+				retJson += line;
+			}
+			writer.close();
+			reader.close();
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(retJson);
+			JSONObject object = (JSONObject) obj;
+			if (object.get("Status").equals("Failed"))
+				return "Failed";
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "Success";
+
+	}
+
 }
