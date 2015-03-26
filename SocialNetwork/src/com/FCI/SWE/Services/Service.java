@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.server.mvc.Viewable;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -29,6 +31,7 @@ import com.FCI.SWE.Models.FriendRequest;
 import com.FCI.SWE.Models.MessageUserObserver;
 import com.FCI.SWE.Models.UserEntity;
 import com.FCI.SWE.Models.UserFriendObserver;
+import com.google.appengine.api.datastore.Entity;
 
 /**
  * This class contains REST services, also contains action function for web
@@ -160,5 +163,27 @@ public class Service {
 		return object.toString();
 
 	}
-
+	
+	@POST
+	@Path("/getAllNotificationsService")
+	public String getAllNotificationsService(@FormParam("uname") String uname) {
+		JSONObject object = new JSONObject();
+		List<Entity> notifications = UserEntity.getNotifications();
+		JSONArray notificationsArray = new JSONArray();
+		
+		for (Iterator iterator = notifications.iterator(); iterator.hasNext();) {
+			Entity entity = (Entity) iterator.next();
+			if(uname.equals(entity.getProperty("userName"))) {
+				JSONObject notification = new JSONObject();
+				notification.put("ID", entity.getProperty("ID"));
+				notification.put("userName", entity.getProperty("userName"));
+				notification.put("type", entity.getProperty("type"));
+				notification.put("NotificationID", entity.getProperty("NotificationID"));
+				notificationsArray.add(notification);
+			}
+		}
+		object.put("Notifications", notificationsArray);
+		
+		return object.toString();
+	}
 }

@@ -22,6 +22,24 @@ public class Notification {
 		this.NotificationID = NotificationID;
 	}
 	
+	
+	
+	public int getID() {
+		return ID;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public int getNotificationID() {
+		return NotificationID;
+	}
+
 	public boolean saveNotification()
 	{
 		DatastoreService datastore = DatastoreServiceFactory

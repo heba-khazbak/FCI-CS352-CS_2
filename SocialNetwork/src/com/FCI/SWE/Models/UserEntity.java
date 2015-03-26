@@ -147,7 +147,7 @@ public class UserEntity {
 	 * This method gets all notifications from datastore
 	 * @return list of notifications
 	 */
-	public List<Entity> getNotifications(){
+	public static List<Entity> getNotifications(){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 
