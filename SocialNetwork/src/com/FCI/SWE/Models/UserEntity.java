@@ -181,11 +181,11 @@ public class UserEntity {
 		
 		if(!ok)return 1;
 		
-		gaeQuery = new Query("notifications");
+		gaeQuery = new Query("friendRequests");
 		pq = datastore.prepare(gaeQuery);
 		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
 
-		Entity friend = new Entity("notifications", list.size() + 1);
+		Entity friend = new Entity("friendRequests", list.size() + 1);
 
 		friend.setProperty("currentUser", currentUser);
 		friend.setProperty("toUser", toUser);
@@ -205,7 +205,7 @@ public class UserEntity {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 
-		Query gaeQuery = new Query("notifications");
+		Query gaeQuery = new Query("friendRequests");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for (Entity entity : pq.asIterable()) {
 			if(entity.getProperty("currentUser").equals(toUser) && entity.getProperty("toUser").equals(currentUser)){
