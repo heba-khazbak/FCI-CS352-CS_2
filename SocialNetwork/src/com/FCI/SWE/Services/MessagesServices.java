@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import com.google.appengine.api.datastore.Entity;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -39,11 +40,30 @@ public class MessagesServices {
 			@FormParam("receiver") String receiver , @FormParam("content") String content) {
 		JSONObject object = new JSONObject();
 		int ID = PersonalMessage.getNewID();
-		Message Msg = new GroupMessage(ID,sender,content,receiver);
+		Message Msg = new PersonalMessage(ID,sender,content,receiver);
+		
+		if(sender.equals(receiver)){
+			object.put("Status", "yourself");
+			return object.toString();
+		}
+		
+		boolean ok = false;
+		
+		for(Entity entity:UserEntity.getAllUsers()){
+			if (entity.getProperty("name").toString().equals(receiver)){
+				ok=true;
+				break;
+			}
+		}
+		
+		if(!ok){
+			object.put("Status", "NotExists");
+			return object.toString();
+		}
 		
 		new MessageUserObserver (Msg , receiver);
 		
-		boolean ok = Msg.sendMessage();
+		ok = Msg.sendMessage();
 		if (ok)
 			object.put("Status", "OK");
 		else
@@ -74,7 +94,7 @@ public class MessagesServices {
 		}
 		if (!ok)
 		{
-			object.put("Status", "NotExisits");
+			object.put("Status", "NotExists");
 			return object.toString();
 		}
 		
@@ -106,7 +126,7 @@ public class MessagesServices {
 		{
 			if (s.equals(GroupName))
 			{
-				object.put("Status", "Exisits");
+				object.put("Status", "Exists");
 				return object.toString();
 			}
 		}

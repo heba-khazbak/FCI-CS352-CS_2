@@ -240,4 +240,19 @@ public class UserEntity {
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		return pq.asList(FetchOptions.Builder.withDefaults());
 	}
+	
+	
+	/**
+	 * This method gets all users from datastore
+	 * @return list of users
+	 */
+	public static List<Entity> getAllUsers(){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		Query gaeQuery = new Query("users");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		return pq.asList(FetchOptions.Builder.withDefaults());
+	}
+	
 }
