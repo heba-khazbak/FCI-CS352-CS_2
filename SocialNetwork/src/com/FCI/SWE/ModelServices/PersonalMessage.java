@@ -60,4 +60,23 @@ public class PersonalMessage extends Message {
 		return list.size() + 1;
 
 	}
+	
+	public static Entity getPersonalMsg(String id)
+	{
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("personalMsg");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
+		
+		
+		for (Entity entity : pq.asIterable())
+		{
+			if (entity.getProperty("ID").toString().equals(id))
+				return entity;
+		}
+		return null;
+		
+	}
+
 }
