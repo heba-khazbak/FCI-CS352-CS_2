@@ -9,7 +9,10 @@
 <body>
 <p> Welcome <%=session.getAttribute("name") %> to your homepage </p>
 
+<a href="/social/sendPMessage">Send personal message</a> <br><br>
 
+<a href="/social/createGMessage">create group message</a> <br>
+<a href="/social/sendGMessage">Send group message</a> <br><br>
 
 <a href="/social/sendFriend">Send Friend Request</a> <br>
 <a href="/social/notifications">Notifications</a> <br>

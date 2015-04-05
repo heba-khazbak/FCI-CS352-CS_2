@@ -258,7 +258,6 @@ public class UserController {
 		
 		}
 	
-	
 	@GET
 	@Path("/sendPMessage")
 	public Response personalMessagePage()
@@ -275,6 +274,15 @@ public class UserController {
 	{
 		
 		return Response.ok(new Viewable("/jsp/sendGroupMessage")).build();
+		
+	}
+	
+	@GET
+	@Path("/createGMessage")
+	public Response createGroupMessagePage()
+	{
+		
+		return Response.ok(new Viewable("/jsp/createConversation")).build();
 		
 	}
 	
@@ -340,6 +348,137 @@ public class UserController {
 
 	}
 
+	@POST
+	@Path("/createGroupMessage")
+	@Produces("text/html")
+	public String create_GroupMessage(@Context HttpServletRequest request, @FormParam("groupName") String groupName ,
+			@FormParam("receiver") String receiver) 
+	{
+		String serviceUrl = "http://localhost:8888/rest/CreateNewGroupMsg";
+		try {
+			URL url = new URL(serviceUrl);
+			HttpSession session = request.getSession(true);
+			
+			//String []receivers = receiver.split("\\|");
+			
+			
+			String urlParameters = "groupName=" + groupName + "&members=" + receiver + "&sender=" + session.getAttribute("name");
+			
+			
+			//for(int i=0;i<receivers.length; i++)
+				//urlParameters+=	("&members=" + receivers[i]);
+			
+				
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			connection.setInstanceFollowRedirects(false);
+			connection.setRequestMethod("POST");
+			connection.setConnectTimeout(60000);  //60 Seconds
+			connection.setReadTimeout(60000);  //60 Seconds
+			
+			connection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded;charset=UTF-8");
+			OutputStreamWriter writer = new OutputStreamWriter(
+					connection.getOutputStream());
+			writer.write(urlParameters);
+			writer.flush();
+			String line, retJson = "";
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
 
+			while ((line = reader.readLine()) != null) {
+				retJson += line;
+			}
+			writer.close();
+			reader.close();
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(retJson);
+			JSONObject object = (JSONObject) obj;
+			if (object.get("Status").equals("Exists"))
+				return "Group Name already exists";
+			if (object.get("Status").equals("Failed"))
+				return "Failed to create group";
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String res= "group chat '" + groupName + "' has been created successfully";
+		return res;
+
+	}
+
+	@POST
+	@Path("/sendGroupMessage")
+	@Produces("text/html")
+	public String send_GroupMessage(@Context HttpServletRequest request, @FormParam("groupName") String groupName, 
+			@FormParam("content") String content ) 
+	{
+		String serviceUrl = "http://localhost:8888/rest/SendGroupMessageService";
+		try {
+			URL url = new URL(serviceUrl);
+			HttpSession session = request.getSession(true);
+			
+			
+			String urlParameters = "sender=" + session.getAttribute("name") + "&groupName=" + groupName + "&content=" + content ;
+			
+			
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			connection.setInstanceFollowRedirects(false);
+			connection.setRequestMethod("POST");
+			connection.setConnectTimeout(60000);  //60 Seconds
+			connection.setReadTimeout(60000);  //60 Seconds
+			
+			connection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded;charset=UTF-8");
+			OutputStreamWriter writer = new OutputStreamWriter(
+					connection.getOutputStream());
+			writer.write(urlParameters);
+			writer.flush();
+			String line, retJson = "";
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
+
+			while ((line = reader.readLine()) != null) {
+				retJson += line;
+			}
+			writer.close();
+			reader.close();
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(retJson);
+			JSONObject object = (JSONObject) obj;
+			if (object.get("Status").equals("NotExists"))
+				return "Group Name deos not exists";
+			if (object.get("Status").equals("Failed"))
+				return "Failed to send message";
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String res= "message has been sent to group chat '" + groupName + "' successfully";
+		return res;
+
+	}
+
+	
 	
 }
