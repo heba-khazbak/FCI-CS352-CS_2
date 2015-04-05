@@ -24,6 +24,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.server.mvc.Viewable;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -354,15 +355,28 @@ public class UserController {
 	public String create_GroupMessage(@Context HttpServletRequest request, @FormParam("groupName") String groupName ,
 			@FormParam("receiver") String receiver) 
 	{
-		String serviceUrl = "http://localhost:8888/rest/CreateNewGroupMsg";
+		String serviceUrl = "http://localhost:8888/rest/CreateNewGroupMsgService";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
 			
-			//String []receivers = receiver.split("\\|");
+			String []receivers = receiver.split("-");
+			JSONArray membersArray = new JSONArray();
 			
 			
-			String urlParameters = "groupName=" + groupName + "&members=" + receiver + "&sender=" + session.getAttribute("name");
+			for (String r:receivers )
+			{
+				JSONObject myMember = new JSONObject();
+				myMember.put("Name", r);
+				membersArray.add(myMember);
+			}
+			
+			JSONObject myMember = new JSONObject();
+			myMember.put("Name", session.getAttribute("name"));
+			membersArray.add(myMember);
+			
+			
+			String urlParameters = "GroupName=" + groupName + "&members=" + membersArray;
 			
 			
 			//for(int i=0;i<receivers.length; i++)
@@ -400,6 +414,12 @@ public class UserController {
 				return "Group Name already exists";
 			if (object.get("Status").equals("Failed"))
 				return "Failed to create group";
+			if(object.get("Status").equals("OK"))
+			{
+				return "group chat '" + groupName + "' has been created successfully";
+			}
+			
+			return (String) object.get("Status");
 			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -412,8 +432,8 @@ public class UserController {
 			e.printStackTrace();
 		}
 		
-		String res= "group chat '" + groupName + "' has been created successfully";
-		return res;
+		return "ok";
+		
 
 	}
 

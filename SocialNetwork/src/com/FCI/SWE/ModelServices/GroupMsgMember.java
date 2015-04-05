@@ -21,7 +21,7 @@ public class GroupMsgMember {
 		this.username = username;
 	}
 	
-	public boolean saveGroupMsgMember()
+	public synchronized boolean  saveGroupMsgMember()
 	{
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();

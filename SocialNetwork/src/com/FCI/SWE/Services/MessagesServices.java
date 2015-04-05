@@ -24,6 +24,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.server.mvc.Viewable;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -117,9 +118,9 @@ public class MessagesServices {
 	}
 	
 	@POST
-	@Path("/CreateNewGroupMsg")
+	@Path("/CreateNewGroupMsgService")
 	public String CreateNewGroupMsg(@FormParam("GroupName") String GroupName,
-			@FormParam("members") List<String> members) {
+			@FormParam("members") String members) {
 		JSONObject object = new JSONObject();
 		GroupMsgMember groupMsg;
 		Set<String> currentGroups = GroupMsgMember.getAllGroupNames();
@@ -131,12 +132,25 @@ public class MessagesServices {
 				return object.toString();
 			}
 		}
-		
-		for (String m : members)
-		{
-			groupMsg = new GroupMsgMember(GroupName , m);
-			groupMsg.saveGroupMsgMember();
+		JSONParser parser = new JSONParser();
+		JSONArray membersArray = null;
+		try {
+			membersArray =(JSONArray) parser.parse(members);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		for (int i = 0 ; i < membersArray.size();i++)
+		{
+			JSONObject obj = (JSONObject)membersArray.get(i);
+			String s = (String) obj.get("Name");
+			groupMsg = new GroupMsgMember(GroupName , s);
+			groupMsg.saveGroupMsgMember();
+			
+				
+		}
+		System.out.println("group " +GroupName + " " + members );
 
 		
 		object.put("Status", "OK");
