@@ -63,5 +63,24 @@ public class GroupMessage extends Message {
 		return list.size() + 1;
 
 	}
+	
+	public static Entity getGroupMsg(String id)
+	{
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("groupMsg");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
+		
+		
+		for (Entity entity : pq.asIterable())
+		{
+			if (entity.getProperty("ID").toString().equals(id))
+				return entity;
+		}
+		return null;
+		
+	}
+
 
 }

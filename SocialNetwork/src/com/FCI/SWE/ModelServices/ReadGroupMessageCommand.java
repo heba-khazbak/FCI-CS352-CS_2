@@ -1,12 +1,12 @@
 package com.FCI.SWE.ModelServices;
 
-public class ReadPersonalMessageCommand implements ICommand {
+public class ReadGroupMessageCommand implements ICommand {
 	MessageReceiver Receiver;
 	@Override
 	public String execute(String ID) {
 		// TODO Auto-generated method stub
 		Receiver = new MessageReceiver();
-		return Receiver.readPersonalMessage(ID);
+		return Receiver.readGroupMessage(ID);
 		
 	}
 

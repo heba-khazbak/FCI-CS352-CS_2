@@ -125,28 +125,4 @@ public class NotificationServices {
 		return object.toString();
 	}
     
-
-	@POST
-	@Path("/handleNotificationService")
-	public String handleNotificationService(@FormParam("notification_id") String notification_id) {
-		JSONObject object = new JSONObject();
-		
-		// TODO: retrieve the notification from the datastore
-		
-		// create an object according to the type of the notification
-		String notification_type = ""; // TODO: set the notification type with the type form the datastore
-		ICommand temp = null;
-		try {
-			// send ID
-//			temp = (ICommand) Class.forName(notification_type).newInstance();
-//			temp.execute(); // this will execute the ConcreteCommand (Polymorphism)
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		// TODO: return something in the json object
-		
-		return object.toString();
-	}
-
 }

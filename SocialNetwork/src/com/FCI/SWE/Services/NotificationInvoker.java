@@ -1,4 +1,4 @@
-package com.FCI.SWE.ModelServices;
+package com.FCI.SWE.Services;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,30 +24,32 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.server.mvc.Viewable;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-@Path("/")
-@Produces("text/html")
-public class NotificationsController {
+import com.FCI.SWE.ModelServices.*;
 
-	public NotificationsController ()
-	{
-		
-	}
+public class NotificationInvoker {
 	
-	@GET
-	@Path("/readPersonalMessage")
-	public String readPersonalMessage(@FormParam("ID") String ID)
-	{
-		//service
-		// use ID notification 
-		// get ID of message
-		// table personal msg hangeb l row 
+	@POST
+	@Path("/handleNotificationService")
+	public String handleNotificationService(@FormParam("notification_id") String notification_id, String notification_type) {
+		String data = "";
 		
-		// return sender rec content
-		return "json";
+		// create an object according to the type of the notification
+		ICommand temp = null;
+		try {
+			// send ID
+			temp = (ICommand) Class.forName(notification_type).newInstance();
+			data = temp.execute(notification_id); // this will execute the ConcreteCommand (Polymorphism)
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return data;
 	}
+
 
 }
