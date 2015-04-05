@@ -135,5 +135,18 @@ public class FriendRequest  {
 	}
 
 	
+	public static Entity getFriendRequest(String ID){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		Query gaeQuery = new Query("friendRequests");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for (Entity entity : pq.asIterable()) {
+			if (entity.getProperty("ID").toString().equals(ID) ) {
+				return entity;
+			}
+		}
+		return null;
+	}
 
 }

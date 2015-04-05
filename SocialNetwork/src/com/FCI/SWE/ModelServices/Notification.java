@@ -62,6 +62,20 @@ public class Notification {
 		return true;
 	}
 	
+	public static String getNotification(String ID){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		Query gaeQuery = new Query("Notifications");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for (Entity entity : pq.asIterable()) {
+			if (entity.getProperty("ID").toString().equals(ID) ) {
+				return entity.getProperty("NotificationID").toString();
+			}
+		}
+		return "-1";
+	}
+	
 	/**
 	 * This method gets all notifications from datastore
 	 * @return list of notifications

@@ -82,25 +82,25 @@ public class NotificationServices {
 	/**
 	 */
 	
-	@POST
-	@Path("/acceptFriendRequestService")
-	public String accpetFriendService(@FormParam("uname") String uname,
-			@FormParam("currentUser") String currentUser) {
-		JSONObject object = new JSONObject();
-		FriendRequest request = new FriendRequest (currentUser , uname );
-		new UserFriendObserver (request);
-		boolean sucess = request.acceptFriendRequest();
-		if (sucess == false) {
-			object.put("Status", "Failed");
-
-		} else {
-			object.put("Status", "OK");
-			
-		}
-
-		return object.toString();
-
-	}
+//	@POST
+//	@Path("/acceptFriendRequestService")
+//	public String acceptFriendService(@FormParam("uname") String uname,
+//			@FormParam("currentUser") String currentUser) {
+//		JSONObject object = new JSONObject();
+//		FriendRequest request = new FriendRequest (currentUser , uname );
+//		new UserFriendObserver (request);
+//		boolean sucess = request.acceptFriendRequest();
+//		if (sucess == false) {
+//			object.put("Status", "Failed");
+//
+//		} else {
+//			object.put("Status", "OK");
+//			
+//		}
+//
+//		return object.toString();
+//
+//	}
 	
 	@POST
 	@Path("/getAllNotificationsService")
