@@ -258,4 +258,88 @@ public class UserController {
 		
 		}
 	
+	
+	@GET
+	@Path("/sendPMessage")
+	public Response personalMessagePage()
+	{
+		
+		return Response.ok(new Viewable("/jsp/sendPersonalMessage")).build();
+		
+	}
+	
+
+	@GET
+	@Path("/sendGMessage")
+	public Response groupMessagePage()
+	{
+		
+		return Response.ok(new Viewable("/jsp/sendGroupMessage")).build();
+		
+	}
+	
+	@POST
+	@Path("/sendPersonalMessage")
+	@Produces("text/html")
+	public String send_PersonalPMessage(@Context HttpServletRequest request ,@FormParam("receiver") String receiver,
+			@FormParam("content") String messageContent) {
+		String serviceUrl = "http://localhost:8888/rest/SendPersonalMessageService";
+		try {
+			URL url = new URL(serviceUrl);
+			HttpSession session = request.getSession(true);
+			
+			String urlParameters = "receiver=" + receiver + "&sender=" + session.getAttribute("name") +
+			"&content=" + messageContent;
+			
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			connection.setInstanceFollowRedirects(false);
+			connection.setRequestMethod("POST");
+			connection.setConnectTimeout(60000);  //60 Seconds
+			connection.setReadTimeout(60000);  //60 Seconds
+			
+			connection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded;charset=UTF-8");
+			OutputStreamWriter writer = new OutputStreamWriter(
+					connection.getOutputStream());
+			writer.write(urlParameters);
+			writer.flush();
+			String line, retJson = "";
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
+
+			while ((line = reader.readLine()) != null) {
+				retJson += line;
+			}
+			writer.close();
+			reader.close();
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(retJson);
+			JSONObject object = (JSONObject) obj;
+			if (object.get("Status").equals("NotExists"))
+				return "User does not exist";
+			if (object.get("Status").equals("Failed"))
+				return "An error has occureed, can't send message!";
+			if (object.get("Status").equals("yourself"))
+				return "you cannot send a message to yourslef!";
+		
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "Message succesfully sent";
+
+	}
+
+
+	
 }
