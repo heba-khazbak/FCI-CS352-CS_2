@@ -105,7 +105,8 @@ public class MessagesServices {
 		Set<String> currentmembers = GroupMsgMember.getAllMembers(GroupName);
 		for (String s : currentmembers)
 		{
-			new MessageUserObserver (Msg , s);
+			if (!sender.equals(s))
+				new MessageUserObserver (Msg , s);
 		}
 		
 		ok = Msg.sendMessage();

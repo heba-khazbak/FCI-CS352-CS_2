@@ -449,7 +449,7 @@ public class UserController {
 			HttpSession session = request.getSession(true);
 			
 			
-			String urlParameters = "sender=" + session.getAttribute("name") + "&groupName=" + groupName + "&content=" + content ;
+			String urlParameters = "sender=" + session.getAttribute("name") + "&GroupName=" + groupName + "&content=" + content ;
 			
 			
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();

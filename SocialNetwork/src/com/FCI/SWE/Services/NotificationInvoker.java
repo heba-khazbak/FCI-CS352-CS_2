@@ -31,24 +31,39 @@ import org.json.simple.parser.ParseException;
 
 import com.FCI.SWE.ModelServices.*;
 
+
+@Path("/")
+@Produces("text/html")
 public class NotificationInvoker {
 	
 	@POST
 	@Path("/handleNotificationService")
-	public String handleNotificationService(@FormParam("notification_id") String notification_id, String notification_type) {
+	public String handleNotificationService(@FormParam("notification_id") String notification_id, @FormParam("type")String notification_type) {
+		JSONObject object = new JSONObject();
 		String data = "";
 		
 		// create an object according to the type of the notification
 		ICommand temp = null;
 		try {
 			// send ID
-			temp = (ICommand) Class.forName(notification_type).newInstance();
+			//temp = (ICommand) Class.forName(notification_type).newInstance();
+			if (notification_type.equals("1"))
+				temp = new ReadPersonalMessageCommand();
+			else if (notification_type.equals("2"))
+				temp = new ReadGroupMessageCommand();
+			else if (notification_type.equals("3"))
+				temp = new AcceptFriendRequestCommand();
+			
 			data = temp.execute(notification_id); // this will execute the ConcreteCommand (Polymorphism)
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
+		//object.put("Status", data);
+		// data .. json ("status")
 		return data;
+		
 	}
 
 

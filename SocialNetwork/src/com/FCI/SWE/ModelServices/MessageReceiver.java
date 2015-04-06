@@ -42,22 +42,24 @@ public class MessageReceiver {
 	
 	@GET
 	@Path("/readPersonalMessage")
-	public String readPersonalMessage(@FormParam("ID") String ID)
+	public String readPersonalMessage(String ID)
 	{
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
 		// service
 		String msgID = "";
+		String data = "";
 		JSONObject object = new JSONObject();
 		
 		// use notificationID
 		Query gaeQuery = new Query("Notifications");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for (Entity entity : pq.asIterable()) {
-			if (entity.getProperty("NotificationID").toString().equals(ID)) {
+			if (entity.getProperty("ID").toString().equals(ID)) {
 				// to get ID of message
-				msgID = entity.getProperty("ID").toString();
+				msgID = entity.getProperty("NotificationID").toString();
+				break;
 				
 			}
 		}
@@ -67,12 +69,15 @@ public class MessageReceiver {
 			gaeQuery = new Query("personalMsg");
 			pq = datastore.prepare(gaeQuery);
 			for (Entity entity : pq.asIterable()) {
-				if (entity.getProperty("id").toString().equals(msgID)) {
+				if (entity.getProperty("ID").toString().equals(msgID)) {
 					// return sender receiver content
 					object.put("sender", entity.getProperty("sender"));
 					object.put("receiver", entity.getProperty("receiver"));
 					object.put("content", entity.getProperty("content"));
 					object.put("status", entity.getProperty("sender") + " sent you a message: " + entity.getProperty("content"));
+				
+					//data = entity.getProperty("sender") + " sent you a message: " + entity.getProperty("content");
+					break;
 				}
 			}
 		}
@@ -82,7 +87,7 @@ public class MessageReceiver {
 
 	@GET
 	@Path("/readGroupMessage")
-	public String readGroupMessage(@FormParam("ID") String ID) {
+	public String readGroupMessage(String ID) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
@@ -94,9 +99,10 @@ public class MessageReceiver {
 		Query gaeQuery = new Query("Notifications");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for (Entity entity : pq.asIterable()) {
-			if (entity.getProperty("NotificationID").toString().equals(ID)) {
+			if (entity.getProperty("ID").toString().equals(ID)) {
 				// to get ID of message
-				msgID = entity.getProperty("ID").toString();
+				msgID = entity.getProperty("NotificationID").toString();
+				break;
 				
 			}
 		}
@@ -106,10 +112,10 @@ public class MessageReceiver {
 			gaeQuery = new Query("groupMsg");
 			pq = datastore.prepare(gaeQuery);
 			for (Entity entity : pq.asIterable()) {
-				if (entity.getProperty("id").toString().equals(msgID)) {
+				if (entity.getProperty("ID").toString().equals(msgID)) {
 					// return sender receiver content
 					object.put("sender", entity.getProperty("sender"));
-					object.put("receiver", entity.getProperty("receiver"));
+					object.put("receiver", entity.getProperty("receiverGroupName"));
 					object.put("content", entity.getProperty("content"));
 					object.put("status", entity.getProperty("sender") + " sent you a message: " + entity.getProperty("content"));
 				}
