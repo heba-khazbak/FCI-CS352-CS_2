@@ -30,6 +30,9 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.FCI.SWE.ModelServices.*;
+import com.FCI.SWE.ModelServices.Observer.FriendRequest;
+import com.FCI.SWE.ModelServices.Observer.Notification;
+import com.FCI.SWE.ModelServices.Observer.UserFriendObserver;
 
 @Path("/")
 @Produces("text/html")
@@ -105,24 +108,37 @@ public class NotificationServices {
 	@POST
 	@Path("/getAllNotificationsService")
 	public String getAllNotificationsService(@FormParam("uname") String uname) {
-		JSONObject object = new JSONObject();
 		List<Entity> notifications = Notification.getNotifications();
 		JSONArray notificationsArray = new JSONArray();
 		
 		for (Iterator iterator = notifications.iterator(); iterator.hasNext();) {
 			Entity entity = (Entity) iterator.next();
 			if(uname.equals(entity.getProperty("userName"))) {
-				JSONObject notification = new JSONObject();
-				notification.put("ID", entity.getProperty("ID"));
-				notification.put("userName", entity.getProperty("userName"));
-				notification.put("type", entity.getProperty("type"));
-				notification.put("NotificationID", entity.getProperty("NotificationID"));
+				
+				
+				if (entity.getProperty("type").toString().equals("3"))
+				{
+					// check pending zero 
+					String friendReqID = Notification.getNotification(entity.getProperty("ID").toString());
+					Entity friend = FriendRequest.getFriendRequest(friendReqID);
+					
+					if (friend.getProperty("pending").toString().equals("0"))
+						continue;
+				}
+				
+					JSONObject notification = new JSONObject();
+				notification.put("ID", entity.getProperty("ID").toString());
+				notification.put("userName", entity.getProperty("userName").toString());
+				notification.put("type", entity.getProperty("type").toString());
+				notification.put("NotificationID", entity.getProperty("NotificationID").toString());
+				notification.put("sender", entity.getProperty("sender").toString());
 				notificationsArray.add(notification);
+				
+				
 			}
 		}
-		object.put("Notifications", notificationsArray);
 		
-		return object.toString();
+		return notificationsArray.toString();
 	}
     
 }

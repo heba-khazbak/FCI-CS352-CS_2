@@ -27,11 +27,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.FCI.SWE.ModelServices.FriendRequest;
-import com.FCI.SWE.ModelServices.MessageUserObserver;
-import com.FCI.SWE.ModelServices.Notification;
 import com.FCI.SWE.ModelServices.UserEntity;
-import com.FCI.SWE.ModelServices.UserFriendObserver;
+import com.FCI.SWE.ModelServices.Observer.FriendRequest;
+import com.FCI.SWE.ModelServices.Observer.MessageUserObserver;
+import com.FCI.SWE.ModelServices.Observer.Notification;
+import com.FCI.SWE.ModelServices.Observer.UserFriendObserver;
 import com.google.appengine.api.datastore.Entity;
 
 /**

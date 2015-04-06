@@ -7,48 +7,62 @@
 <title>Notification Page</title>
 </head>
 <body>
-<%@ page import="com.google.appengine.api.datastore.Entity" %>
-<%@ page import="com.FCI.SWE.Models.*" %>
+<%@ page import="com.FCI.SWE.Controller.*" %>
 <%@ page import="java.util.*" %>
 
-
-<form action="/social/acceptFriendRequest" method="post">
-
-<select name="dropNotifications">
 <%
-	List<String> list=new ArrayList<String>();
-	UserEntity u=new UserEntity();
-	for (Entity e : u.getNotifications()){
-		String s=e.getProperty("pending").toString();
-		if(s.equals("0")){
-			if(e.getProperty("currentUser").equals(session.getAttribute("name"))){
-				String t=e.getProperty("toUser").toString()+" accepted your friend request";
-				list.add(t);
-			}
-			continue;
-		}
-	if(!e.getProperty("toUser").equals(session.getAttribute("name")))continue;
+
+for (NotificationController.Type T : NotificationController.AllNotifications)
+{
 %>
+<form action="Handelnotifications" method="post">
 
-	<option value=<%=e.getProperty("currentUser").toString() %>><%=e.getProperty("currentUser")%> sent you a friend request</option>
-
+<input type="hidden" name = "ID" value=<%= T.ID %> />
+<input type="hidden" name = "type" value=<%= T.type %> />
 <%
+if (T.type.equals("1"))
+{
+	out.println("You've got a personal message from " + T.sender);
+%>
+<input type="submit" value="Read personal message">	
+<% 
 }
+else  if (T.type.equals("2"))
+{
+	out.println("You've got a Group message from " + T.sender);
+	%>
+	<input type="submit" value="Read Group message">	
+	<%
+	
+}
+else  if (T.type.equals("3"))
+{
+	out.println("You've got a FriendRequest from "+ T.sender);
+	%>
+	<input type="submit" value="acceptFriendRequest">	
+	<%
+}
+else  if (T.type.equals("4"))
+{
+	out.println( T.sender + " has accepted your FriendRequest");
+}
+	
+
 %>
-</select>
-<input type="submit" value="Accept">
+
+
+
 </form>
 
 
-
-
-<% 
-for(String s:list){
-	%>
-	<p><%=s %></p>
-	<% 
+<% 	
 }
+
 %>
+
+ 
+
+
 
 </body>
 </html>

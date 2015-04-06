@@ -30,6 +30,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.FCI.SWE.ModelServices.*;
+import com.FCI.SWE.ModelServices.CommandHandeler.AcceptFriendRequestCommand;
+import com.FCI.SWE.ModelServices.CommandHandeler.CommandTypeMapper;
+import com.FCI.SWE.ModelServices.CommandHandeler.ICommand;
+import com.FCI.SWE.ModelServices.CommandHandeler.ReadGroupMessageCommand;
+import com.FCI.SWE.ModelServices.CommandHandeler.ReadPersonalMessageCommand;
 
 
 @Path("/")
@@ -39,28 +44,29 @@ public class NotificationInvoker {
 	@POST
 	@Path("/handleNotificationService")
 	public String handleNotificationService(@FormParam("notification_id") String notification_id, @FormParam("type")String notification_type) {
-		JSONObject object = new JSONObject();
 		String data = "";
 		
 		// create an object according to the type of the notification
 		ICommand temp = null;
 		try {
-			// send ID
-			//temp = (ICommand) Class.forName(notification_type).newInstance();
-			if (notification_type.equals("1"))
+			CommandTypeMapper.saveCommandTypes();
+			String myclassName = CommandTypeMapper.getTypeName(notification_type);
+			
+			myclassName = "com.FCI.SWE.ModelServices.CommandHandeler."+ myclassName;
+			temp = (ICommand) Class.forName(myclassName).newInstance();
+			/*if (notification_type.equals("1"))
 				temp = new ReadPersonalMessageCommand();
 			else if (notification_type.equals("2"))
 				temp = new ReadGroupMessageCommand();
 			else if (notification_type.equals("3"))
 				temp = new AcceptFriendRequestCommand();
-			
+			*/
 			data = temp.execute(notification_id); // this will execute the ConcreteCommand (Polymorphism)
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		//object.put("Status", data);
 		// data .. json ("status")
 		return data;
 		

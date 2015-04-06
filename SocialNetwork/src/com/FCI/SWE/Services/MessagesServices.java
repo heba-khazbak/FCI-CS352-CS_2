@@ -30,6 +30,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.FCI.SWE.ModelServices.*;
+import com.FCI.SWE.ModelServices.Observer.GroupMessage;
+import com.FCI.SWE.ModelServices.Observer.GroupMsgMember;
+import com.FCI.SWE.ModelServices.Observer.Message;
+import com.FCI.SWE.ModelServices.Observer.MessageUserObserver;
+import com.FCI.SWE.ModelServices.Observer.PersonalMessage;
 
 @Path("/")
 @Produces("text/html")
@@ -63,7 +68,7 @@ public class MessagesServices {
 			return object.toString();
 		}
 		
-		new MessageUserObserver (Msg , receiver);
+		new MessageUserObserver (Msg , receiver,sender);
 		
 		ok = Msg.sendMessage();
 		if (ok)
@@ -106,7 +111,7 @@ public class MessagesServices {
 		for (String s : currentmembers)
 		{
 			if (!sender.equals(s))
-				new MessageUserObserver (Msg , s);
+				new MessageUserObserver (Msg , s , sender);
 		}
 		
 		ok = Msg.sendMessage();
