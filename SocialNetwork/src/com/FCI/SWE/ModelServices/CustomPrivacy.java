@@ -18,6 +18,12 @@ import com.google.appengine.api.datastore.Query;
 
 public class CustomPrivacy implements Privacy {
 	
+	@Override
+	public Vector<Post> getPostsForTimeLine(String onWall, String currentUser) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 	public static boolean saveCustomUsers(String postID , String jsonUsers)
 	{
@@ -37,6 +43,7 @@ public class CustomPrivacy implements Privacy {
 			custom.setProperty("postID", postID);
 			custom.setProperty("userName", s);
 			datastore.put(custom);
+			++i;
 		}
 		return true;
 		

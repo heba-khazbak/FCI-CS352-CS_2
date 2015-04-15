@@ -7,6 +7,12 @@ public class FriendPost extends Post {
 		super(owner, content, onWall, privacy , customUsers);
 		type = 2;
 	}
+	
+	public FriendPost(String owner, String content, String onWall,
+			String privacy) {
+		super(owner, content, onWall, privacy);
+		type = 2;
+	}
 
 	@Override
 	public int savePost() {

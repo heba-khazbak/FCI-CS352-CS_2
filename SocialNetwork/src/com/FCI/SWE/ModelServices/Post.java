@@ -18,6 +18,18 @@ public abstract class Post {
 		this.customUsers = customUsers;
 	}
 	
+	public Post(String owner ,String content , String onWall,String privacy)
+	{
+		this.owner = owner;
+		this.content = content;
+		this.onWall = onWall;
+		this.privacy = privacy;
+	}
+	public void setID (String ID)
+	{
+		this.ID = ID;
+	}
+	
 	public abstract int savePost();
 	// return postID
 	// in this function .. if privacy == custom then call 
