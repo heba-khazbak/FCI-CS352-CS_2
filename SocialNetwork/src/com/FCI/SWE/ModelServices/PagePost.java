@@ -8,9 +8,9 @@ public class PagePost extends Post {
 	}
 
 	@Override
-	public boolean savePost() {
+	public int savePost() {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 	
 	
