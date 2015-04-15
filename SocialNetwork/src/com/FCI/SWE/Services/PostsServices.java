@@ -47,7 +47,7 @@ public class PostsServices {
 			@FormParam("onWall") String onWall,@FormParam("privacy") String privacy,
 			@FormParam("feeling") String feeling , @FormParam("custom") String customUsers) {
 		
-		UserPost myPost = new UserPost(owner,content,onWall,privacy,feeling);
+		UserPost myPost = new UserPost(owner,content,onWall,privacy,customUsers ,feeling);
 		myPost.savePost();
 		JSONObject object = new JSONObject();
 		object.put("Status", "OK");
@@ -61,7 +61,7 @@ public class PostsServices {
 			@FormParam("onWall") String onWall,@FormParam("privacy") String privacy,
 			@FormParam("custom") String customUsers) {
 		
-		FriendPost myPost = new FriendPost(owner,content,onWall,privacy);
+		FriendPost myPost = new FriendPost(owner,content,onWall,privacy , customUsers);
 		// check  onWall is friend to owner
 		boolean ok = FriendRequest.isFriends(owner, onWall);
 		JSONObject object = new JSONObject();
@@ -90,7 +90,7 @@ public class PostsServices {
 			@FormParam("onWall") String onWall,@FormParam("privacy") String privacy,
 			@FormParam("custom") String customUsers) {
 		
-		PagePost myPost = new PagePost(owner,content,onWall,privacy);
+		PagePost myPost = new PagePost(owner,content,onWall,privacy,customUsers);
 		myPost.savePost();
 		JSONObject object = new JSONObject();
 		object.put("Status", "OK");
@@ -104,7 +104,7 @@ public class PostsServices {
 			@FormParam("content") String content,@FormParam("onWall") String onWall,
 			@FormParam("privacy") String privacy, @FormParam("custom") String customUsers) {
 		
-		SharePost myPost = new SharePost(owner,content,onWall,privacy , originalPostID);
+		SharePost myPost = new SharePost(owner,content,onWall,privacy , originalPostID,customUsers);
 		myPost.savePost();
 		JSONObject object = new JSONObject();
 		object.put("Status", "OK");

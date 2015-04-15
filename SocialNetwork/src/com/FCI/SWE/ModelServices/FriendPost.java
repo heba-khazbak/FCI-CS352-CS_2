@@ -3,8 +3,8 @@ package com.FCI.SWE.ModelServices;
 public class FriendPost extends Post {
 
 	public FriendPost(String owner, String content, String onWall,
-			String privacy) {
-		super(owner, content, onWall, privacy);
+			String privacy ,String customUsers) {
+		super(owner, content, onWall, privacy , customUsers);
 		type = 2;
 	}
 

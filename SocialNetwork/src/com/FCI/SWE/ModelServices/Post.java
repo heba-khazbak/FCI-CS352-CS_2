@@ -7,16 +7,20 @@ public abstract class Post {
 	String onWall;
 	int type;
 	String privacy;
+	String customUsers;
 	
-	public Post(String owner ,String content , String onWall,String privacy)
+	public Post(String owner ,String content , String onWall,String privacy, String customUsers)
 	{
 		this.owner = owner;
 		this.content = content;
 		this.onWall = onWall;
 		this.privacy = privacy;
+		this.customUsers = customUsers;
 	}
 	
 	public abstract int savePost();
 	// return postID
+	// in this function .. if privacy == custom then call 
+	//CustomPrivacy.saveCustomUsers(postID , jsonArrayofUsers);
 
 }

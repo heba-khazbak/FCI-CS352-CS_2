@@ -4,8 +4,9 @@ public class UserPost extends Post {
 	
 	String feeling;
 
-	public UserPost(String owner, String content, String onWall, String privacy,String feeling) {
-		super(owner, content, onWall, privacy);
+	public UserPost(String owner, String content, String onWall, String privacy,
+			String customUsers,String feeling) {
+		super(owner, content, onWall, customUsers ,privacy);
 		type = 1;
 		this.feeling = feeling;
 	}
