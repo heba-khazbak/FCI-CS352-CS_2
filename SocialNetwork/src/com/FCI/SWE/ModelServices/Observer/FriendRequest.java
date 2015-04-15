@@ -111,7 +111,7 @@ public class FriendRequest  {
 		Query gaeQuery = new Query("friendRequests");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for (Entity entity : pq.asIterable()) {
-			if(entity.getProperty("sender").equals(toUser) && entity.getProperty("receiver").equals(currentUser)){
+			if(entity.getProperty("sender").toString().equals(toUser) && entity.getProperty("receiver").toString().equals(currentUser)){
 				entity.setProperty("pending", 0);
 				
 				this.ID = Integer.parseInt( entity.getProperty("ID").toString()); 
@@ -147,6 +147,22 @@ public class FriendRequest  {
 			}
 		}
 		return null;
+	}
+	
+	public static boolean isFriends(String user1 , String user2)
+	{
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Query gaeQuery = new Query("friends");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for (Entity entity : pq.asIterable()) {
+			if((entity.getProperty("user1").toString().equals(user1) && entity.getProperty("user2").toString().equals(user2))
+			||( entity.getProperty("user1").toString().equals(user2) && entity.getProperty("user2").toString().equals(user1))){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 }
