@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.FCI.SWE.ModelServices.Observer.FriendRequest;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -16,11 +17,98 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 
-public class CustomPrivacy implements Privacy {
+public class CustomPrivacy extends Privacy {
 	
 	@Override
-	public Vector<Post> getPostsForTimeLine(String onWall, String currentUser) {
-		// TODO Auto-generated method stub
+	public Post canSeeUserPost(Entity entity, String onWall,
+			String currentUser) {
+		// should be in custom table for this postID 
+		// regardless post type
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		
+		String ID = entity.getProperty("ID").toString();
+		String owner = entity.getProperty("owner").toString();
+		String content = entity.getProperty("content").toString();
+		String feeling = "";
+		
+		boolean inCustom = isInCustom(ID, currentUser);
+		if (inCustom)
+		{
+			Query gaeQuery = new Query("feeling");
+			PreparedQuery pq = datastore.prepare(gaeQuery);
+			for (Entity entity2 : pq.asIterable())
+			{
+				if (entity2.getProperty("postID").toString().equals(ID))
+				{
+					feeling = entity2.getProperty("state").toString();
+					break;
+				}
+			}
+			
+			Post p = new UserPost(owner,content,onWall,CUSTOM,feeling);
+			p.setID(ID);
+			return p;
+		}
+		return null;
+	}
+
+	@Override
+	public Post canSeeFriendPost(Entity entity, String onWall,
+			String currentUser) {
+		String ID = entity.getProperty("ID").toString();
+	
+		boolean inCustom = isInCustom(ID, currentUser);
+		if (inCustom)
+		{
+			String owner = entity.getProperty("owner").toString();
+			String content = entity.getProperty("content").toString();
+			
+			Post p = new FriendPost(owner,content,onWall,CUSTOM);
+			p.setID(ID);
+			return p;
+		}
+		return null;
+	}
+
+	@Override
+	public Post canSeePagePost(Entity entity, String onWall, String currentUser) {
+		String ID = entity.getProperty("ID").toString();
+		
+		boolean inCustom = isInCustom(ID, currentUser);
+		if (inCustom)
+		{
+			String owner = entity.getProperty("owner").toString();
+			String content = entity.getProperty("content").toString();
+			
+			Post p = new PagePost(owner,content,onWall,CUSTOM);
+			p.setID(ID);
+			
+			if (entity.getProperty("owner").toString().equals("currentUser"))
+				((PagePost) p).calculateNumberofSeen();
+			return p;
+		}
+		return null;
+	}
+
+	@Override
+	public Post canSeeSharedPost(Entity entity, String onWall,
+			String currentUser) {
+		String ID = entity.getProperty("ID").toString();
+		String owner = entity.getProperty("owner").toString();
+		String content = entity.getProperty("content").toString();
+		
+		Post p = new PagePost(owner,content,onWall,CUSTOM);
+		p.setID(ID);
+		
+		
+		boolean ok = isInCustom (ID ,currentUser);
+		if (ok)
+			ok = OriginalSharedPostPrivacy(ID , currentUser);
+		
+		if (ok)
+			return p;
+		
 		return null;
 	}
 	
@@ -69,4 +157,25 @@ public class CustomPrivacy implements Privacy {
 		}
 		return usersVector;
 	}
+	
+	public static boolean isInCustom(String postID , String userName)
+	{
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Query gaeQuery = new Query("customPrivacy");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for (Entity entity : pq.asIterable()) {
+			if(entity.getProperty("postID").toString().equals(postID) &&
+					entity.getProperty("userName").toString().equals(userName))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+		
+	}
+
+
+	
 }
