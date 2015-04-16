@@ -24,6 +24,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+@Path("/")
+@Produces("text/html")
 public class PostController {
 
 	@GET
@@ -50,7 +52,7 @@ public class PostController {
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
-
+			
 			String urlParameters = "privacy=" + privacy + "&owner="
 					+ session.getAttribute("name") + "&content=" + postContent
 					+ "&onWall=" + session.getAttribute("name") + "&feeling="
