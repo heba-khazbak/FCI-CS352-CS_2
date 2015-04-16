@@ -10,9 +10,9 @@ public class SharePost extends Post {
 	}
 
 	@Override
-	public int savePost() {
+	public String savePost() {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 }

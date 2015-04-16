@@ -30,7 +30,7 @@ public abstract class Post {
 		this.ID = ID;
 	}
 	
-	public abstract int savePost();
+	public abstract String savePost();
 	// return postID
 	// in this function .. if privacy == custom then call 
 	//CustomPrivacy.saveCustomUsers(postID , jsonArrayofUsers);

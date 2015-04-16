@@ -68,7 +68,7 @@ public class PostsServices {
 		
 		if (ok)
 		{
-			int ok2 = myPost.savePost();
+			String postID = myPost.savePost();
 			if(ok)
 				object.put("Status", "OK");
 			else
