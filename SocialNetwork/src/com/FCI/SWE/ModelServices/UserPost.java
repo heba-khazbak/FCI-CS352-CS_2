@@ -16,7 +16,7 @@ public class UserPost extends Post {
 
 	public UserPost(String owner, String content, String onWall, String privacy,
 			String customUsers,String feeling) {
-		super(owner, content, onWall, customUsers ,privacy);
+		super(owner, content, onWall, privacy ,customUsers );
 		type = 1;
 		this.feeling = feeling;
 		
@@ -48,7 +48,8 @@ public class UserPost extends Post {
 
 		Entity post = new Entity("post", list.size() + 1);
 		this.ID = Integer.toString(list.size() + 1);
-
+		
+		post.setProperty("ID", this.ID);
 		post.setProperty("owner", this.owner);
 		post.setProperty("content", this.content);
 		post.setProperty("onWall", this.onWall);

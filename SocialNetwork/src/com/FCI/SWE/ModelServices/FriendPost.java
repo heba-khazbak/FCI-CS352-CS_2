@@ -34,7 +34,8 @@ public class FriendPost extends Post {
 
 		Entity post = new Entity("post", list.size() + 1);
 		this.ID = Integer.toString(list.size() + 1);
-
+		
+		post.setProperty("ID", this.ID);
 		post.setProperty("owner", this.owner);
 		post.setProperty("content", this.content);
 		post.setProperty("onWall", this.onWall);

@@ -9,13 +9,13 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 public abstract class Post {
-	String ID;
-	String owner;
-	String content;
-	String onWall;
-	int type;
-	String privacy;
-	String customUsers;
+	public String ID;
+	public String owner;
+	public String content;
+	public String onWall;
+	public int type;
+	public String privacy;
+	public String customUsers;
 	
 	public Post(String owner ,String content , String onWall,String privacy, String customUsers)
 	{
@@ -57,8 +57,10 @@ public abstract class Post {
 		
 		for (Entity entity : pq.asIterable()) {
 			post = null;
-			if (entity.getProperty("onWall").toString().equals("onWall"))
+			
+			if (entity.getProperty("onWall").toString().equals(onWall))
 			{
+		
 				if (entity.getProperty("privacy").toString().equals(Privacy.PUBLIC)) {
 					myPrivacy = new PublicPrivacy();
 					
@@ -130,7 +132,7 @@ public abstract class Post {
 			if (post != null)
 				allPosts.add(post);
 		}
-		return null;
+		return allPosts;
 		
 	}
 

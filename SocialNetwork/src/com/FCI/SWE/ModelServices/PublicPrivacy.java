@@ -44,7 +44,6 @@ public class PublicPrivacy extends Privacy {
 	@Override
 	public Post canSeeFriendPost(Entity entity, String onWall,
 			String currentUser) {
-
 		String ID = entity.getProperty("ID").toString();
 		String owner = entity.getProperty("owner").toString();
 		String content = entity.getProperty("content").toString();
