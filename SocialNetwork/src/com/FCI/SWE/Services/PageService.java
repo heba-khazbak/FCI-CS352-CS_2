@@ -23,14 +23,14 @@ public class PageService
 	 @FormParam("category") String category,
 	 @FormParam("numberOfLikes") String numberOfLikes)
 	{
-		Page page = new Page (name, owner, category, numberOfLikes);
-		page.savPage();
+		Page page = new Page (name, owner, category);
+		page.savePage();
 		JSONObject object = new JSONObject();
 		
 		//need to check if page name already exists
 		
 		
-		object.put("Status", "OK");
+		object.put("Status","OK");
 		return object.toString();
 	}
 	

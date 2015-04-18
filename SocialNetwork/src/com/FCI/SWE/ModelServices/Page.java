@@ -23,14 +23,14 @@ public class Page
 		this.name=name;
 		this.owner=owner;
 		this.category=null;
-		numberOfLikes=0;
+		numberOfLikes=1;
 	}
-	public Page (String name, String owner, Sting category )
+	public Page (String name, String owner, String category )
 	{
 		this.name=name;
 		this.owner=owner;
 		this.category=category;
-		numberOfLikes=0;
+		numberOfLikes=1;
 	}
 	
 	
@@ -85,6 +85,10 @@ public class Page
 		entity.setProperty("ID", this.ID);
 		
 		datastore.put(entity);
+		
+		//add liker
+		Like lp = new likePage(owner, ID);
+		lp.saveLiker();
 	}
 	
 	public static Page getPage (Entity entity)
@@ -104,10 +108,10 @@ public class Page
 		
 		for (Entity entity2 : pq.asIterable())
 		{
-			if (entity2.getProperty("ID").toString().equals(ID))
+			if (entity2.getProperty("ID").toString().equals(IDs))
 			{
-				Page p = new new Page(pageName, pageOwner, categ, likes, IDs);
-				p.setID(ID);
+				Page p = new  Page(pageName, pageOwner, categ, likes, IDs);
+				p.setID(IDs);
 				return p;
 			}
 		}
