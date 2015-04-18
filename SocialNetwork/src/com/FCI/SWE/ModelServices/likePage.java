@@ -36,4 +36,25 @@ public class likePage extends Like {
 		datastore.put(entity);
 	}
 	
+	public static boolean isLikePage (String PageID , String userName)
+	{
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query gaeQuery = new Query("LikePage");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		Like lp = new likePage(userName, PageID);
+		
+		for (Entity entity : pq.asIterable()) 
+		{
+			// page like already existed for this user
+			if(entity.getProperty("Liker").toString().equals(lp.Liker) && 
+				(entity.getProperty("pageID").toString().equals(lp.LikedID)) )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 }
