@@ -112,28 +112,28 @@ public class PostsServices {
 		
 	}
 	
-	@POST
-	@Path("/GetPostsForTimeLine")
-	public String GetPostsForTimeLineService(@FormParam("onWall") String onWall,
-			@FormParam("currentUser") String currentUser) {
-		Vector<Post> posts = Post.getPostsForTimeLine(onWall, currentUser);
-		JSONArray postsArray = new JSONArray();
-		
-		for (int i = 0 ; i < posts.size() ; i++)
-		{
-			JSONObject myPost = new JSONObject();
-			myPost.put("ID",posts.get(i).ID);
-			myPost.put("owner", posts.get(i).owner);
-			myPost.put("content",posts.get(i).content );
-			myPost.put("onWall",posts.get(i).onWall );
-			myPost.put("type",posts.get(i).type );
-			myPost.put("privacy",posts.get(i).privacy );
-			postsArray.add(myPost);
-		}
-		
-		return postsArray.toString();
-		
-	}
+//	@POST
+//	@Path("/GetPostsForTimeLine")
+//	public String GetPostsForTimeLineService(@FormParam("onWall") String onWall,
+//			@FormParam("currentUser") String currentUser) {
+//		Vector<Post> posts = Post.getPostsForTimeLine(onWall, currentUser);
+//		JSONArray postsArray = new JSONArray();
+//		
+//		for (int i = 0 ; i < posts.size() ; i++)
+//		{
+//			JSONObject myPost = new JSONObject();
+//			myPost.put("ID",posts.get(i).ID);
+//			myPost.put("owner", posts.get(i).owner);
+//			myPost.put("content",posts.get(i).content );
+//			myPost.put("onWall",posts.get(i).onWall );
+//			myPost.put("type",posts.get(i).type );
+//			myPost.put("privacy",posts.get(i).privacy );
+//			postsArray.add(myPost);
+//		}
+//		
+//		return postsArray.toString();
+//		
+//	}
 	
 	
 

@@ -46,8 +46,8 @@ public class HashtagServices {
 	
 	@POST
 	@Path("/GetHashtagPostsService")
-	public String getHashtagPostsService(@FormParam("hashtagName") String hashtagName){
-		Vector<Post> posts = Hashtag.getHashtagPosts(hashtagName);
+	public String getHashtagPostsService(@FormParam("hashtagName") String hashtagName, @FormParam("uname") String uname){
+		Vector<Post> posts = Hashtag.getHashtagPosts(hashtagName,uname);
 		JSONArray postsArray = new JSONArray();
 		
 		for (int i = 0 ; i < posts.size() ; i++)

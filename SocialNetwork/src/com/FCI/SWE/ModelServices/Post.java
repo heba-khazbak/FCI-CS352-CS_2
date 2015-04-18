@@ -2,6 +2,7 @@ package com.FCI.SWE.ModelServices;
 
 import java.util.Vector;
 
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -44,10 +45,8 @@ public abstract class Post {
 	//CustomPrivacy.saveCustomUsers(postID , jsonArrayofUsers);
 	
 
-	public static  Vector<Post> getPostsForTimeLine(String onWall, String currentUser)
+	public static  Post getPostForTimeLine(String postID,String currentUser)
 	{
-		Vector<Post> allPosts = new Vector<Post>();
-		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Query gaeQuery = new Query("post");
@@ -58,9 +57,10 @@ public abstract class Post {
 		for (Entity entity : pq.asIterable()) {
 			post = null;
 			
-			if (entity.getProperty("onWall").toString().equals(onWall))
+			if (entity.getProperty("ID").toString().equals(postID))
 			{
 		
+				String onWall=entity.getProperty("onWall").toString();
 				if (entity.getProperty("privacy").toString().equals(Privacy.PUBLIC)) {
 					myPrivacy = new PublicPrivacy();
 					
@@ -130,23 +130,10 @@ public abstract class Post {
 			
 			
 			if (post != null)
-				allPosts.add(post);
-		}
-		return allPosts;
-		
-	}
-
-	
-	public static Entity getPostEntity(String ID){
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
-		Query gaeQuery = new Query("post");
-		PreparedQuery pq = datastore.prepare(gaeQuery);
-		
-		for(Entity entity: pq.asIterable()){
-			if(entity.getProperty("ID").toString().equals(ID))return entity;
+				return post;
 		}
 		return null;
+		
 	}
 
 }

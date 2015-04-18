@@ -58,7 +58,7 @@ public class Hashtag {
 		return ret;
 	}
 	
-	public static Vector<Post> getHashtagPosts(String hashtagName){
+	public static Vector<Post> getHashtagPosts(String hashtagName,String uname){
 		Vector<Post> ret=new Vector<Post>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -68,11 +68,7 @@ public class Hashtag {
 			if(entity.getProperty("name").toString().equals(hashtagName)){
 				String IDs=entity.getProperty("postIDs").toString();
 				for(String id:IDs.split(" ")){
-					Entity postEntity=Post.getPostEntity(id);
-					Vector<Post> posts=
-							Post.getPostsForTimeLine(postEntity.getProperty("onWall").toString()
-									, postEntity.getProperty("owner").toString());
-					ret.addAll(posts);
+					ret.add(Post.getPostForTimeLine(id,uname));
 				}
 				break;
 			}
