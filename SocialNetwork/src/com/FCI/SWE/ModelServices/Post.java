@@ -3,6 +3,7 @@ package com.FCI.SWE.ModelServices;
 import java.util.Vector;
 
 
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -40,100 +41,95 @@ public abstract class Post {
 	}
 	
 	public abstract String savePost();
-	// return postID
-	// in this function .. if privacy == custom then call 
-	//CustomPrivacy.saveCustomUsers(postID , jsonArrayofUsers);
 	
-
-	public static  Post getPostForTimeLine(String postID,String currentUser)
+	public static  Vector<Post> getAllPostsForUser(String currentUser)
 	{
+		Vector<Post> allPosts = new Vector<Post>();
+		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Query gaeQuery = new Query("post");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
-		Privacy myPrivacy;
+		Privacy myPrivacy = null;
+		Post post = null;
+		
+		for (Entity entity : pq.asIterable()) {
+			post = null;
+		
+			String onWall = entity.getProperty("onWall").toString();
+			
+			if (entity.getProperty("privacy").toString().equals(Privacy.PUBLIC)) 
+				myPrivacy = new PublicPrivacy();
+			else if (entity.getProperty("privacy").toString().equals(Privacy.PRIVATE))
+				myPrivacy = new PrivatePrivacy();
+			else if (entity.getProperty("privacy").toString().equals(Privacy.CUSTOM))
+				myPrivacy = new CustomPrivacy();
+				
+			if (entity.getProperty("type").toString().equals("1"))
+				post = myPrivacy.canSeeUserPost(entity ,onWall,currentUser);		
+				
+			else if (entity.getProperty("type").toString().equals("2"))
+				post = myPrivacy.canSeeFriendPost(entity ,onWall,currentUser);
+	
+			else if (entity.getProperty("type").toString().equals("3"))
+				post = myPrivacy.canSeePagePost(entity ,onWall,currentUser);
+			
+			else if (entity.getProperty("type").toString().equals("4"))
+				post = myPrivacy.canSeeSharedPost(entity ,onWall,currentUser);
+
+			if (post != null)
+				allPosts.add(post);
+		}
+		return allPosts;
+		
+	}
+	
+	public static  Vector<Post> getPostsForTimeLine(String onWall, String currentUser)
+	{
+		Vector<Post> allPosts = new Vector<Post>();
+		
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("post");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		Privacy myPrivacy = null;
 		Post post = null;
 		
 		for (Entity entity : pq.asIterable()) {
 			post = null;
 			
-			if (entity.getProperty("ID").toString().equals(postID))
-			{
-		
-				String onWall=entity.getProperty("onWall").toString();
-				if (entity.getProperty("privacy").toString().equals(Privacy.PUBLIC)) {
-					myPrivacy = new PublicPrivacy();
-					
-					if (entity.getProperty("type").toString().equals("1"))
-					{
-						post = myPrivacy.canSeeUserPost(entity ,onWall,currentUser);		
-					}
-					else if (entity.getProperty("type").toString().equals("2"))
-					{
-						post = myPrivacy.canSeeFriendPost(entity ,onWall,currentUser);
-					}
-					else if (entity.getProperty("type").toString().equals("3"))
-					{
-						post = myPrivacy.canSeePagePost(entity ,onWall,currentUser);
-					}
-					else if (entity.getProperty("type").toString().equals("4"))
-					{
-						post = myPrivacy.canSeeSharedPost(entity ,onWall,currentUser);
-					}
-					
-				}
+		if (entity.getProperty("onWall").toString().equals(onWall))
+		{
+			if (entity.getProperty("privacy").toString().equals(Privacy.PUBLIC)) 
+				myPrivacy = new PublicPrivacy();
+			else if (entity.getProperty("privacy").toString().equals(Privacy.PRIVATE))
+				myPrivacy = new PrivatePrivacy();
+			else if (entity.getProperty("privacy").toString().equals(Privacy.CUSTOM))
+				myPrivacy = new CustomPrivacy();
 				
-				else if (entity.getProperty("privacy").toString().equals(Privacy.PRIVATE))
-				{
-					myPrivacy = new PrivatePrivacy();
-					
-					if (entity.getProperty("type").toString().equals("1"))
-					{
-						post = myPrivacy.canSeeUserPost(entity ,onWall,currentUser);		
-					}
-					else if (entity.getProperty("type").toString().equals("2"))
-					{
-						post = myPrivacy.canSeeFriendPost(entity ,onWall,currentUser);
-					}
-					else if (entity.getProperty("type").toString().equals("3"))
-					{
-						post = myPrivacy.canSeePagePost(entity ,onWall,currentUser);
-					}
-					else if (entity.getProperty("type").toString().equals("4"))
-					{
-						post = myPrivacy.canSeeSharedPost(entity ,onWall,currentUser);
-					}
-				}
-				else if (entity.getProperty("privacy").toString().equals(Privacy.CUSTOM))
-				{
-					myPrivacy = new CustomPrivacy();
-					
-					if (entity.getProperty("type").toString().equals("1"))
-					{
-						post = myPrivacy.canSeeUserPost(entity ,onWall,currentUser);		
-					}
-					else if (entity.getProperty("type").toString().equals("2"))
-					{
-						post = myPrivacy.canSeeFriendPost(entity ,onWall,currentUser);
-					}
-					else if (entity.getProperty("type").toString().equals("3"))
-					{
-						post = myPrivacy.canSeePagePost(entity ,onWall,currentUser);
-					}
-					else if (entity.getProperty("type").toString().equals("4"))
-					{
-						post = myPrivacy.canSeeSharedPost(entity ,onWall,currentUser);
-					}
-					
-				}
-			}
+			if (entity.getProperty("type").toString().equals("1"))
+				post = myPrivacy.canSeeUserPost(entity ,onWall,currentUser);		
+				
+			else if (entity.getProperty("type").toString().equals("2"))
+				post = myPrivacy.canSeeFriendPost(entity ,onWall,currentUser);
+	
+			else if (entity.getProperty("type").toString().equals("3"))
+				post = myPrivacy.canSeePagePost(entity ,onWall,currentUser);
 			
+			else if (entity.getProperty("type").toString().equals("4"))
+				post = myPrivacy.canSeeSharedPost(entity ,onWall,currentUser);
+
+		}
 			
 			if (post != null)
-				return post;
+				allPosts.add(post);
 		}
-		return null;
+		return allPosts;
 		
 	}
+
+
+
+
 
 }

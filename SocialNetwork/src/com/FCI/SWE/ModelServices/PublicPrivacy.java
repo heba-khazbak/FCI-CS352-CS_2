@@ -15,58 +15,25 @@ public class PublicPrivacy extends Privacy {
 	
 	public Post canSeeUserPost(Entity entity ,String onWall,String currentUser)
 	{
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
 		
-			String ID = entity.getProperty("ID").toString();
-			String owner = entity.getProperty("owner").toString();
-			String content = entity.getProperty("content").toString();
-			String feeling = "";
-	
-			Query gaeQuery = new Query("feeling");
-			PreparedQuery pq = datastore.prepare(gaeQuery);
-			for (Entity entity2 : pq.asIterable())
-			{
-				if (entity2.getProperty("postID").toString().equals(ID))
-				{
-					feeling = entity2.getProperty("state").toString();
-					break;
-				}
-			}
-			
-			Post p = new UserPost(owner,content,onWall,PUBLIC,feeling);
-			p.setID(ID);
-			return p;
-			
-		
+		return UserPost.getPost(entity);
 	}
 	
 	@Override
 	public Post canSeeFriendPost(Entity entity, String onWall,
 			String currentUser) {
-		String ID = entity.getProperty("ID").toString();
-		String owner = entity.getProperty("owner").toString();
-		String content = entity.getProperty("content").toString();
 		
-		Post p = new FriendPost(owner,content,onWall,PUBLIC);
-		p.setID(ID);
-		return p;
+		return FriendPost.getPost(entity);
 			
 	}
 
 	@Override
 	public Post canSeePagePost(Entity entity, String onWall, String currentUser) {
 		
-		String ID = entity.getProperty("ID").toString();
-		String owner = entity.getProperty("owner").toString();
-		String content = entity.getProperty("content").toString();
+		Post p = PagePost.getPost(entity);
+		if (entity.getProperty("owner").toString().equals(currentUser))
+			((PagePost) p).calculateNumberofSeen();		
 		
-		Post p = new PagePost(owner,content,onWall,PUBLIC);
-		p.setID(ID);
-		
-		if (entity.getProperty("owner").toString().equals("currentUser"))
-			((PagePost) p).calculateNumberofSeen();
-			
 		return p;
 			
 	}
@@ -76,11 +43,8 @@ public class PublicPrivacy extends Privacy {
 			String currentUser) {
 		
 			String ID = entity.getProperty("ID").toString();
-			String owner = entity.getProperty("owner").toString();
-			String content = entity.getProperty("content").toString();
+			Post p = SharePost.getPost(entity);
 			
-			Post p = new PagePost(owner,content,onWall,PUBLIC);
-			p.setID(ID);
 			boolean ok = OriginalSharedPostPrivacy(ID , currentUser);
 			
 			if (ok)

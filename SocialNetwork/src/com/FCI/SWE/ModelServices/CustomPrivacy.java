@@ -24,31 +24,13 @@ public class CustomPrivacy extends Privacy {
 			String currentUser) {
 		// should be in custom table for this postID 
 		// regardless post type
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
 		
 		String ID = entity.getProperty("ID").toString();
-		String owner = entity.getProperty("owner").toString();
-		String content = entity.getProperty("content").toString();
-		String feeling = "";
 		
 		boolean inCustom = isInCustom(ID, currentUser);
-		if (inCustom)
+		if (inCustom || onWall.equals(currentUser))
 		{
-			Query gaeQuery = new Query("feeling");
-			PreparedQuery pq = datastore.prepare(gaeQuery);
-			for (Entity entity2 : pq.asIterable())
-			{
-				if (entity2.getProperty("postID").toString().equals(ID))
-				{
-					feeling = entity2.getProperty("state").toString();
-					break;
-				}
-			}
-			
-			Post p = new UserPost(owner,content,onWall,CUSTOM,feeling);
-			p.setID(ID);
-			return p;
+			return UserPost.getPost(entity);
 		}
 		return null;
 	}
@@ -59,14 +41,9 @@ public class CustomPrivacy extends Privacy {
 		String ID = entity.getProperty("ID").toString();
 	
 		boolean inCustom = isInCustom(ID, currentUser);
-		if (inCustom)
+		if (inCustom || onWall.equals(currentUser))
 		{
-			String owner = entity.getProperty("owner").toString();
-			String content = entity.getProperty("content").toString();
-			
-			Post p = new FriendPost(owner,content,onWall,CUSTOM);
-			p.setID(ID);
-			return p;
+			return FriendPost.getPost(entity);
 		}
 		return null;
 	}
@@ -78,14 +55,10 @@ public class CustomPrivacy extends Privacy {
 		boolean inCustom = isInCustom(ID, currentUser);
 		if (inCustom)
 		{
-			String owner = entity.getProperty("owner").toString();
-			String content = entity.getProperty("content").toString();
+			Post p = PagePost.getPost(entity);
+			if (entity.getProperty("owner").toString().equals(currentUser))
+				((PagePost) p).calculateNumberofSeen();		
 			
-			Post p = new PagePost(owner,content,onWall,CUSTOM);
-			p.setID(ID);
-			
-			if (entity.getProperty("owner").toString().equals("currentUser"))
-				((PagePost) p).calculateNumberofSeen();
 			return p;
 		}
 		return null;
@@ -95,15 +68,11 @@ public class CustomPrivacy extends Privacy {
 	public Post canSeeSharedPost(Entity entity, String onWall,
 			String currentUser) {
 		String ID = entity.getProperty("ID").toString();
-		String owner = entity.getProperty("owner").toString();
-		String content = entity.getProperty("content").toString();
 		
-		Post p = new PagePost(owner,content,onWall,CUSTOM);
-		p.setID(ID);
-		
+		Post p = SharePost.getPost(entity);
 		
 		boolean ok = isInCustom (ID ,currentUser);
-		if (ok)
+		if (ok || onWall.equals(currentUser))
 			ok = OriginalSharedPostPrivacy(ID , currentUser);
 		
 		if (ok)

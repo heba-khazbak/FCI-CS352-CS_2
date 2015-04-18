@@ -18,30 +18,9 @@ public class PrivatePrivacy extends Privacy {
 		// should be friends
 		
 		boolean friends = FriendRequest.isFriends(onWall, currentUser);
-		if (friends)
+		if (friends || onWall.equals(currentUser))
 		{
-			DatastoreService datastore = DatastoreServiceFactory
-					.getDatastoreService();
-			
-				String ID = entity.getProperty("ID").toString();
-				String owner = entity.getProperty("owner").toString();
-				String content = entity.getProperty("content").toString();
-				String feeling = "";
-		
-				Query gaeQuery = new Query("feeling");
-				PreparedQuery pq = datastore.prepare(gaeQuery);
-				for (Entity entity2 : pq.asIterable())
-				{
-					if (entity2.getProperty("postID").toString().equals(ID))
-					{
-						feeling = entity2.getProperty("state").toString();
-						break;
-					}
-				}
-				
-				Post p = new UserPost(owner,content,onWall,PRIVATE,feeling);
-				p.setID(ID);
-				return p;
+			return UserPost.getPost(entity);
 		}
 		return null;
 	}
@@ -51,15 +30,9 @@ public class PrivatePrivacy extends Privacy {
 			String currentUser) {
 		// should be friends
 		boolean friends = FriendRequest.isFriends(onWall, currentUser);
-		if (friends)
+		if (friends || onWall.equals(currentUser))
 		{
-			String ID = entity.getProperty("ID").toString();
-			String owner = entity.getProperty("owner").toString();
-			String content = entity.getProperty("content").toString();
-			
-			Post p = new FriendPost(owner,content,onWall,PRIVATE);
-			p.setID(ID);
-			return p;
+			return FriendPost.getPost(entity);
 		}
 		return null;
 	}
@@ -70,16 +43,10 @@ public class PrivatePrivacy extends Privacy {
 		boolean likePage = false; //Page.likePage(onWall, currentUser);
 		if (likePage)
 		{
-			String ID = entity.getProperty("ID").toString();
-			String owner = entity.getProperty("owner").toString();
-			String content = entity.getProperty("content").toString();
+			Post p = PagePost.getPost(entity);
+			if (entity.getProperty("owner").toString().equals(currentUser))
+				((PagePost) p).calculateNumberofSeen();		
 			
-			Post p = new PagePost(owner,content,onWall,PRIVATE);
-			p.setID(ID);
-			
-			if (entity.getProperty("owner").toString().equals("currentUser"))
-				((PagePost) p).calculateNumberofSeen();
-				
 			return p;
 		}
 		
@@ -89,17 +56,15 @@ public class PrivatePrivacy extends Privacy {
 	@Override
 	public Post canSeeSharedPost(Entity entity, String onWall,
 			String currentUser) {
-		
+		boolean ok = false;
 		String ID = entity.getProperty("ID").toString();
-		String owner = entity.getProperty("owner").toString();
-		String content = entity.getProperty("content").toString();
 		
-		Post p = new PagePost(owner,content,onWall,PRIVATE);
-		p.setID(ID);
+		boolean friends = FriendRequest.isFriends(onWall, currentUser);
+		if (friends || onWall.equals(currentUser))
+			ok = true;
 		
-		// sharedPost type
-		String newType = "";
-		boolean ok = handlingSharedPost (onWall ,currentUser , newType);
+		Post p = SharePost.getPost(entity);
+		
 		if (ok)
 			ok = OriginalSharedPostPrivacy(ID , currentUser);
 		
@@ -114,7 +79,7 @@ public class PrivatePrivacy extends Privacy {
 	{
 		if (type.equals("1") || type.equals("2"))
 		{
-			return FriendRequest.isFriends(onWall, currentUser);
+			return FriendRequest.isFriends(onWall, currentUser) || onWall.equals(currentUser);
 		}
 		else if (type.equals("3"))
 		{

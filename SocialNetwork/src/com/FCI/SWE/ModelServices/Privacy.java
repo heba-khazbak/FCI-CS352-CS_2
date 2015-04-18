@@ -66,6 +66,8 @@ public abstract class Privacy {
 		else if (originalPrivacy.equals(CUSTOM))
 		{
 			ok = CustomPrivacy.isInCustom(originalID ,currentUser);
+			if (ok)
+				ok = originalOnWall.equals(currentUser);
 		}
 		return ok;
 	}

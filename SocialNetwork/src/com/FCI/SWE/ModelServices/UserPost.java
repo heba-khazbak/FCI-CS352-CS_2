@@ -77,4 +77,34 @@ public class UserPost extends Post {
 		PostFilter.filter(this.ID, this.content);
 		return this.ID;
 	}
+	
+	public static Post getPost(Entity entity)
+	{
+		
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		
+			String ID = entity.getProperty("ID").toString();
+			String owner = entity.getProperty("owner").toString();
+			String content = entity.getProperty("content").toString();
+			String onWall = entity.getProperty("onWall").toString();
+			String privacy = entity.getProperty("privacy").toString();
+			String feeling = "";
+	
+			Query gaeQuery = new Query("feeling");
+			PreparedQuery pq = datastore.prepare(gaeQuery);
+			for (Entity entity2 : pq.asIterable())
+			{
+				if (entity2.getProperty("postID").toString().equals(ID))
+				{
+					feeling = entity2.getProperty("state").toString();
+					break;
+				}
+			}
+			
+			Post p = new UserPost(owner,content,onWall,privacy,feeling);
+			p.setID(ID);
+			return p;
+		
+	}
 }

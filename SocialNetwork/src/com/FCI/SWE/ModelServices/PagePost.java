@@ -64,6 +64,21 @@ public class PagePost extends Post {
 		return false;
 	}
 	
+	public static Post getPost(Entity entity)
+	{
+		String ID = entity.getProperty("ID").toString();
+		String owner = entity.getProperty("owner").toString();
+		String content = entity.getProperty("content").toString();
+		String onWall = entity.getProperty("onWall").toString();
+		String privacy = entity.getProperty("privacy").toString();
+		
+		Post p = new PagePost(owner,content,onWall,privacy);
+		p.setID(ID);
+		
+			
+		return p;
+	}
+	
 	
 	
 
