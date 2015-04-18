@@ -21,4 +21,26 @@ public class PostFilter {
 		}
 		if(!currentHashtag.isEmpty())new Hashtag(currentHashtag,postID,1).saveHashtag();
 	}
+	
+	public static String formatPost(Post post){
+		String ret="";
+		if(post.type==1){
+			UserPost U=(UserPost)post;
+			ret=post.owner+" posted<br>"+post.content+"<br>feeling "+U.feeling;
+		}
+		else if(post.type==2){
+			ret=post.owner+" posted on "+post.onWall+"'s timeline<br>"+post.content;
+		}
+		else if(post.type==3){
+			PagePost p=(PagePost)post;
+			ret=post.owner+" posted on "+post.onWall+"'s timeline<br>"+post.content+"<br>";
+			if(p.numberOfSeen>0)ret+="Seen by "+String.valueOf(p.numberOfSeen);
+		}
+		else if(post.type==4){
+			SharePost sh=(SharePost)post;
+			ret=post.owner+" posted on "+post.onWall+"'s timeline<br>"+formatPost(Post.getPostbyID(sh.originalPostID));
+		}
+		ret+="<br>";
+		return ret;
+	}
 }

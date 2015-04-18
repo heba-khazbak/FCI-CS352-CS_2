@@ -101,9 +101,9 @@ public abstract class Post {
 		
 	}
 	
-	public static  Vector<Post> getPostsForTimeLine(String onWall, String currentUser)
+	public static  Vector<String> getPostsForTimeLine(String onWall, String currentUser)
 	{
-		Vector<Post> allPosts = new Vector<Post>();
+		Vector<String> allPosts = new Vector<String>();
 		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -139,14 +139,29 @@ public abstract class Post {
 		}
 			
 			if (post != null)
-				allPosts.add(post);
+				allPosts.add(PostFilter.formatPost(post));
 		}
 		return allPosts;
 		
 	}
 
 	
-
+	public static Post getPostbyID(String postID){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("post");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("ID").toString().equals(postID)){
+				int postType=Integer.parseInt(entity.getProperty("type").toString());
+				if(postType==1)return UserPost.getPost(entity);
+				else if(postType==2)return FriendPost.getPost(entity);
+				else if(postType==3)return PagePost.getPost(entity);
+				else if(postType==4)return SharePost.getPost(entity);
+			}
+		}
+		return null;
+	}
 
 
 
