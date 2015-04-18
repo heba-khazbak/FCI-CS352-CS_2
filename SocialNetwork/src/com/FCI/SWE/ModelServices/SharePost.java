@@ -17,6 +17,11 @@ public class SharePost extends Post {
 		super(owner, content, onWall, privacy,customUsers);
 		this.originalPostID = originalPostID;
 	}
+	
+	public SharePost(String owner, String content, String onWall, String privacy,String originalPostID) {
+		super(owner, content, onWall, privacy);
+		this.originalPostID = originalPostID;
+	}
 
 	@Override
 	public String savePost() {
@@ -63,7 +68,23 @@ public class SharePost extends Post {
 		String onWall = entity.getProperty("onWall").toString();
 		String privacy = entity.getProperty("privacy").toString();
 		
-		Post p = new PagePost(owner,content,onWall,privacy);
+		String originalID = "";
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		
+		Query gaeQuery = new Query("sharing");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for (Entity entity2 : pq.asIterable())
+		{
+			if (entity2.getProperty("postID").toString().equals(ID))
+			{
+				originalID = entity2.getProperty("originalID").toString(); 
+				break;
+			}
+		}
+		
+		
+		Post p = new SharePost(owner,content,onWall,privacy,originalID);
 		p.setID(ID);
 		return p;
 	}
