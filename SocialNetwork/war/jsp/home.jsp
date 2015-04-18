@@ -18,6 +18,9 @@
 <a href="/social/notifications">Notifications</a> <br>
 <a href="/social/viewHashtag">View Hashtag</a> <br>
 <a href="/social/showTrends">Trending</a> <br>
+
+<a href="/social/createPage_Info">Create Page</a> <br>
+
 <a href="/social/logout">Logout</a> <br>
 
 </body>
