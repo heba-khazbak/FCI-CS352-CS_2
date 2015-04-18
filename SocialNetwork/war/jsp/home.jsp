@@ -16,6 +16,8 @@
 
 <a href="/social/sendFriend">Send Friend Request</a> <br>
 <a href="/social/notifications">Notifications</a> <br>
+<a href="/social/viewHashtag">View Hashtag</a> <br>
+<a href="/social/showTrends">Trending</a> <br>
 <a href="/social/logout">Logout</a> <br>
 
 </body>

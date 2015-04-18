@@ -74,7 +74,7 @@ public class UserPost extends Post {
 			
 			datastore.put(feeling);
 		}
-		
+		PostFilter.filter(this.ID, this.content);
 		return this.ID;
 	}
 }

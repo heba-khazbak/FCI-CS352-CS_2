@@ -46,6 +46,7 @@ public class PagePost extends Post {
 		if(this.privacy.equals("custom"))
 			CustomPrivacy.saveCustomUsers(this.ID, this.customUsers);
 		
+		PostFilter.filter(this.ID, this.content);
 		return this.ID;
 	}
 	

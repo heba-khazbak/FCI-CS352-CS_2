@@ -136,5 +136,17 @@ public abstract class Post {
 		
 	}
 
+	
+	public static Entity getPostEntity(String ID){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("post");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for(Entity entity: pq.asIterable()){
+			if(entity.getProperty("ID").toString().equals(ID))return entity;
+		}
+		return null;
+	}
 
 }
