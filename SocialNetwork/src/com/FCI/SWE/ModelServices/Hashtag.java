@@ -1,5 +1,7 @@
 package com.FCI.SWE.ModelServices;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Vector;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -59,19 +61,26 @@ public class Hashtag {
 	}
 	
 	public static Vector<Post> getHashtagPosts(String hashtagName,String uname){
-		Vector<Post> ret=new Vector<Post>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+		Vector<Post> posts=Post.getAllPostsForUser(uname);
+		HashMap<String,Boolean> map = new HashMap<String,Boolean>();
+		
 		Query gaeQuery = new Query("Hashtag");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for (Entity entity : pq.asIterable()) {
 			if(entity.getProperty("name").toString().equals(hashtagName)){
 				String IDs=entity.getProperty("postIDs").toString();
 				for(String id:IDs.split(" ")){
-					ret.add(Post.getPostForTimeLine(id,uname));
+					map.put(id, true);
 				}
 				break;
 			}
+		}
+		
+		Vector<Post> ret=new Vector<Post>();
+		for(int i=0;i<posts.size();++i){
+			if(map.containsKey(posts.get(i).ID))ret.add(posts.get(i));
 		}
 		return ret;
 	}
