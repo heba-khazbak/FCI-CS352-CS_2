@@ -1,10 +1,12 @@
 package com.FCI.SWE.ModelServices;
 
+import java.util.List;
 import java.util.Vector;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
@@ -68,6 +70,7 @@ public class Page
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query gaeQuery = new Query("Page");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
+		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
 		for (Entity entity : pq.asIterable()) 
 		{
 			// page name already existed
@@ -78,6 +81,7 @@ public class Page
 		}
 		
 		Entity entity=new Entity("Page");
+		this.ID = Integer.toString(list.size() + 1);
 		entity.setProperty("name", this.name);
 		entity.setProperty("category", this.category);
 		entity.setProperty("owner", this.owner);
@@ -87,7 +91,7 @@ public class Page
 		datastore.put(entity);
 		
 		//add liker
-		Like lp = new likePage(owner, ID);
+		Like lp = new LikePage(owner, ID);
 		lp.saveLiker();
 	}
 	

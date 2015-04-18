@@ -11,7 +11,7 @@ import com.google.appengine.api.datastore.Query;
 
 public class UserPost extends Post {
 	
-	String feeling;
+	public String feeling;
 	boolean isfeeling;
 
 	public UserPost(String owner, String content, String onWall, String privacy,

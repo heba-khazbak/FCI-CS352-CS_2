@@ -6,52 +6,51 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
-public class LikePage extends Like {
-	
+public class LikePost extends Like {
 
-	public LikePage(String userName, String ID) {
+	public LikePost(String userName, String ID) {
 		super(userName, ID);
 		// TODO Auto-generated constructor stub
-		type = 5;
+		type = 6;
 	}
 
-	public void saveLiker( )
-	{
+	@Override
+	public void saveLiker() {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Query gaeQuery = new Query("LikePage");
+		Query gaeQuery = new Query("likePost");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for (Entity entity : pq.asIterable()) 
 		{
 			// page like already existed for this user
 			if(entity.getProperty("Liker").toString().equals(this.Liker) && 
-				(entity.getProperty("pageID").toString().equals(this.LikedID)) )
+				(entity.getProperty("postID").toString().equals(this.LikedID)) )
 			{
 				return;
 			}
 		}
 		
-		Entity entity=new Entity("PageLike");
+		Entity entity=new Entity("likePost");
 		entity.setProperty("Liker", this.Liker);
-		entity.setProperty("pageID", this.LikedID);
+		entity.setProperty("postID", this.LikedID);
 		
 		datastore.put(entity);
-		
 		notifyAllObservers();
+		
 	}
 	
-	public static boolean isLikePage (String PageID , String userName)
+	public static boolean isLikePost (String postID , String userName)
 	{
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Query gaeQuery = new Query("LikePage");
+		Query gaeQuery = new Query("likePost");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		
-		Like lp = new LikePage(userName, PageID);
+		Like lp = new LikePage(userName, postID);
 		
 		for (Entity entity : pq.asIterable()) 
 		{
 			// page like already existed for this user
 			if(entity.getProperty("Liker").toString().equals(lp.Liker) && 
-				(entity.getProperty("pageID").toString().equals(lp.LikedID)) )
+				(entity.getProperty("postID").toString().equals(lp.LikedID)) )
 			{
 				return true;
 			}

@@ -4,6 +4,7 @@ import java.util.Vector;
 
 
 
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -41,6 +42,22 @@ public abstract class Post {
 	}
 	
 	public abstract String savePost();
+	
+	public static String getOwner (String PostID)
+	{
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("post");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for (Entity entity : pq.asIterable()) {
+			if (entity.getProperty("ID").toString().equals(PostID))
+				return entity.getProperty("owner").toString();
+		}
+		
+		return null;
+		
+	}
 	
 	public static  Vector<Post> getAllPostsForUser(String currentUser)
 	{
@@ -127,6 +144,8 @@ public abstract class Post {
 		return allPosts;
 		
 	}
+
+	
 
 
 

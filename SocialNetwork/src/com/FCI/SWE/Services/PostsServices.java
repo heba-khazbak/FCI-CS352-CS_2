@@ -34,6 +34,7 @@ import com.FCI.SWE.ModelServices.*;
 import com.FCI.SWE.ModelServices.Observer.FriendRequest;
 import com.FCI.SWE.ModelServices.Observer.GroupMessage;
 import com.FCI.SWE.ModelServices.Observer.GroupMsgMember;
+import com.FCI.SWE.ModelServices.Observer.LikeObserver;
 import com.FCI.SWE.ModelServices.Observer.Message;
 import com.FCI.SWE.ModelServices.Observer.MessageUserObserver;
 import com.FCI.SWE.ModelServices.Observer.PersonalMessage;
@@ -112,28 +113,57 @@ public class PostsServices {
 		
 	}
 	
-//	@POST
-//	@Path("/GetPostsForTimeLine")
-//	public String GetPostsForTimeLineService(@FormParam("onWall") String onWall,
-//			@FormParam("currentUser") String currentUser) {
-//		Vector<Post> posts = Post.getPostsForTimeLine(onWall, currentUser);
-//		JSONArray postsArray = new JSONArray();
-//		
-//		for (int i = 0 ; i < posts.size() ; i++)
-//		{
-//			JSONObject myPost = new JSONObject();
-//			myPost.put("ID",posts.get(i).ID);
-//			myPost.put("owner", posts.get(i).owner);
-//			myPost.put("content",posts.get(i).content );
-//			myPost.put("onWall",posts.get(i).onWall );
-//			myPost.put("type",posts.get(i).type );
-//			myPost.put("privacy",posts.get(i).privacy );
-//			postsArray.add(myPost);
-//		}
-//		
-//		return postsArray.toString();
-//		
-//	}
+	@POST
+	@Path("/GetPostsForTimeLine")
+	public String GetPostsForTimeLineService(@FormParam("onWall") String onWall,
+			@FormParam("currentUser") String currentUser) {
+		Vector<Post> posts = Post.getPostsForTimeLine(onWall, currentUser);
+		JSONArray postsArray = new JSONArray();
+		
+		for (int i = 0 ; i < posts.size() ; i++)
+		{
+			JSONObject myPost = new JSONObject();
+			myPost.put("ID",posts.get(i).ID);
+			myPost.put("owner", posts.get(i).owner);
+			myPost.put("content",posts.get(i).content );
+			myPost.put("onWall",posts.get(i).onWall );
+			myPost.put("type",posts.get(i).type );
+			myPost.put("privacy",posts.get(i).privacy );
+			if(posts.get(i).type == 1)
+			{
+				UserPost U =  (UserPost) posts.get(i);
+				myPost.put("feeling",U.feeling);
+			}
+				
+				
+			postsArray.add(myPost);
+		}
+		
+		return postsArray.toString();
+		
+	}
+	
+	@POST
+	@Path("/LikePost")
+	public String LikePost(@FormParam("currentUser") String currentUser,@FormParam("postID") String postID) 
+	{
+		JSONObject object = new JSONObject();
+		LikePost myLike = new LikePost (currentUser , postID);
+		if (LikePost.isLikePost(postID, currentUser))
+		{
+			object.put("Status", "you've already liked this post");
+		}
+		else
+		{
+			new LikeObserver (myLike , Post.getOwner(postID));
+			myLike.saveLiker();
+			object.put("Status", "ok");
+		}
+		
+		
+		return object.toString();
+		
+	}
 	
 	
 
