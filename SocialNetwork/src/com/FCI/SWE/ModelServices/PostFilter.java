@@ -26,21 +26,24 @@ public class PostFilter {
 		String ret="";
 		if(post.type==1){
 			UserPost U=(UserPost)post;
-			ret=post.owner+" posted<br>"+post.content+"<br>feeling "+U.feeling;
+			ret=post.owner+" posted<br>"+post.content;
+			if(U.isfeeling)ret+="<br>feeling "+U.feeling;
 		}
 		else if(post.type==2){
 			ret=post.owner+" posted on "+post.onWall+"'s timeline<br>"+post.content;
 		}
 		else if(post.type==3){
 			PagePost p=(PagePost)post;
-			ret=post.owner+" posted on "+post.onWall+"'s timeline<br>"+post.content+"<br>";
-			if(p.numberOfSeen>0)ret+="Seen by "+String.valueOf(p.numberOfSeen);
+			ret=post.owner+" posted on "+post.onWall+"'s timeline<br>"+post.content;
+			if(p.numberOfSeen>0)ret+="<br>Seen by "+String.valueOf(p.numberOfSeen);
 		}
 		else if(post.type==4){
 			SharePost sh=(SharePost)post;
 			ret=post.owner+" posted on "+post.onWall+"'s timeline<br>"+formatPost(Post.getPostbyID(sh.originalPostID));
 		}
 		ret+="<br>";
+		ret+="<form action='like' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Like'></form><pre style ='display:inline;'>       </pre>";
+		ret+="<form action='share' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Share'></form><br><br><br><br>";
 		return ret;
 	}
 }
