@@ -16,9 +16,9 @@ public class PrivatePrivacy extends Privacy {
 	public Post canSeeUserPost(Entity entity, String onWall,
 			String currentUser) {
 		// should be friends
-		
-		boolean friends = FriendRequest.isFriends(onWall, currentUser);
-		if (friends || onWall.equals(currentUser))
+		String owner = entity.getProperty("owner").toString();
+		boolean friends = FriendRequest.isFriends(owner, currentUser);
+		if (friends || owner.equals(currentUser))
 		{
 			return UserPost.getPost(entity);
 		}
@@ -29,8 +29,9 @@ public class PrivatePrivacy extends Privacy {
 	public Post canSeeFriendPost(Entity entity, String onWall,
 			String currentUser) {
 		// should be friends
-		boolean friends = FriendRequest.isFriends(onWall, currentUser);
-		if (friends || onWall.equals(currentUser))
+		String owner = entity.getProperty("owner").toString();
+		boolean friends = FriendRequest.isFriends(owner, currentUser);
+		if (friends || owner.equals(currentUser))
 		{
 			return FriendPost.getPost(entity);
 		}
@@ -59,9 +60,10 @@ public class PrivatePrivacy extends Privacy {
 			String currentUser) {
 		boolean ok = false;
 		String ID = entity.getProperty("ID").toString();
+		String owner = entity.getProperty("owner").toString();
 		
-		boolean friends = FriendRequest.isFriends(onWall, currentUser);
-		if (friends || onWall.equals(currentUser))
+		boolean friends = FriendRequest.isFriends(owner, currentUser);
+		if (friends || owner.equals(currentUser))
 			ok = true;
 		
 		Post p = SharePost.getPost(entity);
@@ -76,11 +78,11 @@ public class PrivatePrivacy extends Privacy {
 		
 	}
 	
-	public static boolean handlingSharedPost(String onWall, String currentUser , String type)
+	public static boolean handlingSharedPost(String owner, String currentUser , String type)
 	{
 		if (type.equals("1") || type.equals("2"))
 		{
-			return FriendRequest.isFriends(onWall, currentUser) || onWall.equals(currentUser);
+			return FriendRequest.isFriends(owner, currentUser) || owner.equals(currentUser);
 		}
 		else if (type.equals("3"))
 		{
