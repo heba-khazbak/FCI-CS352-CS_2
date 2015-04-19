@@ -35,9 +35,8 @@ public class HashtagServices {
 		for (int i = 0 ; i < Math.min(10, sz) ; ++i)
 		{
 			JSONObject hashtag = new JSONObject();
-			hashtag.put("name",hashtags.get(i).name);
-			hashtag.put("postIDs", hashtags.get(i).postIDs);
-			hashtag.put("postsCount",String.valueOf(hashtags.get(i).postsCount));
+			String link = "<form action='viewHashtagPosts' method='POST'><input type='hidden' name='hashtagName' value='"+hashtags.get(i).name+"'><div class='buttonHolder'><input type='submit' class='submitLink' value='"+hashtags.get(i).name+"'></div></form><br><br>";
+			hashtag.put("hashtagLink",link);
 			array.add(hashtag);
 		}
 		
@@ -47,18 +46,13 @@ public class HashtagServices {
 	@POST
 	@Path("/GetHashtagPostsService")
 	public String getHashtagPostsService(@FormParam("hashtagName") String hashtagName, @FormParam("uname") String uname){
-		Vector<Post> posts = Hashtag.getHashtagPosts(hashtagName,uname);
+		Vector<String> posts = Hashtag.getHashtagPosts(hashtagName,uname);
 		JSONArray postsArray = new JSONArray();
 		
 		for (int i = 0 ; i < posts.size() ; i++)
 		{
 			JSONObject myPost = new JSONObject();
-			myPost.put("ID",posts.get(i).ID);
-			myPost.put("owner", posts.get(i).owner);
-			myPost.put("content",posts.get(i).content );
-			myPost.put("onWall",posts.get(i).onWall );
-			myPost.put("type",posts.get(i).type );
-			myPost.put("privacy",posts.get(i).privacy );
+			myPost.put("post",posts.get(i));
 			postsArray.add(myPost);
 		}
 		

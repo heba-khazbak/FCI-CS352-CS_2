@@ -60,7 +60,7 @@ public class Hashtag {
 		return ret;
 	}
 	
-	public static Vector<Post> getHashtagPosts(String hashtagName,String uname){
+	public static Vector<String> getHashtagPosts(String hashtagName,String uname){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Vector<Post> posts=Post.getAllPostsForUser(uname);
@@ -78,9 +78,9 @@ public class Hashtag {
 			}
 		}
 		
-		Vector<Post> ret=new Vector<Post>();
+		Vector<String> ret=new Vector<String>();
 		for(int i=0;i<posts.size();++i){
-			if(map.containsKey(posts.get(i).ID))ret.add(posts.get(i));
+			if(map.containsKey(posts.get(i).ID))ret.add(PostFilter.formatPost(posts.get(i)));
 		}
 		return ret;
 	}

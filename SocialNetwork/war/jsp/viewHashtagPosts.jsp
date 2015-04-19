@@ -13,11 +13,9 @@
 
 <%
 
-for (HashtagController.Type T : HashtagController.posts)
+for (String post: HashtagController.posts)
 {
-	if(T.owner.equals(T.onWall))T.onWall="posted";
-	else T.onWall="posted to "+T.onWall+"'s wall";
-	out.println(T.owner+" "+T.onWall+"<br>"+T.content+"<br><br>");
+	out.println(post);
 }
 
 %>

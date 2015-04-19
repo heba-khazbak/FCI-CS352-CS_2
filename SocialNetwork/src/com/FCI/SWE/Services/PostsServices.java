@@ -131,6 +131,24 @@ public class PostsServices {
 		
 	}
 	
+	
+	@POST
+	@Path("/GetNewsFeed")
+	public String GetNewsFeed(@FormParam("uname") String currentUser) {
+		Vector<Post> posts = Post.getAllPostsForUser(currentUser);
+		JSONArray postsArray = new JSONArray();
+		
+		for (int i = 0 ; i < posts.size() ; i++)
+		{
+			JSONObject myPost = new JSONObject();
+			myPost.put("post",PostFilter.formatPost(posts.get(i)));
+			postsArray.add(myPost);
+		}
+		
+		return postsArray.toString();
+		
+	}
+	
 	@POST
 	@Path("/LikePost")
 	public String LikePost(@FormParam("currentUser") String currentUser,@FormParam("postID") String postID) 

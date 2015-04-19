@@ -9,7 +9,12 @@
 <body>
 <p> Welcome <%=session.getAttribute("name") %> to your homepage </p>
 
-<form action="viewTimeline" method="POST">
+
+<form style ="display:inline;" action="NewsFeed" method="POST">
+<input type="submit" value="NewsFeed">
+</form>
+
+<form style ="display:inline;" action="viewTimeline" method="POST">
 <input type="hidden" name="onWall" value=<%=session.getAttribute("name").toString() %>>
 <input type="submit" value="Timeline">
 </form>

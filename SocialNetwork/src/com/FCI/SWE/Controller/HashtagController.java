@@ -32,24 +32,10 @@ import com.FCI.SWE.ModelServices.Post;
 @Produces("text/html")
 public class HashtagController {
 	
-	public class Type{
-		public String owner;
-		public String content;
-		public String onWall;
-		public String privacy;
-		public Type(String owner, String content, String onWall,String privacy)
-		{
-			this.owner = owner;
-			this.content = content;
-			this.onWall = onWall;
-			this.privacy = privacy;
-		}
-	}
-	
 	
 	public static Vector<String> hashtags;
 	
-	public static Vector<Type> posts;
+	public static Vector<String> posts;
 	
 	@GET
 	@Path("/showTrends")
@@ -95,8 +81,8 @@ public class HashtagController {
 			for (int i = 0 ; i < array.size() ;i++)
 			{
 				JSONObject obj = (JSONObject)array.get(i);
-				String name = (String) obj.get("name");
-				hashtags.add(name);
+				String link = (String) obj.get("hashtagLink");
+				hashtags.add(link);
 			}
 			
 			return Response.ok(new Viewable("/jsp/showTrends")).build();
@@ -156,16 +142,13 @@ public class HashtagController {
 			JSONParser parser = new JSONParser();
 			JSONArray array = (JSONArray) parser.parse(retJson);;
 			//Map<String, String> map = new HashMap<String, String>();
-			posts = new Vector<Type>();
+			posts = new Vector<String>();
 			
 			for (int i = 0 ; i < array.size() ;i++)
 			{
 				JSONObject obj = (JSONObject)array.get(i);
-				String owner = (String) obj.get("owner");
-				String content = (String) obj.get("content");
-				String onWall = (String) obj.get("onWall");
-				String privacy = (String) obj.get("privacy");
-				posts.add(new Type(owner,content,onWall,privacy));
+				String post = (String) obj.get("post");
+				posts.add(post);
 			}
 			
 			return Response.ok(new Viewable("/jsp/viewHashtagPosts")).build();

@@ -3,19 +3,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<style>
-.submitLink {
-background-color: transparent;
-text-decoration: underline;
-border: none;
-color: blue;
-cursor: pointer;
-font-size: 40px;
-}
-.buttonHolder{ text-align: center; }
-</style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Trending</title>
+<title>TimeLine</title>
 </head>
 <body>
 
@@ -24,13 +13,9 @@ font-size: 40px;
 
 <%
 
-for (String hashtagLink : HashtagController.hashtags)
+for (String post : PostController.posts)
 {
-
-
-out.println(hashtagLink);
-
-
+	out.println(post);
 }
 
 %>
