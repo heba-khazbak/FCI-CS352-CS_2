@@ -51,9 +51,10 @@ public class CustomPrivacy extends Privacy {
 	@Override
 	public Post canSeePagePost(Entity entity, String onWall, String currentUser) {
 		String ID = entity.getProperty("ID").toString();
+		String owner = entity.getProperty("owner").toString();
 		
 		boolean inCustom = isInCustom(ID, currentUser);
-		if (inCustom)
+		if (inCustom || owner.equals(currentUser))
 		{
 			Post p = PagePost.getPost(entity);
 			if (entity.getProperty("owner").toString().equals(currentUser))

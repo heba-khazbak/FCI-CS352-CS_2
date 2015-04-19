@@ -40,7 +40,8 @@ public class PrivatePrivacy extends Privacy {
 	@Override
 	public Post canSeePagePost(Entity entity, String onWall, String currentUser) {
 		// should like the page
-		boolean likePage = false; //Page.likePage(onWall, currentUser);
+		String pageID = ""; // Page.getPageID(onWall);
+		boolean likePage = LikePage.isLikePage(pageID, currentUser);
 		if (likePage)
 		{
 			Post p = PagePost.getPost(entity);
@@ -83,7 +84,9 @@ public class PrivatePrivacy extends Privacy {
 		}
 		else if (type.equals("3"))
 		{
-			//return Page.likePage(onWall, currentUser);
+			String pageID = ""; // Page.getPageID(onWall);
+			return LikePage.isLikePage(pageID, currentUser);
+			
 		}
 		return false;
 	}
