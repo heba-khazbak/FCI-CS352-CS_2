@@ -19,7 +19,8 @@
 </script>
 </head>
 <body>
-
+<%@ page import="com.FCI.SWE.Controller.*" %>
+<%@ page import="java.util.*" %>
 	<form action="createSharePost" method="POST">
 		Content:
 		<textarea name="content"></textarea>
@@ -44,7 +45,7 @@
 			Friend Username: <input type="text" name="onWall" />
 		</div>
 		<br />
-		<input type="hidden" name="postID" value="" />
+		<input type="hidden" name="postID" value=<%= PostController.originalPostID%> />
 		<input type="submit" value="Post" />
 	</form>
 

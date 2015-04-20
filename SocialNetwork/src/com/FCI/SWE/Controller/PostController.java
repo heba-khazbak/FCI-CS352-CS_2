@@ -29,7 +29,7 @@ import org.json.simple.parser.ParseException;
 @Produces("text/html")
 public class PostController {
 
-	public static Vector<String> posts;
+	public static String originalPostID;
 
 	@GET
 	@Path("/userPost")
@@ -49,9 +49,11 @@ public class PostController {
 		return Response.ok(new Viewable("/jsp/createPagePost")).build();
 	}
 
-	@GET
+	@POST
 	@Path("/sharePost")
-	public Response sharePostPage() {
+	@Produces("text/html")
+	public Response sharePostPage(@FormParam("postID") String postID) {
+		originalPostID = postID;
 		return Response.ok(new Viewable("/jsp/createSharePost")).build();
 	}
 

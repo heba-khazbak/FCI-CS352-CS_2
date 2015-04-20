@@ -15,11 +15,13 @@ public class SharePost extends Post {
 	public SharePost(String owner, String content, String onWall, String privacy,String originalPostID
 			,String customUsers) {
 		super(owner, content, onWall, privacy,customUsers);
+		type = 4;
 		this.originalPostID = originalPostID;
 	}
 	
 	public SharePost(String owner, String content, String onWall, String privacy,String originalPostID) {
 		super(owner, content, onWall, privacy);
+		type = 4;
 		this.originalPostID = originalPostID;
 	}
 

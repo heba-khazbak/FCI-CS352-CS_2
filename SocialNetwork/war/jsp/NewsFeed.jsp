@@ -13,7 +13,7 @@
 
 <%
 
-for (String post : PostController.posts)
+for (String post : TimelineController.posts)
 {
 	out.println(post);
 }

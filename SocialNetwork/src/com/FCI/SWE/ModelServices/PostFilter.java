@@ -42,8 +42,8 @@ public class PostFilter {
 			ret=post.owner+" posted on "+post.onWall+"'s timeline<br>"+formatPost(Post.getPostbyID(sh.originalPostID));
 		}
 		ret+="<br>";
-		ret+="<form action='like' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Like'></form><pre style ='display:inline;'>       </pre>";
-		ret+="<form action='share' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Share'></form><br><br><br><br>";
+		ret+="<form action='LikePost' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Like'></form><pre style ='display:inline;'>       </pre>";
+		ret+="<form action='sharePost' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Share'></form><br><br><br><br>";
 		
 		int likes = LikePost.getNumberOfLikes(post.ID);
 		if(likes > 0)ret+="<br>Liked by "+String.valueOf(likes);
