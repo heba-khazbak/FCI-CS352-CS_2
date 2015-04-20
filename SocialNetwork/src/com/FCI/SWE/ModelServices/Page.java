@@ -66,9 +66,13 @@ public class Page
 	}
 	
 
-	public void incrementLikes ()
+	public static void incrementLikes (String pageID)
 	{
-		numberOfLikes++;
+		Page p= getPage(pageID);
+		int likes= p.numberOfLikes;
+		likes++;
+		p.numberOfLikes=likes;
+		p.savePage();
 	}
 
 	public void savePage()
