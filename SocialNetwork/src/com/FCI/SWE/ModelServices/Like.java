@@ -1,5 +1,6 @@
 package com.FCI.SWE.ModelServices;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.FCI.SWE.ModelServices.Observer.NotificationObserver;
@@ -15,6 +16,7 @@ public abstract class Like {
 	{
 		this.Liker=userName;
 		this.LikedID=ID;
+		likeObservers = new ArrayList<NotificationObserver>();
 	}
 	
 	

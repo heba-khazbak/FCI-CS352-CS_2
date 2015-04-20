@@ -111,7 +111,6 @@ public class PageController
 	@POST
 	@Path("/LikePage")
 	public String LikePage(@Context HttpServletRequest request, 
-			@FormParam("currentUser") String currentUser,
 			@FormParam("pageName") String pageName) 
 	{
 		String serviceUrl = "http://localhost:8888/rest/LikePage";
@@ -119,8 +118,7 @@ public class PageController
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
 			
-			String urlParameters = "uname=" + session.getAttribute("name")+ "&currentUser=" 
-			+ currentUser + "&pageName=" + pageName ;
+			String urlParameters = "currentUser=" + session.getAttribute("name")+ "&pageName=" + pageName ;
 			
 			
 			HttpURLConnection connection = (HttpURLConnection) url
@@ -151,8 +149,10 @@ public class PageController
 			Object obj = parser.parse(retJson);
 			JSONObject object = (JSONObject) obj;
 			
-			if (object.get("Status").equals("you've already liked this page"))
+			if (object.get("Status").equals("already"))
 				return "you've already liked this page";
+			else if (object.get("Status").equals("ok"))
+				return "You've successfully Liked ' " + pageName + " ' page";
 			
 			
 		} 
@@ -169,7 +169,7 @@ public class PageController
 			e.printStackTrace();
 		}
 		
-		return "You've successfully Liked ' " + pageName + " ' page";
+		return null;
 	}
 	
 	

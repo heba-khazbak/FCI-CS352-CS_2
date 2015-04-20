@@ -117,6 +117,23 @@ public class UserEntity {
 
 		return null;
 	}
+	
+	public static boolean isUser(String name) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		Query gaeQuery = new Query("users");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for (Entity entity : pq.asIterable()) {
+
+			if (entity.getProperty("name").toString().equals(name))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	/**
 	 * This method will be used to save user object in datastore

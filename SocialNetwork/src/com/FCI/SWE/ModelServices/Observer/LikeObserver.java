@@ -16,7 +16,7 @@ public class LikeObserver implements NotificationObserver {
 	public void update() {
 		// write notification in datastore
 		int ID = Integer.parseInt(like.LikedID);
-		Notification notification = new Notification(userName,like.type,ID,like.LikedID);
+		Notification notification = new Notification(userName,like.type,ID,like.Liker);
 		notification.saveNotification();
 		
 	}

@@ -123,10 +123,16 @@ public class PostsServices {
 		JSONObject first = new JSONObject();
 		first.put("type","0");
 		if (Page.checkPageEsistance(onWall))
+		{
 			first.put("type","3");
+			first.put("name",onWall);
+		}
+		else if (UserEntity.isUser(onWall))
+			first.put("name",onWall);
+		else
+			first.put("name","There is no such TimeLine");
 		
 		
-		first.put("name",onWall);
 		postsArray.add(first);
 		
 		for (int i = 0 ; i < posts.size() ; i++)

@@ -18,7 +18,7 @@ public class LikePage extends Like {
 	public void saveLiker( )
 	{
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Query gaeQuery = new Query("LikePage");
+		Query gaeQuery = new Query("PageLike");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for (Entity entity : pq.asIterable()) 
 		{
@@ -42,7 +42,7 @@ public class LikePage extends Like {
 	public static boolean isLikePage (String PageID , String userName)
 	{
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		Query gaeQuery = new Query("LikePage");
+		Query gaeQuery = new Query("PageLike");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		
 		Like lp = new LikePage(userName, PageID);

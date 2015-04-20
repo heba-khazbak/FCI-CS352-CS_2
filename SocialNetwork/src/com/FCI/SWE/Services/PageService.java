@@ -53,15 +53,16 @@ public class PageService
 		Page p= Page.getPage_byName(pageName);
 		
 		String pageID = p.getID();
+		String owner = p.owner;
 		
-		LikePost myLike = new LikePost (currentUser , pageID);
+		LikePage myLike = new LikePage (currentUser , pageID);
 		if (LikePage.isLikePage(pageID, currentUser))
 		{
-			object.put("Status", "you've already liked this page");
+			object.put("Status", "already");
 		}
 		else
 		{
-			//new LikeObserver (myLike , Page.getOwner(pageID));
+			new LikeObserver (myLike , owner);
 			myLike.saveLiker();
 			object.put("Status", "ok");
 		}

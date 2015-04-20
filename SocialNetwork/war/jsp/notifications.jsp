@@ -46,6 +46,14 @@ else  if (T.type.equals("4"))
 {
 	out.println( T.sender + " has accepted your FriendRequest");
 }
+else  if (T.type.equals("5"))
+{
+	out.println( T.sender + " liked your page ");
+}
+else  if (T.type.equals("6"))
+{
+	out.println( T.sender + " liked your post");
+}
 	
 
 %>
