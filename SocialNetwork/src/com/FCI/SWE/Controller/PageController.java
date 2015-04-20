@@ -60,16 +60,19 @@ public class PageController
 			+ "&category=" + category
 			+ "&numberOflikes=1";
 
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			connection.setInstanceFollowRedirects(false);
 			connection.setRequestMethod("POST");
-			connection.setConnectTimeout(60000); // 60 Seconds
-			connection.setReadTimeout(60000); // 60 Seconds
-
-			connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+			connection.setConnectTimeout(60000);  //60 Seconds
+			connection.setReadTimeout(60000);  //60 Seconds
+			
+			connection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded;charset=UTF-8");
+			OutputStreamWriter writer = new OutputStreamWriter(
+					connection.getOutputStream());
 			writer.write(urlParameters);
 			writer.flush();
 			String line, retJson = "";
@@ -84,7 +87,9 @@ public class PageController
 			JSONParser parser = new JSONParser();
 			Object obj = parser.parse(retJson);
 			JSONObject object = (JSONObject) obj;
-
+			if (object.get("Status").equals("Failed"))
+				return "Page name already existed";
+			
 		} 
 		catch (MalformedURLException e) 
 		{
@@ -98,9 +103,145 @@ public class PageController
 		{
 			e.printStackTrace();
 		}
-
-		return "ok";
+		
+		return "Page created successfully";
 	}
+	
+	
+	@POST
+	@Path("/LikePage")
+	public String LikePage(@Context HttpServletRequest request, 
+			@FormParam("currentUser") String currentUser,
+			@FormParam("pageName") String pageName) 
+	{
+		String serviceUrl = "http://localhost:8888/rest/LikePage";
+		try {
+			URL url = new URL(serviceUrl);
+			HttpSession session = request.getSession(true);
+			
+			String urlParameters = "uname=" + session.getAttribute("name")+ "&currentUser=" 
+			+ currentUser + "&pageName=" + pageName ;
+			
+			
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			connection.setInstanceFollowRedirects(false);
+			connection.setRequestMethod("POST");
+			connection.setConnectTimeout(60000);  //60 Seconds
+			connection.setReadTimeout(60000);  //60 Seconds
+			
+			connection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded;charset=UTF-8");
+			OutputStreamWriter writer = new OutputStreamWriter(
+					connection.getOutputStream());
+			writer.write(urlParameters);
+			writer.flush();
+			String line, retJson = "";
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
 
+			while ((line = reader.readLine()) != null) {
+				retJson += line;
+			}
+			writer.close();
+			reader.close();
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(retJson);
+			JSONObject object = (JSONObject) obj;
+			
+			if (object.get("Status").equals("you've already liked this page"))
+				return "you've already liked this page";
+			
+			
+		} 
+		catch (MalformedURLException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (ParseException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return "You've successfully Liked ' " + pageName + " ' page";
+	}
+	
+	
+	
+	/*@GET
+	@Path("/getPage")
+	public Response getPage() 
+	{
+		return Response.ok(new Viewable("/jsp/searchPage")).build();
+	}
+	
+	@POST
+	@Path("/searchPage")
+	@Produces("text/html")
+	public Response searchPage(@Context HttpServletRequest request,
+			@FormParam("pageName") String name) 
+	{
+		String serviceUrl = "http://localhost:8888/rest/viewPage";
+		try {
+			URL url = new URL(serviceUrl);
+			HttpSession session = request.getSession(true);
+			
+			String urlParameters = "uname=" + session.getAttribute("name") + "&name=" + name;
+			
+			
+			
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			connection.setInstanceFollowRedirects(false);
+			connection.setRequestMethod("POST");
+			connection.setConnectTimeout(60000);  //60 Seconds
+			connection.setReadTimeout(60000);  //60 Seconds
+			
+			connection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded;charset=UTF-8");
+			OutputStreamWriter writer = new OutputStreamWriter(
+					connection.getOutputStream());
+			writer.write(urlParameters);
+			writer.flush();
+			String line, retJson = "";
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
+
+			while ((line = reader.readLine()) != null) {
+				retJson += line;
+			}
+			writer.close();
+			reader.close();
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(retJson);
+			JSONObject object = (JSONObject) obj;
+			if (!Page.checkPageEsistance(name))
+				return null;
+			
+		} 
+		catch (MalformedURLException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (ParseException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		///3ayzaa ab3atlo page name b2a 3ashan yegebha
+		return Response.ok(new Viewable("/jsp/Page")).build();
+	}*/
 
 }

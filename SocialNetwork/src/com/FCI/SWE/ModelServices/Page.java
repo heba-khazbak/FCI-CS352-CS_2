@@ -59,6 +59,12 @@ public class Page
 	{
 		this.ID = ID;
 	}
+	
+	public String getID ()
+	{
+		return this.ID;
+	}
+	
 
 	public void incrementLikes ()
 	{
@@ -95,27 +101,71 @@ public class Page
 		lp.saveLiker();
 	}
 	
-	public static Page getPage (Entity entity)
+	public static Page getPage (String pageID)
+	{
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Query gaeQuery = new Query("Page");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for (Entity entity : pq.asIterable())
+		{
+			if (entity.getProperty("name").toString().equals(pageID))
+			{
+				String pageName=entity.getProperty("name").toString();
+				String IDs=entity.getProperty("ID").toString();
+				String pageOwner= entity.getProperty("owner").toString();
+				String categ = entity.getProperty("category").toString();
+				int likes=Integer.parseInt(entity.getProperty("numberOfLikes").toString());
+				
+				Page p = new  Page(pageName, pageOwner, categ, likes, IDs);
+				return p;
+			}
+		}
+		
+		return null;
+	}	
+		
+	
+	public static boolean checkPageEsistance (String pageName)
 	{
 		
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		
-		String pageName=entity.getProperty("name").toString();
-		String IDs=entity.getProperty("ID").toString();
-		String pageOwner= entity.getProperty("owner").toString();
-		String categ = entity.getProperty("category").toString();
-		int likes=Integer.parseInt(entity.getProperty("numberOfLikes").toString());
-		
 		
 		Query gaeQuery = new Query("Page");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		
 		for (Entity entity2 : pq.asIterable())
 		{
-			if (entity2.getProperty("ID").toString().equals(IDs))
+			if (entity2.getProperty("name").toString().equals(pageName))
 			{
+				return true;
+			}
+		}
+		
+		return false;
+				
+	}
+	
+	public static Page getPage_byName (String pageName)
+	{
+		
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		
+		Query gaeQuery = new Query("Page");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for (Entity entity : pq.asIterable())
+		{
+			if (entity.getProperty("name").toString().equals(pageName))
+			{
+				String IDs=entity.getProperty("ID").toString();
+				String pageOwner= entity.getProperty("owner").toString();
+				String categ = entity.getProperty("category").toString();
+				int likes=Integer.parseInt(entity.getProperty("numberOfLikes").toString());
+				
 				Page p = new  Page(pageName, pageOwner, categ, likes, IDs);
-				p.setID(IDs);
 				return p;
 			}
 		}
@@ -124,6 +174,29 @@ public class Page
 			
 			
 	}
+	
+	public static String getPageOwner (String pageID)
+	{
+		
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		
+		Query gaeQuery = new Query("Page");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for (Entity entity : pq.asIterable())
+		{
+			if (entity.getProperty("ID").toString().equals(pageID))
+			{
+				String pageOwner= entity.getProperty("owner").toString();
+				return pageOwner;
+			}
+		}
+		
+		return null;
+	}
+
+
 
 	
 	public static Vector<Page> getAllPages()
@@ -147,6 +220,7 @@ public class Page
 		}
 		return pages;
 	}
+	
 	
 	
 }

@@ -32,8 +32,13 @@ public class PageService
 		page.savePage();
 		JSONObject object = new JSONObject();
 		
-		//need to check if page name already exists
+		Page checkIfExists = Page.getPage_byName(name);
 		
+		if (checkIfExists!=null)
+		{
+			object.put("Status","Failed");
+			return object.toString();
+		}	
 		
 		object.put("Status","OK");
 		return object.toString();
@@ -41,9 +46,14 @@ public class PageService
 	
 	@POST
 	@Path("/LikePage")
-	public String LikePage(@FormParam("currentUser") String currentUser,@FormParam("pageID") String pageID) 
+	public String LikePage(@FormParam("currentUser") String currentUser,@FormParam("pageName") String pageName) 
 	{
 		JSONObject object = new JSONObject();
+		
+		Page p= Page.getPage_byName(pageName);
+		
+		String pageID = p.getID();
+		
 		LikePost myLike = new LikePost (currentUser , pageID);
 		if (LikePage.isLikePage(pageID, currentUser))
 		{
