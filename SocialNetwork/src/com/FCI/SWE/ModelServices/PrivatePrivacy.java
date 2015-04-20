@@ -78,7 +78,7 @@ public class PrivatePrivacy extends Privacy {
 		
 	}
 	
-	public static boolean handlingSharedPost(String owner, String currentUser , String type)
+	public static boolean handlingSharedPost(String owner,String onWall, String currentUser , String type)
 	{
 		if (type.equals("1") || type.equals("2"))
 		{
@@ -86,7 +86,8 @@ public class PrivatePrivacy extends Privacy {
 		}
 		else if (type.equals("3"))
 		{
-			String pageID = ""; // Page.getPageID(onWall);
+			Page p= Page.getPage(onWall);
+			String pageID = p.getID();
 			return LikePage.isLikePage(pageID, currentUser);
 			
 		}

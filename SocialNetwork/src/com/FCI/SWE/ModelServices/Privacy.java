@@ -63,7 +63,7 @@ public abstract class Privacy {
 		}
 		else if (originalPrivacy.equals(PRIVATE))
 		{
-			ok = PrivatePrivacy.handlingSharedPost(originalOwner,currentUser,originalType);
+			ok = PrivatePrivacy.handlingSharedPost(originalOwner,originalOnWall,currentUser,originalType);
 		}
 		else if (originalPrivacy.equals(CUSTOM))
 		{

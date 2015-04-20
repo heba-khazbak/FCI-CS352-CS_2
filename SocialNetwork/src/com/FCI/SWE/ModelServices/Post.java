@@ -19,6 +19,7 @@ public abstract class Post {
 	public int type;
 	public String privacy;
 	public String customUsers;
+	public int numberOfLikes;
 	
 	public Post(String owner ,String content , String onWall,String privacy, String customUsers)
 	{
@@ -27,6 +28,7 @@ public abstract class Post {
 		this.onWall = onWall;
 		this.privacy = privacy;
 		this.customUsers = customUsers;
+		numberOfLikes = -1;
 	}
 	
 	public Post(String owner ,String content , String onWall,String privacy)
@@ -39,6 +41,7 @@ public abstract class Post {
 	public void setID (String ID)
 	{
 		this.ID = ID;
+		numberOfLikes = LikePost.getNumberOfLikes(ID);
 	}
 	
 	public abstract String savePost();
@@ -89,7 +92,16 @@ public abstract class Post {
 				post = myPrivacy.canSeeFriendPost(entity ,onWall,currentUser);
 	
 			else if (entity.getProperty("type").toString().equals("3"))
+			{
 				post = myPrivacy.canSeePagePost(entity ,onWall,currentUser);
+				if (post != null)
+				{
+					SeenPagePost seen = new SeenPagePost(post.ID , currentUser);
+					seen.saveSeen();
+				}
+					
+			}
+				
 			
 			else if (entity.getProperty("type").toString().equals("4"))
 				post = myPrivacy.canSeeSharedPost(entity ,onWall,currentUser);
@@ -131,7 +143,15 @@ public abstract class Post {
 				post = myPrivacy.canSeeFriendPost(entity ,onWall,currentUser);
 	
 			else if (entity.getProperty("type").toString().equals("3"))
+			{
 				post = myPrivacy.canSeePagePost(entity ,onWall,currentUser);
+				if (post != null)
+				{
+					SeenPagePost seen = new SeenPagePost(post.ID , currentUser);
+					seen.saveSeen();
+				}
+			}
+				
 			
 			else if (entity.getProperty("type").toString().equals("4"))
 				post = myPrivacy.canSeeSharedPost(entity ,onWall,currentUser);
