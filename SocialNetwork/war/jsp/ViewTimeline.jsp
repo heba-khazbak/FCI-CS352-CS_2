@@ -12,7 +12,12 @@
 <%@ page import="java.util.*" %>
 
 <%
+out.println("<b>" + TimelineController.TimeLine + "'s Timeline" + "<b>" );
 
+if (TimelineController.isPage)
+	out.println("<form action='likePage' method='POST' style ='display:inline;'><input type='hidden' name='postName' value='"+TimelineController.TimeLine+"'><input type='submit' value='Like'></form><pre style ='display:inline;'>       </pre>");
+
+out.println("<br>");
 for (String post : TimelineController.posts)
 {
 	out.println(post);

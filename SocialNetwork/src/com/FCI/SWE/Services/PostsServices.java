@@ -120,6 +120,15 @@ public class PostsServices {
 		Vector<String> posts = Post.getPostsForTimeLine(onWall, currentUser);
 		JSONArray postsArray = new JSONArray();
 		
+		JSONObject first = new JSONObject();
+		first.put("type","0");
+		if (Page.checkPageEsistance(onWall))
+			first.put("type","3");
+		
+		
+		first.put("name",onWall);
+		postsArray.add(first);
+		
 		for (int i = 0 ; i < posts.size() ; i++)
 		{
 			JSONObject myPost = new JSONObject();
