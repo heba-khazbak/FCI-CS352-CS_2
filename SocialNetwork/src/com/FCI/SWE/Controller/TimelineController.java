@@ -80,6 +80,8 @@ public class TimelineController {
 			String type = (String) first.get("type");
 			if (type.equals("3"))
 				isPage = true;
+			else 
+				isPage = false;
 			TimeLine = (String) first.get("name");
 			
 			for (int i = 1 ; i < array.size() ;i++)
