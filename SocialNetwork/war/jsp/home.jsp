@@ -34,6 +34,11 @@
 
 <a href="/social/createPage_Info">Create Page</a> <br>
 
+<a href="/social/userPost">Create post on your timeline</a> <br>
+<a href="/social/friendPost">Create friend post</a> <br>
+<a href="/social/pagePost">Create Page post</a> <br>
+
+
 <a href="/social/logout">Logout</a> <br>
 
 </body>
