@@ -225,7 +225,23 @@ public class Page
 		return pages;
 	}
 	
-	
-	
+	public static boolean isOwner(String pageName, String owner) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Query gaeQuery = new Query("Page");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
+		
+		for (Entity entity : list) 
+		{
+			if(entity.getProperty("name").toString().equals(pageName))
+			{
+				if(entity.getProperty("owner").equals(owner)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
 

@@ -89,12 +89,17 @@ public class PostsServices {
 			@FormParam("onWall") String onWall,@FormParam("privacy") String privacy,
 			@FormParam("custom") String customUsers) {
 		
+		JSONObject object = new JSONObject();
 		// check owner is the owner of the page
 		// note: onWall is pageID 
-		PagePost myPost = new PagePost(owner,content,onWall,privacy,customUsers);
-		myPost.savePost();
-		JSONObject object = new JSONObject();
-		object.put("Status", "OK");
+		if(Page.isOwner(onWall, owner)) {
+			PagePost myPost = new PagePost(owner,content,onWall,privacy,customUsers);
+			myPost.savePost();
+			object.put("Status", "OK");
+		}
+		else {
+			object.put("Status", "You are not the owner of this page");
+		}
 		return object.toString();
 		
 	}
