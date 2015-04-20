@@ -178,7 +178,7 @@ public class TimelineController {
 	
 	@GET
 	@Path("/searchTimeline")
-	public Response personalMessagePage()
+	public Response searchTimeline()
 	{
 		
 		return Response.ok(new Viewable("/jsp/searchTimeline")).build();
