@@ -16,9 +16,8 @@
 			<option value="public">Public</option>
 			<option value="custom">Custom</option>
 			<option value="private">Private</option>
-		</select> <br /> Custom: <input type="text" name="customUsers" /> <br /> <input
-			type="hidden" name="onWall" value="" />
-		<!-- waiting for value (which will be the user name in timeline) -->
+		</select> <br /> Custom: <input type="text" name="customUsers" /> <br />
+		Friend Name: <input type="text" name="onWall" value="" />
 		<input type="submit" value="Post" />
 
 	</form>

@@ -16,8 +16,8 @@
 			<option value="public">Public</option>
 			<option value="custom">Custom</option>
 			<option value="private">Private</option>
-		</select> <br /> Custom: <input type="text" name="customUsers" /> <br /> <input
-			type="hidden" name="onWall" value="" />
+		</select> <br /> Custom: <input type="text" name="customUsers" /> <br />
+		Page Name: <input type="text" name="onWall" value="" />
 		<input type="submit" value="Post" />
 
 	</form>

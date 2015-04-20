@@ -351,6 +351,58 @@ public class PostController {
 		return "ok";
 	}
 
-	
+	@POST
+	@Path("/LikePost")
+	@Produces("text/html")
+	public String like_post(@Context HttpServletRequest request,
+			@FormParam("postID") String postID) {
+		String serviceUrl = "http://localhost:8888/rest/CreateFriendPost";
+		try {
+			URL url = new URL(serviceUrl);
+			HttpSession session = request.getSession(true);
+
+			String urlParameters = "postID=" + postID + "&userName="
+					+ session.getAttribute("name");
+
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			connection.setInstanceFollowRedirects(false);
+			connection.setRequestMethod("POST");
+			connection.setConnectTimeout(60000); // 60 Seconds
+			connection.setReadTimeout(60000); // 60 Seconds
+
+			connection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded;charset=UTF-8");
+			OutputStreamWriter writer = new OutputStreamWriter(
+					connection.getOutputStream());
+			writer.write(urlParameters);
+			writer.flush();
+			String line, retJson = "";
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
+
+			while ((line = reader.readLine()) != null) {
+				retJson += line;
+			}
+			writer.close();
+			reader.close();
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(retJson);
+			JSONObject object = (JSONObject) obj;
+
+			return object.get("Status").toString();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return "ok";
+	}
+
 
 }
