@@ -32,6 +32,8 @@ import org.json.simple.parser.ParseException;
 public class TimelineController {
 
 	public static Vector<String> posts;
+	public static String TimeLine;
+	public static boolean isPage = false;
 
 	
 	@POST
@@ -74,15 +76,20 @@ public class TimelineController {
 			JSONArray array = (JSONArray) parser.parse(retJson);;
 			//Map<String, String> map = new HashMap<String, String>();
 			posts = new Vector<String>();
+			JSONObject first = (JSONObject)array.get(0);
+			String type = (String) first.get("type");
+			if (type.equals("3"))
+				isPage = true;
+			TimeLine = (String) first.get("name");
 			
-			for (int i = 0 ; i < array.size() ;i++)
+			for (int i = 1 ; i < array.size() ;i++)
 			{
 				JSONObject obj = (JSONObject)array.get(i);
 				String post = (String) obj.get("post");
 				posts.add(post);
+	
 			}
 			
-			//map feha Name (onWall) type 
 			return Response.ok(new Viewable("/jsp/viewTimeline")).build();
 			
 			
