@@ -170,7 +170,7 @@ public class HashtagController {
 	
 	@GET
 	@Path("/viewHashtag")
-	public Response personalMessagePage()
+	public Response viewHashtag()
 	{
 		
 		return Response.ok(new Viewable("/jsp/viewHashtag")).build();
