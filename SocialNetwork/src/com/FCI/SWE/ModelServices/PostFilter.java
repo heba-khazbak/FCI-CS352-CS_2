@@ -44,6 +44,9 @@ public class PostFilter {
 		ret+="<br>";
 		ret+="<form action='like' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Like'></form><pre style ='display:inline;'>       </pre>";
 		ret+="<form action='share' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Share'></form><br><br><br><br>";
+		
+		int likes = LikePost.getNumberOfLikes(post.ID);
+		if(likes > 0)ret+="<br>Liked by "+String.valueOf(likes);
 		return ret;
 	}
 }

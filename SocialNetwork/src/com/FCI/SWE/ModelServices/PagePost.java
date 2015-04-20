@@ -52,9 +52,7 @@ public class PagePost extends Post {
 	
 	public void calculateNumberofSeen()
 	{
-		numberOfSeen = 0;
-		// use ID to count number of seen 
-		
+		numberOfSeen = SeenPagePost.getNumberOfSeen(ID);
 	}
 	
 	public boolean addSeenUser()

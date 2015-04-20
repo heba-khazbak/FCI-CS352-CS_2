@@ -58,5 +58,23 @@ public class LikePost extends Like {
 		
 		return false;
 	}
+	
+	public static int getNumberOfLikes(String ID)
+	{
+		int counter = 0;
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Query gaeQuery = new Query("likePost");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for (Entity entity : pq.asIterable()) 
+		{
+			// this user  already seen this post
+			if(entity.getProperty("postID").toString().equals(ID))
+			{
+				counter++;
+			}
+		}
+		
+		return counter;
+	}
 
 }
