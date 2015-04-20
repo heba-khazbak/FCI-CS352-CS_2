@@ -5,11 +5,11 @@
 <head>
 <meta http-equiv="Content-Type"
 	content="text/html; charset=windows-1256">
-<title>Create Friend Post</title>
+<title>Create Page Post</title>
 </head>
 <body>
 
-	<form action="createFriendPost" method="POST">
+	<form action="createPagePost" method="POST">
 		Content:
 		<textarea name="content"></textarea>
 		<br /> Privacy: <select name="privacy">
@@ -18,7 +18,6 @@
 			<option value="private">Private</option>
 		</select> <br /> Custom: <input type="text" name="customUsers" /> <br /> <input
 			type="hidden" name="onWall" value="" />
-		<!-- waiting for value (which will be the user name in timeline) -->
 		<input type="submit" value="Post" />
 
 	</form>
