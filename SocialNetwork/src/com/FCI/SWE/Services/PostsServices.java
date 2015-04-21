@@ -110,9 +110,21 @@ public class PostsServices {
 			@FormParam("content") String content,@FormParam("onWall") String onWall,
 			@FormParam("privacy") String privacy, @FormParam("custom") String customUsers) {
 		
+		JSONObject object = new JSONObject();
+		if (!owner.equals(onWall))
+		{
+			boolean ok = FriendRequest.isFriends(owner, onWall);
+			if(!ok)
+			{
+				object.put("Status", "you are not friends");
+				return object.toString();
+			}
+				
+				
+		}
 		SharePost myPost = new SharePost(owner,content,onWall,privacy , originalPostID,customUsers);
 		myPost.savePost();
-		JSONObject object = new JSONObject();
+		
 		object.put("Status", "OK");
 		return object.toString();
 		

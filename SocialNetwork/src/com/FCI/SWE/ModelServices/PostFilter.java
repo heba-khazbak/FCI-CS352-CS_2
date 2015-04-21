@@ -39,7 +39,12 @@ public class PostFilter {
 		}
 		else if(post.type==4){
 			SharePost sh=(SharePost)post;
-			ret=post.owner+" posted on "+post.onWall+"'s timeline<br>"+formatPost(Post.getPostbyID(sh.originalPostID));
+			String tmp=post.onWall;
+			if(tmp.equals(post.owner))tmp="<br>";
+			else tmp=" on "+tmp+"'s timeline<br>";
+			ret="<b>"+post.owner+" posted"+tmp+post.content+"</b><br>";
+			
+			return ret+formatPost(Post.getPostbyID(sh.originalPostID));
 		}
 		ret+="<br>";
 		ret+="<form action='LikePost' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Like'></form><pre style ='display:inline;'>       </pre>";
