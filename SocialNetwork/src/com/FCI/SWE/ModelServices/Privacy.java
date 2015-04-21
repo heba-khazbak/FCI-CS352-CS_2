@@ -46,7 +46,7 @@ public abstract class Privacy {
 		 pq = datastore.prepare(gaeQuery);
 		for (Entity entity2 : pq.asIterable())
 		{
-			if (entity2.getProperty("postID").toString().equals(originalID))
+			if (entity2.getProperty("ID").toString().equals(originalID))
 			{
 				originalPrivacy = entity2.getProperty("privacy").toString(); 
 				originalOwner = entity2.getProperty("owner").toString(); 
