@@ -43,7 +43,7 @@ public class HashtagController {
 	{
 		HttpSession session = request.getSession(true);
 		
-		String serviceUrl = "http://localhost:8888/rest/GetTrendsService";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/GetTrendsService";
 		try {
 			URL url = new URL(serviceUrl);
 			
@@ -109,7 +109,7 @@ public class HashtagController {
 	{
 		HttpSession session = request.getSession(true);
 		
-		String serviceUrl = "http://localhost:8888/rest/GetHashtagPostsService";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/GetHashtagPostsService";
 		try {
 			URL url = new URL(serviceUrl);
 			

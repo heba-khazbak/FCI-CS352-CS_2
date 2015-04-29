@@ -50,7 +50,7 @@ public class PageController
 			@FormParam("pageName") String name,
 			@FormParam("category") String category) 
 	{
-		String serviceUrl = "http://localhost:8888/rest/CreatePage";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/CreatePage";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
@@ -113,7 +113,7 @@ public class PageController
 	public String LikePage(@Context HttpServletRequest request, 
 			@FormParam("pageName") String pageName) 
 	{
-		String serviceUrl = "http://localhost:8888/rest/LikePage";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/LikePage";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
@@ -187,7 +187,7 @@ public class PageController
 	public Response searchPage(@Context HttpServletRequest request,
 			@FormParam("pageName") String name) 
 	{
-		String serviceUrl = "http://localhost:8888/rest/viewPage";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/viewPage";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);

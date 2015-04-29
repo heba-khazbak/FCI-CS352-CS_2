@@ -65,7 +65,7 @@ public class PostController {
 			@FormParam("content") String postContent,
 			@FormParam("feeling") String feeling,
 			@FormParam("customUsers") String customUsers) {
-		String serviceUrl = "http://localhost:8888/rest/CreateUserPost";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/CreateUserPost";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
@@ -139,7 +139,7 @@ public class PostController {
 			@FormParam("content") String postContent,
 			@FormParam("onWall") String onWall,
 			@FormParam("customUsers") String customUsers) {
-		String serviceUrl = "http://localhost:8888/rest/CreateFriendPost";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/CreateFriendPost";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
@@ -209,7 +209,7 @@ public class PostController {
 			@FormParam("content") String postContent,
 			@FormParam("onWall") String onWall,
 			@FormParam("customUsers") String customUsers) {
-		String serviceUrl = "http://localhost:8888/rest/CreatePagePost";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/CreatePagePost";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
@@ -281,7 +281,7 @@ public class PostController {
 			@FormParam("onWall") String onWall,
 			@FormParam("postID") String postID,
 			@FormParam("customUsers") String customUsers) {
-		String serviceUrl = "http://localhost:8888/rest/SharePost";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/SharePost";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
@@ -358,7 +358,7 @@ public class PostController {
 	@Produces("text/html")
 	public String like_post(@Context HttpServletRequest request,
 			@FormParam("postID") String postID) {
-		String serviceUrl = "http://localhost:8888/rest/CreateFriendPost";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/CreateFriendPost";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);

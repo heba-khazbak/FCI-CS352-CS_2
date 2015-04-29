@@ -76,7 +76,7 @@ public class NotificationController {
 	{
 		HttpSession session = request.getSession(true);
 		
-		String serviceUrl = "http://localhost:8888/rest/getAllNotificationsService";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/getAllNotificationsService";
 		try {
 			URL url = new URL(serviceUrl);
 			
@@ -143,7 +143,7 @@ public class NotificationController {
 	public String handelNotifications(@FormParam("ID") String ID , @FormParam("type") String type)
 	{
 		
-		String serviceUrl = "http://localhost:8888/rest/handleNotificationService";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/handleNotificationService";
 		try {
 			URL url = new URL(serviceUrl);
 			
@@ -208,7 +208,7 @@ public class NotificationController {
 	@Path("/sendFriendRequest")
 	@Produces("text/html")
 	public String addFriend(@Context HttpServletRequest request ,@FormParam("uname") String uname) {
-		String serviceUrl = "http://localhost:8888/rest/sendFriendRequestService";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/sendFriendRequestService";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
@@ -277,7 +277,7 @@ public class NotificationController {
 	@Path("/acceptFriendRequest")
 	@Produces("text/html")
 	public String acceptFriend(@Context HttpServletRequest request ,@FormParam("dropNotifications") String uname) {
-		String serviceUrl = "http://localhost:8888/rest/acceptFriendRequestService";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/acceptFriendRequestService";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);

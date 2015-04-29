@@ -43,7 +43,7 @@ public class TimelineController {
 	{
 		HttpSession session = request.getSession(true);
 		
-		String serviceUrl = "http://localhost:8888/rest/GetPostsForTimeLine";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/GetPostsForTimeLine";
 		try {
 			URL url = new URL(serviceUrl);
 			
@@ -120,7 +120,7 @@ public class TimelineController {
 	{
 		HttpSession session = request.getSession(true);
 		
-		String serviceUrl = "http://localhost:8888/rest/GetNewsFeed";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/GetNewsFeed";
 		try {
 			URL url = new URL(serviceUrl);
 			

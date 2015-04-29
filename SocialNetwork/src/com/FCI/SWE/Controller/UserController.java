@@ -101,7 +101,7 @@ public class UserController {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String response(@FormParam("uname") String uname,
 			@FormParam("email") String email, @FormParam("password") String pass) {
-		String serviceUrl = "http://localhost:8888/rest/RegistrationService";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/RegistrationService";
 		try {
 			URL url = new URL(serviceUrl);
 			String urlParameters = "uname=" + uname + "&email=" + email
@@ -167,7 +167,7 @@ public class UserController {
 	@Produces("text/html")
 	public Response home( @Context HttpServletRequest request ,@FormParam("uname") String uname,
 			@FormParam("password") String pass) {
-		String serviceUrl = "http://localhost:8888/rest/LoginService";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/LoginService";
 		try {
 			URL url = new URL(serviceUrl);
 			String urlParameters = "uname=" + uname + "&password=" + pass;
@@ -292,7 +292,7 @@ public class UserController {
 	@Produces("text/html")
 	public String send_PersonalPMessage(@Context HttpServletRequest request ,@FormParam("receiver") String receiver,
 			@FormParam("content") String messageContent) {
-		String serviceUrl = "http://localhost:8888/rest/SendPersonalMessageService";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/SendPersonalMessageService";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
@@ -355,7 +355,7 @@ public class UserController {
 	public String create_GroupMessage(@Context HttpServletRequest request, @FormParam("groupName") String groupName ,
 			@FormParam("receiver") String receiver) 
 	{
-		String serviceUrl = "http://localhost:8888/rest/CreateNewGroupMsgService";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/CreateNewGroupMsgService";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
@@ -443,7 +443,7 @@ public class UserController {
 	public String send_GroupMessage(@Context HttpServletRequest request, @FormParam("groupName") String groupName, 
 			@FormParam("content") String content ) 
 	{
-		String serviceUrl = "http://localhost:8888/rest/SendGroupMessageService";
+		String serviceUrl = "http://socialnetwork-fci.appspot.com/rest/SendGroupMessageService";
 		try {
 			URL url = new URL(serviceUrl);
 			HttpSession session = request.getSession(true);
