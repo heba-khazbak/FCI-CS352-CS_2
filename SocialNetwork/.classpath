@@ -42,5 +42,6 @@
 	<classpathentry kind="lib" path="C:/Users/Heba/workspace/SocialNetwork/war/WEB-INF/lib/appengine-api-1.0-sdk-1.9.18.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Heba/workspace/SocialNetwork/war/WEB-INF/lib/appengine-jsr107cache-1.9.18.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_75"/>
+	<classpathentry kind="con" path="org.testng.TESTNG_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
