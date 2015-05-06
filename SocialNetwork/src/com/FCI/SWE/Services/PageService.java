@@ -32,15 +32,15 @@ public class PageService
 		page.savePage();
 		JSONObject object = new JSONObject();
 		
-		Page checkIfExists = Page.getPage_byName(name);
+		boolean checkIfExists = Page.checkPageEsistance(name);
 		
-		if (checkIfExists!=null)
+		if (checkIfExists)
 		{
 			object.put("Status","Failed");
-			return object.toString();
 		}	
-		
+		else
 		object.put("Status","OK");
+		
 		return object.toString();
 	}
 	

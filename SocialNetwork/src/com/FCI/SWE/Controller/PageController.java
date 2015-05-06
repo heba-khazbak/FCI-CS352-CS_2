@@ -88,7 +88,9 @@ public class PageController
 			Object obj = parser.parse(retJson);
 			JSONObject object = (JSONObject) obj;
 			if (object.get("Status").equals("Failed"))
-				return "Page name already existed";
+				{
+					return "Page name already existed";
+				}
 			
 		} 
 		catch (MalformedURLException e) 
