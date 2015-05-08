@@ -16,7 +16,7 @@ public class Notification {
 	int NotificationID;
 	String sender;
 	
-	Notification(String userName , int type , int NotificationID, String sender)
+	public Notification(String userName , int type , int NotificationID, String sender)
 	{
 		this.userName = userName;
 		this.type = type;
