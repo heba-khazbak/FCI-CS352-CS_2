@@ -68,7 +68,7 @@ public class CustomPrivacyTest {
 		E1.setProperty("onWall", "Page1");
 		E1.setProperty("type", 3);
 		E1.setProperty("privacy", "custom");
-		Post p1 = new PagePost("Heba","Hello","Page1","custom");
+		Post p1 = new PagePost("Heba","post on page","Page1","custom");
 		return new Object[][]{{null,E1,"Page1" , "Sarah"},{p1,E1,"Page1" , "Heba"},{p1,E1,"Page1" , "Dalia"},
 				{null,E1,"Page1" , ""}};
 	}
