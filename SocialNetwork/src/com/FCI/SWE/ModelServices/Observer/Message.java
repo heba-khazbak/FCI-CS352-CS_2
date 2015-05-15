@@ -7,14 +7,16 @@ public abstract class Message {
 	int ID;
 	String sender;
 	String content;
+	String receiver;
 	public int type;
 	List<NotificationObserver> messageObservers;
 	
-	Message(int id , String sender, String content)
+	Message(int id , String sender, String content ,String receiver)
 	{
 		this.ID = id;
 		this.sender = sender;
 		this.content = content;
+		this.receiver = receiver;
 		messageObservers = new ArrayList<NotificationObserver>();
 	}
 	
@@ -28,6 +30,15 @@ public abstract class Message {
 	      }
 	   } 
 	
-	public abstract boolean sendMessage();
+	public  boolean sendMessage()
+	{
+		// write row in datastore
+		
+		boolean ok = saveMessage();
+		notifyAllObservers();
+		return ok;
+	}
+	
+	public abstract boolean saveMessage();
 
 }

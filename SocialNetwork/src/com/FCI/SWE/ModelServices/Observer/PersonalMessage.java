@@ -11,24 +11,13 @@ import com.google.appengine.api.datastore.Query;
 
 public class PersonalMessage extends Message {
 	
-	String receiver;
-	 
+	
 	
 	public PersonalMessage(int id, String sender, String content,String receiver) {
-		super(id, sender, content);
-		this.receiver = receiver;
+		super(id, sender, content ,receiver);
 		type = 1;
 	}
 	
-	@Override
-	public boolean sendMessage() {
-		// write row in datastore
-		
-		boolean ok = saveMessage();
-		
-		notifyAllObservers();
-		return ok;
-	}
 	
 	public boolean saveMessage()
 	{

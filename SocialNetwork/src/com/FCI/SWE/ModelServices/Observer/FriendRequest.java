@@ -15,24 +15,21 @@ public class FriendRequest  {
 	int type;
 	String sender;
 	String receiver;
-	List<NotificationObserver> friendRequestObservers;
+	NotificationObserver friendRequestObserver;
 	
 	public FriendRequest(String sender , String receiver )
 	{
 		this.sender = sender;
 		this.receiver = receiver;
-		friendRequestObservers = new ArrayList<NotificationObserver>();
 		
 	}
 	
 	public void attach(NotificationObserver observer){
-		friendRequestObservers.add(observer);  
+		friendRequestObserver = observer;  
 	  }
 	
 	public void notifyAllObservers(){
-	      for (NotificationObserver friendObs : friendRequestObservers) {
-	    	  friendObs.update();
-	      }
+		friendRequestObserver.update(); 
 	   } 
 	
 	/**

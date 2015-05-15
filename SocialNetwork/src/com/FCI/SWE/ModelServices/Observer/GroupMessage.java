@@ -11,27 +11,15 @@ import com.google.appengine.api.datastore.Query;
 
 public class GroupMessage extends Message {
 	
-	String groupName;
-	 
 	
 	public GroupMessage(int id, String sender, String content,String groupName) {
-		super(id, sender, content);
+		super(id, sender, content, groupName);
 		// TODO Auto-generated constructor stub
-		this.groupName = groupName;
 		type = 2; // constant
 	}
 
 	
 
-	@Override
-	public boolean sendMessage() {
-		// write row in datastore
-		
-		boolean ok = saveMessage();
-		
-		notifyAllObservers();
-		return ok;
-	}
 	
 	public boolean saveMessage()
 	{
@@ -45,7 +33,7 @@ public class GroupMessage extends Message {
 
 		theMessage.setProperty("ID", this.ID );
 		theMessage.setProperty("sender", this.sender);
-		theMessage.setProperty("receiverGroupName", this.groupName);
+		theMessage.setProperty("receiverGroupName", this.receiver);
 		theMessage.setProperty("content", this.content);
 		datastore.put(theMessage);
 

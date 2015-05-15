@@ -6,16 +6,35 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
+/**
+ * SeenPagePost class
+ * This class act as a model and is responsible for handling who sees the page post 
+ * @author Heba
+ * @version 1.0
+ * @since 20-4-2015
+ *
+ */
+
 public class SeenPagePost {
 	
 	String postID;
 	String userName;
+	/**
+	 * Constructor
+	 * @param postID the post ID
+	 * @param userName the current userName who sees the post
+	 */
 	public SeenPagePost(String postID , String userName)
 	{
 		this.postID = postID;
 		this.userName = userName;
 	}
 	
+	/**
+	 * This function saves the data ( postID , user name who sees the post)
+	 * in the datastore. It also checks that this current user doesn't already seen 
+	 * the post , if so it does nothing.
+	 */
 	public void saveSeen() {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Query gaeQuery = new Query("postSeen");
@@ -37,6 +56,11 @@ public class SeenPagePost {
 		datastore.put(entity);
 	}
 	
+	/**
+	 * This static method will get number of users who saw specific post
+	 * @param ID Post ID
+	 * @return number of users who saw this post
+	 */
 	public static int getNumberOfSeen(String ID)
 	{
 		int counter = 0;
