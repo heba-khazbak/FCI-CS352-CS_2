@@ -23,35 +23,35 @@ public class PostFilter {
 	}
 	
 	public static String formatPost(Post post){
-		String ret="";
+		String formattedPost="";
 		if(post.type==1){
-			UserPost U=(UserPost)post;
-			ret=post.owner+" posted<br>"+post.content;
-			if(U.isfeeling)ret+="<br>feeling "+U.feeling;
+			UserPost userPost=(UserPost)post;
+			formattedPost=post.owner+" posted<br>"+post.content;
+			if(userPost.isfeeling)formattedPost+="<br>feeling "+userPost.feeling;
 		}
 		else if(post.type==2){
-			ret=post.owner+" posted on "+post.onWall+"'s timeline<br>"+post.content;
+			formattedPost=post.owner+" posted on "+post.onWall+"'s timeline<br>"+post.content;
 		}
 		else if(post.type==3){
-			PagePost p=(PagePost)post;
-			ret=post.owner+" posted on "+post.onWall+"'s timeline<br>"+post.content;
-			if(p.numberOfSeen>0)ret+="<br>Seen by "+String.valueOf(p.numberOfSeen);
+			PagePost pagePost=(PagePost)post;
+			formattedPost=post.owner+" posted on "+post.onWall+"'s timeline<br>"+post.content;
+			if(pagePost.numberOfSeen>0)formattedPost+="<br>Seen by "+String.valueOf(pagePost.numberOfSeen);
 		}
 		else if(post.type==4){
-			SharePost sh=(SharePost)post;
-			String tmp=post.onWall;
-			if(tmp.equals(post.owner))tmp="<br>";
-			else tmp=" on "+tmp+"'s timeline<br>";
-			ret="<b>"+post.owner+" posted"+tmp+post.content+"</b><br>";
+			SharePost sharedPost=(SharePost)post;
+			String postedOn=post.onWall;
+			if(postedOn.equals(post.owner))postedOn="<br>";
+			else postedOn=" on "+postedOn+"'s timeline<br>";
+			formattedPost="<b>"+post.owner+" posted"+postedOn+post.content+"</b><br>";
 			
-			return ret+formatPost(Post.getPostbyID(sh.originalPostID));
+			return formattedPost+formatPost(Post.getPostbyID(sharedPost.originalPostID));
 		}
-		ret+="<br>";
-		ret+="<form action='LikePost' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Like'></form><pre style ='display:inline;'>       </pre>";
-		ret+="<form action='sharePost' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Share'></form><br><br><br><br>";
+		formattedPost+="<br>";
+		formattedPost+="<form action='LikePost' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Like'></form><pre style ='display:inline;'>       </pre>";
+		formattedPost+="<form action='sharePost' method='POST' style ='display:inline;'><input type='hidden' name='postID' value='"+post.ID+"'><input type='submit' value='Share'></form><br><br><br><br>";
 		
 		int likes = LikePost.getNumberOfLikes(post.ID);
-		if(likes > 0)ret+="<br>Liked by "+String.valueOf(likes);
-		return ret;
+		if(likes > 0)formattedPost+="<br>Liked by "+String.valueOf(likes);
+		return formattedPost;
 	}
 }
