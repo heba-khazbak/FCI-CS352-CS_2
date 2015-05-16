@@ -46,7 +46,7 @@ public class Hashtag {
 	}
 	
 	public static Vector<Hashtag> getAllHashtags(){
-		Vector<Hashtag> ret = new Vector<Hashtag>();
+		Vector<Hashtag> hashtags = new Vector<Hashtag>();
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Query gaeQuery = new Query("Hashtag");
@@ -55,9 +55,9 @@ public class Hashtag {
 			String hashName=entity.getProperty("name").toString();
 			int cnt=Integer.parseInt(entity.getProperty("postsCount").toString());
 			String IDs=entity.getProperty("postIDs").toString();
-			ret.add(new Hashtag(hashName,IDs,cnt));
+			hashtags.add(new Hashtag(hashName,IDs,cnt));
 		}
-		return ret;
+		return hashtags;
 	}
 	
 	public static Vector<String> getHashtagPosts(String hashtagName,String uname){
@@ -78,10 +78,10 @@ public class Hashtag {
 			}
 		}
 		
-		Vector<String> ret=new Vector<String>();
+		Vector<String> hashtagPosts=new Vector<String>();
 		for(int i=0;i<posts.size();++i){
-			if(map.containsKey(posts.get(i).ID))ret.add(PostFilter.formatPost(posts.get(i)));
+			if(map.containsKey(posts.get(i).ID))hashtagPosts.add(PostFilter.formatPost(posts.get(i)));
 		}
-		return ret;
+		return hashtagPosts;
 	}
 }
