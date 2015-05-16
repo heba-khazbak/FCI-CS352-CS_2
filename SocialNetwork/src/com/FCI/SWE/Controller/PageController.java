@@ -57,8 +57,7 @@ public class PageController
 			
 			String urlParameters = "name=" + name 
 			+ "&owner="+ session.getAttribute("name") 
-			+ "&category=" + category
-			+ "&numberOflikes=1";
+			+ "&category=" + category;
 
 			HttpURLConnection connection = (HttpURLConnection) url
 					.openConnection();

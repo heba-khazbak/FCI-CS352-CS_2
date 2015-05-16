@@ -20,6 +20,17 @@ import com.FCI.SWE.ModelServices.Observer.LikeObserver;
 public class PageService 
 {
 	
+
+	/**
+	 * create Page service, is used to allow a user to create a specific page
+	 * @param owner
+	 *            the current user who is attempting to create the page
+	 * @param name
+	 *            the new page name
+	 * @param category
+	 *            the new page category
+	 * @return Status JSON
+	 */
 	@POST
 	@Path("/CreatePage")
 	public String CreatePageService
@@ -43,6 +54,17 @@ public class PageService
 		
 		return object.toString();
 	}
+	
+	
+	
+	/**
+	 * Like Page service, is used to allow a user to like a specific page
+	 * @param currentUser
+	 *            the current user who is attempting to like the page
+	 * @param pageName
+	 *            the chosen page to be liked
+	 * @return Status JSON
+	 */
 	
 	@POST
 	@Path("/LikePage")

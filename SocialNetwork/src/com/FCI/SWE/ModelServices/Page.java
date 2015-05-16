@@ -95,7 +95,7 @@ public class Page
 		entity.setProperty("name", this.name);
 		entity.setProperty("category", this.category);
 		entity.setProperty("owner", this.owner);
-		entity.setProperty("numberOfLikes", String.valueOf(this.numberOfLikes));
+		entity.setProperty("numberOfLikes", String.valueOf("1"));
 		entity.setProperty("ID", this.ID);
 		
 		datastore.put(entity);
