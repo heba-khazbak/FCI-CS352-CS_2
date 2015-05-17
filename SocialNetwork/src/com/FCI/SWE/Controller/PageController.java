@@ -32,10 +32,23 @@ import org.json.simple.parser.ParseException;
 import com.FCI.SWE.ModelServices.Page;
 
 
+/**
+ * <h1>Page controller class</h1>
+ * <p>
+ * This class will act as a controller for page, it will get info from 
+ * the services and connect it to the page Entity
+ * </p>
+ *
+ * @author Sarah Hany
+ * @version 1.0
+ * @since 2014-04
+ */
 @Path("/")
 @Produces("text/html")
 public class PageController 
 {
+	
+	
 	@GET
 	@Path("/createPage_Info")
 	public Response createPageInfo() 
@@ -43,6 +56,15 @@ public class PageController
 		return Response.ok(new Viewable("/jsp/createPage")).build();
 	}
 
+	/**
+	 * create Page method, is used to allow a user to create a specific page
+	 * @param pageName
+	 *            the new page name
+	 * @param category
+	 *            the new page category
+	 * @return Status JSON
+	 */
+	
 	@POST
 	@Path("/createPage")
 	@Produces("text/html")
@@ -108,7 +130,12 @@ public class PageController
 		return "Page created successfully";
 	}
 	
-	
+	/**
+	 * Like Page method, is used to allow a user to like a specific page
+	 * @param pageName
+	 *            the chosen page to be liked
+	 * @return Status JSON
+	 */
 	@POST
 	@Path("/LikePage")
 	public String LikePage(@Context HttpServletRequest request, 
