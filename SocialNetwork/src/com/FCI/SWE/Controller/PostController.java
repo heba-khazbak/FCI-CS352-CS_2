@@ -25,30 +25,63 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * Class PostController This class contains REST services, also contains action
+ * function for web application
+ * 
+ * @author Dalia Maher
+ * @version 1.0
+ * @since 2014-04
+ */
+
 @Path("/")
 @Produces("text/html")
 public class PostController {
 
 	public static String originalPostID;
 
+	/**
+	 * Action function to render createUserPost page of application, this
+	 * function will be executed using url like this /rest/userPost
+	 * 
+	 * @return create user post page
+	 */
 	@GET
 	@Path("/userPost")
 	public Response userPostPage() {
 		return Response.ok(new Viewable("/jsp/createUserPost")).build();
 	}
 
+	/**
+	 * Action function to render createFriendPost page of application, this
+	 * function will be executed using url like this /rest/friendPost
+	 * 
+	 * @return create friend post page
+	 */
 	@GET
 	@Path("/friendPost")
 	public Response friendPostPage() {
 		return Response.ok(new Viewable("/jsp/createFriendPost")).build();
 	}
 
+	/**
+	 * Action function to render createPagePost page of application, this
+	 * function will be executed using url like this /rest/pagePost
+	 * 
+	 * @return create page post page
+	 */
 	@GET
 	@Path("/pagePost")
 	public Response pagePostPage() {
 		return Response.ok(new Viewable("/jsp/createPagePost")).build();
 	}
 
+	/**
+	 * Action function to render createSharePost page of application, this
+	 * function will be executed using url like this /rest/sharePost
+	 * 
+	 * @return create share post page
+	 */
 	@POST
 	@Path("/sharePost")
 	@Produces("text/html")
@@ -57,6 +90,21 @@ public class PostController {
 		return Response.ok(new Viewable("/jsp/createSharePost")).build();
 	}
 
+	/**
+	 * Action function to response to create user post. This function will act
+	 * as a controller part, it will call createUserPost Service to check user
+	 * post's data and save it to Datastore
+	 * 
+	 * @param privacy
+	 *            privacy of the post(private, public, custom)
+	 * @param postContent
+	 *            content of the post
+	 * @param feeling
+	 *            if the user has feeling
+	 * @param customUsers
+	 *            if the post's privacy was custom
+	 * @return Status string
+	 */
 	@POST
 	@Path("/createUserPost")
 	@Produces("text/html")
@@ -131,6 +179,21 @@ public class PostController {
 		return "ok";
 	}
 
+	/**
+	 * Action function to response to create post on friend' timeLine. This
+	 * function will act as a controller part, it will call createFrinedPost
+	 * Service to check post's data and save it to Datastore
+	 * 
+	 * @param privacy
+	 *            privacy of the post(private, public, custom)
+	 * @param postContent
+	 *            content of the post
+	 * @param onWall
+	 *            user's wall
+	 * @param customUsers
+	 *            if the post's privacy was custom
+	 * @return Status string
+	 */
 	@POST
 	@Path("/createFriendPost")
 	@Produces("text/html")
@@ -202,6 +265,21 @@ public class PostController {
 		return "ok";
 	}
 
+	/**
+	 * Action function to response to create post on a page. This function will
+	 * act as a controller part, it will call createPagePost Service to check
+	 * post's data and save it to Datastore
+	 * 
+	 * @param privacy
+	 *            privacy of the post(private, public, custom)
+	 * @param postContent
+	 *            content of the post
+	 * @param onWall
+	 *            page's wall
+	 * @param customUsers
+	 *            if the post's privacy was custom
+	 * @return Status string
+	 */
 	@POST
 	@Path("/createPagePost")
 	@Produces("text/html")
@@ -272,6 +350,25 @@ public class PostController {
 		return "ok";
 	}
 
+	/**
+	 * Action function to response to share a post. This function will act as a
+	 * controller part, it will call createSharePost Service to check post's
+	 * data and save it to Datastore
+	 * 
+	 * @param privacy
+	 *            privacy of the post(private, public, custom)
+	 * @param postContent
+	 *            content of the post
+	 * @param shareOn
+	 *            current user's timeLine
+	 * @param onWall
+	 *            user's wall
+	 * @param postID
+	 *            ID of the original post
+	 * @param customUsers
+	 *            if the post's privacy was custom
+	 * @return Status string
+	 */
 	@POST
 	@Path("/createSharePost")
 	@Produces("text/html")
@@ -354,6 +451,16 @@ public class PostController {
 		return "ok";
 	}
 
+	/**
+	 * Action function to response to like a post. This function will act as a
+	 * controller part, it will call likePost Service to check if the user liked
+	 * the post already, otherwise increment the number of likes and save the
+	 * liker with the post ID to Datastore
+	 * 
+	 * @param postID
+	 *            ID of the post being liked
+	 * @return Status string
+	 */
 	@POST
 	@Path("/LikePost")
 	@Produces("text/html")
