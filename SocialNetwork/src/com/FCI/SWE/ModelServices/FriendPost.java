@@ -12,18 +12,48 @@ import com.google.appengine.api.datastore.Query;
 
 public class FriendPost extends Post {
 
+	/**
+	 * Constructor takes the friend post's data
+	 * 
+	 * @param owner
+	 *            user who created the post
+	 * @param content
+	 *            content of the post
+	 * @param onWall
+	 *            user's wall
+	 * @param privacy
+	 *            privacy of the post(private, public, custom)
+	 * @param customUsers
+	 *            if the post's privacy was custom
+	 */
 	public FriendPost(String owner, String content, String onWall,
 			String privacy ,String customUsers) {
 		super(owner, content, onWall, privacy , customUsers);
 		type = 2;
 	}
 	
+	/**
+	 * Constructor takes the friend post's data
+	 * 
+	 * @param owner
+	 *            user who created the post
+	 * @param content
+	 *            content of the post
+	 * @param onWall
+	 *            user's wall
+	 * @param privacy
+	 *            privacy of the post(private, public, custom)
+	 */
 	public FriendPost(String owner, String content, String onWall,
 			String privacy) {
 		super(owner, content, onWall, privacy);
 		type = 2;
 	}
 
+	/**
+	 * 
+	 * This method will save a new friend post to the Datastore
+	 */
 	@Override
 	public String savePost() {
 		DatastoreService datastore = DatastoreServiceFactory
@@ -51,6 +81,13 @@ public class FriendPost extends Post {
 		return this.ID;
 	}
 	
+	/**
+	 * 
+	 * This method will get the friend post from the Datastore
+	 * 
+	 * @param entity
+	 * @return Post
+	 */
 	public static Post getPost(Entity entity)
 	{
 		String ID = entity.getProperty("ID").toString();

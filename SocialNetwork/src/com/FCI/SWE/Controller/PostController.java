@@ -73,7 +73,7 @@ public class PostController {
 			if (privacy.equals("custom")) {
 				customUsers += "-" + session.getAttribute("name");
 				String[] customUsersArray = customUsers.split("-");
-				
+
 				JSONArray customArray = new JSONArray();
 
 				for (String custom : customUsersArray) {
@@ -145,10 +145,11 @@ public class PostController {
 			HttpSession session = request.getSession(true);
 
 			if (privacy.equals("custom")) {
-				customUsers += "-" + session.getAttribute("name") + "-" + onWall;
+				customUsers += "-" + session.getAttribute("name") + "-"
+						+ onWall;
 				String[] customUsersArray = customUsers.split("-");
 				JSONArray customArray = new JSONArray();
-	
+
 				for (String custom : customUsersArray) {
 					JSONObject custUser = new JSONObject();
 					custUser.put("Name", custom);
@@ -218,7 +219,7 @@ public class PostController {
 				customUsers += "-" + session.getAttribute("name");
 				String[] customUsersArray = customUsers.split("-");
 				JSONArray customArray = new JSONArray();
-	
+
 				for (String custom : customUsersArray) {
 					JSONObject custUser = new JSONObject();
 					custUser.put("Name", custom);
@@ -405,6 +406,5 @@ public class PostController {
 
 		return "ok";
 	}
-
 
 }

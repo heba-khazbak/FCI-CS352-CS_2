@@ -1,4 +1,5 @@
 package com.FCI.SWE.Services;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -36,41 +37,56 @@ import com.FCI.SWE.ModelServices.CommandHandeler.ICommand;
 import com.FCI.SWE.ModelServices.CommandHandeler.ReadGroupMessageCommand;
 import com.FCI.SWE.ModelServices.CommandHandeler.ReadPersonalMessageCommand;
 
-
 @Path("/")
 @Produces("text/html")
 public class NotificationInvoker {
-	
+	/**
+	 * Handle Notifications Rest service, this service will be called to handle
+	 * notifications according to its type using Java Reflection.
+	 * 
+	 * @param notification_id
+	 *            ID of the notification
+	 * @param notification_type
+	 *            type of the notification
+	 * @return status in JSON format
+	 */
+
 	@POST
 	@Path("/handleNotificationService")
-	public String handleNotificationService(@FormParam("notification_id") String notification_id, @FormParam("type")String notification_type) {
+	public String handleNotificationService(
+			@FormParam("notification_id") String notification_id,
+			@FormParam("type") String notification_type) {
 		String data = "";
-		
+
 		// create an object according to the type of the notification
 		ICommand temp = null;
 		try {
 			CommandTypeMapper.saveCommandTypes();
-			String myclassName = CommandTypeMapper.getTypeName(notification_type);
-			
-			myclassName = "com.FCI.SWE.ModelServices.CommandHandeler."+ myclassName;
+			String myclassName = CommandTypeMapper
+					.getTypeName(notification_type);
+
+			myclassName = "com.FCI.SWE.ModelServices.CommandHandeler."
+					+ myclassName;
 			temp = (ICommand) Class.forName(myclassName).newInstance();
-			/*if (notification_type.equals("1"))
-				temp = new ReadPersonalMessageCommand();
-			else if (notification_type.equals("2"))
-				temp = new ReadGroupMessageCommand();
-			else if (notification_type.equals("3"))
-				temp = new AcceptFriendRequestCommand();
-			*/
-			data = temp.execute(notification_id); // this will execute the ConcreteCommand (Polymorphism)
-			
-		} catch(Exception e) {
+			/*
+			 * if (notification_type.equals("1")) temp = new
+			 * ReadPersonalMessageCommand(); else if
+			 * (notification_type.equals("2")) temp = new
+			 * ReadGroupMessageCommand(); else if
+			 * (notification_type.equals("3")) temp = new
+			 * AcceptFriendRequestCommand();
+			 */
+			data = temp.execute(notification_id); // this will execute the
+													// ConcreteCommand
+													// (Polymorphism)
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		// data .. json ("status")
 		return data;
-		
-	}
 
+	}
 
 }
