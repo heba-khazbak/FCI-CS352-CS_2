@@ -117,7 +117,16 @@ public class UserEntity {
 
 		return null;
 	}
-	
+	/**
+	 * 
+	 * This static method will form UserEntity class using user name and
+	 * password This method will serach for user in datastore
+	 * if exists or not
+	 * 
+	 * @param name
+	 *            user name
+	 * @return true if user exists, false otherwise
+	 */
 	public static boolean isUser(String name) {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
