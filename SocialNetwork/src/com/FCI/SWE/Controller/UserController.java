@@ -287,6 +287,18 @@ public class UserController {
 		
 	}
 	
+	/**
+	 * This function will act as a controller part 
+	 * and it will calls SendPersonalMessageService to make
+	 * send a message between two users
+	 * 
+	 * @param receiver
+	 *             name of user who will receive the message
+	 * @param content
+	 *            the message to be delivered
+	 * @return Status string
+	 */
+	
 	@POST
 	@Path("/sendPersonalMessage")
 	@Produces("text/html")
@@ -349,6 +361,19 @@ public class UserController {
 
 	}
 
+	/**
+	 * This function will act as a controller part 
+	 * and it will calls CreateNewGroupMsgService to make
+	 * a new entity of conversation among multiple users
+	 * 
+	 *  @param groupName
+	 *            the name of the conversation to be created 
+	 * @param receiver
+	 *             name of users who will receive the message, in only one string
+	 *             separated by a comma 
+	 * @return Status string
+	 */
+	
 	@POST
 	@Path("/createGroupMessage")
 	@Produces("text/html")
@@ -437,6 +462,19 @@ public class UserController {
 
 	}
 
+	/**
+	 * This function will act as a controller part 
+	 * and it will calls SendGroupMessageService to send
+	 * a message to all users included in this specific converesation
+	 * 
+	 *  @param groupName
+	 *            the name of the conversation to be created 
+	 *  
+	 *  @param content
+	 *            the message to be delivered
+	 * @return Status string
+	 */
+	
 	@POST
 	@Path("/sendGroupMessage")
 	@Produces("text/html")
