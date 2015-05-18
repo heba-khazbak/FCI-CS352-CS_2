@@ -1,12 +1,18 @@
 package com.FCI.SWE.ModelServices.CommandHandeler;
 
 public class ReadPersonalMessageCommand implements ICommand {
-	MessageReceiver Receiver;
+	MessageReceiver receiver;
+	/**
+	 * This function calls the readPersonalMessage Service
+	 * @param ID
+	 *            Notification ID
+	 * @return String status
+	 */
 	@Override
 	public String execute(String ID) {
 		// TODO Auto-generated method stub
-		Receiver = new MessageReceiver();
-		return Receiver.readPersonalMessage(ID);
+		receiver = new MessageReceiver();
+		return receiver.readPersonalMessage(ID);
 		
 	}
 

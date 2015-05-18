@@ -1,7 +1,7 @@
 package com.FCI.SWE.ModelServices.CommandHandeler;
 
 public class AcceptFriendRequestCommand implements ICommand {
-	FriendRequestReceiver Receiver;
+	FriendRequestReceiver receiver;
 
 	/**
 	 * This function calls the acceptFriendService
@@ -12,8 +12,8 @@ public class AcceptFriendRequestCommand implements ICommand {
 	@Override
 	public String execute(String ID) {
 		// TODO Auto-generated method stub
-		Receiver = new FriendRequestReceiver(ID);
-		return Receiver.acceptFriendService();
+		receiver = new FriendRequestReceiver(ID);
+		return receiver.acceptFriendService();
 
 	}
 

@@ -11,29 +11,36 @@ import com.google.appengine.api.datastore.Entity;
 
 public class FriendRequestReceiver {
 	String ID;
-	
-	public FriendRequestReceiver(String _ID){
-		ID=_ID;
+
+	public FriendRequestReceiver(String _ID) {
+		ID = _ID;
 	}
-	
+
+	/**
+	 * accept friend request Service
+	 * 
+	 * @return String status
+	 */
 	public String acceptFriendService() {
-		String notificationID=Notification.getNotification(ID);
-		
-		Entity friendRequestEntity=FriendRequest.getFriendRequest(notificationID);
-		
-		String currentUser=friendRequestEntity.getProperty("receiver").toString();
-		String uname=friendRequestEntity.getProperty("sender").toString();
-		
+		String notificationID = Notification.getNotification(ID);
+
+		Entity friendRequestEntity = FriendRequest
+				.getFriendRequest(notificationID);
+
+		String currentUser = friendRequestEntity.getProperty("receiver")
+				.toString();
+		String uname = friendRequestEntity.getProperty("sender").toString();
+
 		JSONObject object = new JSONObject();
-		FriendRequest request = new FriendRequest (currentUser , uname );
-		new UserFriendObserver (request);
+		FriendRequest request = new FriendRequest(currentUser, uname);
+		new UserFriendObserver(request);
 		boolean sucess = request.acceptFriendRequest();
 		if (sucess == false) {
 			object.put("Status", "Failed");
 
 		} else {
 			object.put("Status", "OK");
-			
+
 		}
 
 		return object.toString();
